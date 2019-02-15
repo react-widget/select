@@ -1,0 +1,146 @@
+$prefixCls: rw-select;
+
+$selectHeight: 30px;
+$selectSmallHeight: 22px;
+$selectLargeHeight: 32px;
+
+$selectBorderRadius: 3px;//3px
+$selectColor: rgba(0,0,0,.8);
+$selectBGColor: #FFF;
+$selectBorderColor: #d9d9d9;
+$selectHoverBorderColor: #40a9ff;
+$selectColor: rgba(0,0,0,.8);
+
+.#{$prefixCls} {
+	position:relative;
+	//display:inline-block;
+	//vertical-align:top;
+    padding:3px 7px;
+	//max-width:100%;
+	height:$selectHeight;
+	cursor: pointer;
+	//font-size:12px;
+	//line-height:1.5;
+	color:$selectColor;
+	background-color:#fff;
+	background-image:none;
+	border:1px solid $selectBorderColor;
+	border-radius:$selectBorderRadius;
+    box-sizing: border-box;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+
+    > * {
+        // flex-grow: 0;
+        // flex-shrink: 0;
+        flex: none;// 0 0 auto
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    &:focus,
+    &:hover {
+        border-color:$selectHoverBorderColor;
+    }
+	
+	// &.#{$prefixCls}-inline {
+	// 	width:auto;
+    // }
+    
+    &-text {
+        flex: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        //max-width: 100%;
+    }
+
+    &-arrow {
+        width:14px;
+        height: 12px;
+        margin-left: 3px;
+        text-align:center;
+        background: url(images/arrow.png) no-repeat center;	
+    }
+    
+}
+
+.#{$prefixCls}-dropdown-root {
+	position:absolute;
+	left:0;
+	top:0;	
+}
+
+
+
+
+.nex-select:focus,
+.nex-select:hover {
+	border-color:$selectHoverBorderColor;
+}
+// .nex-select:focus {
+// 	outline:0;
+// }
+.nex-select-disabled,
+.nex-select[disabled] {
+	background-color:#f7f7f7;
+	opacity:1;
+	cursor:not-allowed;
+	color:rgba(0,0,0,.25);
+	
+	&:hover,
+	&:focus {
+		border-color:#e2e2e2
+	}
+	
+}
+
+.nex-select-lg {
+	padding:6px 7px;
+	height:$selectLargeHeight
+}
+.nex-select-sm {
+	padding:1px 7px;
+	height:$selectSmallHeight
+}
+	
+.nex-select-dropdown {
+	box-shadow: 1px 1px 3px #d1d1d1;
+	border:1px solid #26A0DA;
+	background:#FFF;
+	overflow:auto;
+	.nex-select-dropdown-body {
+	
+		> .nex-select-item {
+			list-style:none;
+			padding:0 5px;
+			cursor: pointer;
+			line-height:26px;
+			height:26px;
+			white-space: nowrap;
+			overflow:hidden;
+			&:hover {
+				background: #30bde0;
+				color: #FFF;
+			}
+		}
+		
+		> .nex-select-item-selected {
+			background: #30bde0;
+			color: #FFF;
+		}
+		
+		> .nex-select-item-disabled {
+			opacity: .5;
+			cursor: default;
+			&:hover {
+				background: none;
+				color: rgba(0,0,0,.25);
+			}	
+		}
+	
+	}
+}	

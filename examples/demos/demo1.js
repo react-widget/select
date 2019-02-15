@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Popup from '../../src';
-import $ from 'jquery'
-import Deferred from 'bplokjs-deferred'
+import Select, { Option, OptGroup } from '../../src';
 
 function Test() {
     console.log(1);
@@ -11,96 +9,46 @@ function Test() {
 export default class DEMO extends Component {
 
     state = {
-        visible: false,
+        value: '1'
     }
-
-    toggleClick = e => {
-        const { visible } = this.state;
-        this.setState({
-            visible: !visible
-        });
-    }
-
-    refButton = (dom) => {
-        this._defer.resolve({
-            of: dom,
-            my: 'left top',
-            at: 'left bottom'
-        });
-    }
-
-    refButton2 = (dom) => {
-        this._defer2.resolve({
-            of: dom,
-            my: 'left center',
-            at: 'right center'
-        });
-    }
-
-    _defer = Deferred()
-    _defer2 = Deferred()
 
     componentDidMount() {
-        setInterval(this.forceUpdate.bind(this), 1000)
     }
 
     render() {
-        const { visible } = this.state;
-        const defer = Deferred();
-
         return (
-            <div ref={dom => dom && defer.resolve({ of: dom.parentElement })}>
-                <button onClick={this.toggleClick}>{visible ? '关闭' : '显示'}</button>
-                <Popup visible={visible} resetPositionOnUpdate>
-                    <div className="dialog">
-                        center...
-                    </div>
-                </Popup>
-                <button onClick={this.toggleClick} ref={this.refButton}>trigger</button>
-                <Popup visible={visible} placement={this._defer}>
-                    <div className="dialog">
-                        trigger1...
-                    </div>
-                </Popup>
-                <button onClick={this.toggleClick} ref={this.refButton2}>animate</button>
-                <Popup
-                    visible={visible}
-                    placement={this._defer2}
-                    timeout={500}
-                    onEnter={node => {
-                        $(node).hide();
-                        $(node).stop().fadeIn(500)
-                    }}
-                    onExit={node => {
-                        $(node).stop().fadeOut(500)
-                    }}
-                    style={{
-                        border: "5px solid #ccc"
-                    }}
-                    onClick={() => alert('you clicked!')}
+            <div>
+                <Select
+                    onChange={v => console.log(v)}
+                    defaultValue={this.state.value}
                 >
-                    <div className="dialog">
-                        trigger2...
-                        <Test />
-                    </div>
-                </Popup>
-
-                <Popup
-                    visible={visible}
-                    resetPositionOnUpdate
-                    style={{
-                        background: '#ccc',
-                        padding: 10
-                    }}
-                    placement={
-                        defer
-                    }
+                    <Option value="1">测试1</Option>
+                    <Option value="2">测试2</Option>
+                    <Option value="3">测试3</Option>
+                    <Option value="4">测试4</Option>
+                    <Option value="5">测试5</Option>
+                    <OptGroup label="分组1">
+                        <Option value="6">测试测试测试6</Option>
+                        <Option value="7">测试7</Option>
+                    </OptGroup>
+                </Select>
+                <Select
+                    onChange={v => console.log(v)}
+                    defaultValue={this.state.value}
+                    showArrow={false}
                 >
-                    <div>
-                        center2...
-                    </div>
-                </Popup>
-            </div >
+                    <Option value="1">测试1</Option>
+                    <Option value="2">测试2</Option>
+                    <Option value="3">测试3</Option>
+                    <Option value="4">测试4</Option>
+                    <Option value="5">测试5</Option>
+                    <OptGroup label="分组1">
+                        <Option value="6">测试测试测试6</Option>
+                        <Option value="7">测试7</Option>
+                    </OptGroup>
+                </Select>
+                <span>test...</span>
+            </div>
         );
     }
 

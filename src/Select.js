@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'omit.js';
 import assign from 'object-assign';
 //import {omit, assign} from 'lodash';
-import { uuid, isUndefined, isArray } from '../shared/util';
-import { on, off, contains } from '../shared/dom';
-import Popup from '../popup/Popup';
-import ListBox from '../listbox/index';
+import Popup from 'react-widget-popup';
+import ListBox, { ListItem, ListItemGroup } from 'react-widget-listbox';
+import { on, off } from 'bplokjs-dom-utils/events';
+import contains from 'bplokjs-dom-utils/contains';
 
-const { ListItem, ListItemGroup } = ListBox;
+import { isUndefined, isArray } from './util';
 
 export default class Select extends React.Component {
     static propTypes = {
@@ -22,6 +22,11 @@ export default class Select extends React.Component {
         dropdownDestroyOnHide: PropTypes.bool,
         dropdownStyle: PropTypes.object,
         labelInValue: PropTypes.bool,
+        showArrow: PropTypes.bool,
+        showSearch: PropTypes.bool,
+        allowClear: PropTypes.bool,
+        autoClearSearchValue: PropTypes.bool,
+        placeholder: PropTypes.string,
     };
 
     static defaultProps = {
@@ -30,7 +35,7 @@ export default class Select extends React.Component {
         inline: true,
         options: [],
         tabIndex: 0,
-        prefixCls: 'nex-select',
+        prefixCls: 'rw-select',
         arrowCls: 'fa fa-caret-down',
         valueField: 'value',
         labelField: 'text',
@@ -39,6 +44,11 @@ export default class Select extends React.Component {
         dropdownStyle: null,
         dropdownDestroyOnHide: true,
         labelInValue: false,
+        showArrow: true,
+        showSearch: false,
+        allowClear: false,
+        autoClearSearchValue: true,
+        placeholder: '',
     };
 
     constructor(props) {
@@ -65,7 +75,7 @@ export default class Select extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount2() {
 
         this.updatePopupPosition();
 
@@ -85,13 +95,14 @@ export default class Select extends React.Component {
         on(window, 'resize', this.__resizeHandle);
 
         on(document, 'mousedown', this.__mousedownHandle);
+
     }
 
-    componentDidUpdate() {
+    componentDidUpdate2() {
         this.updatePopupPosition();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount2() {
         if (this.__resizeHandle) {
             off(window, 'resize', this.__resizeHandle);
         }
@@ -275,7 +286,20 @@ export default class Select extends React.Component {
     renderSelect() {
         const props = this.props;
         const { showDropdown } = this.state;
-        const { prefixCls, tabIndex, inline, disabled, readOnly, arrowCls, children, options, dropdownCls, dropdownDestroyOnHide, ...others } = props;
+        const {
+            prefixCls,
+            tabIndex,
+            inline,
+            disabled,
+            readOnly,
+            arrowCls,
+            children,
+            options,
+            dropdownCls,
+            dropdownDestroyOnHide,
+            showArrow,
+            ...others
+        } = props;
         const classes = classNames({
             [prefixCls]: true,
             [`${prefixCls}-inline`]: inline,
@@ -293,7 +317,21 @@ export default class Select extends React.Component {
             'optionsField',
             'labelInValue',
         ]);
-
+        // <Popup
+        //     ref={(el) => this._refs.popup = el}
+        //     visible={showDropdown}
+        //     className={dropdownCls}
+        //     destroyOnHide={dropdownDestroyOnHide}
+        //     fixed={false}
+        //     rootCls={`${prefixCls}-dropdown-root`}
+        //     of={null}
+        //     my="left top"
+        //     at="left bottom"
+        //     style={this.getPopupStyle()}
+        //     onShow={this.handleDropdownShow}
+        // >
+        //     {this.getSelectOptions()}
+        // </Popup>
         return (
             <div
                 {...otherProps}
@@ -303,26 +341,15 @@ export default class Select extends React.Component {
                 onClick={this.handleClick}
                 onKeyDown={this.onKeyDown}
             >
-                <div className={`${prefixCls}-text`}>{this.getSelectText()}</div>
-                <span className={classNames({
-                    [`${prefixCls}-arrow`]: true,
-                    [arrowCls]: true
-                })}></span>
-                <Popup
-                    ref={(el) => this._refs.popup = el}
-                    visible={showDropdown}
-                    className={dropdownCls}
-                    destroyOnHide={dropdownDestroyOnHide}
-                    fixed={false}
-                    rootCls={`${prefixCls}-dropdown-root`}
-                    of={null}
-                    my="left top"
-                    at="left bottom"
-                    style={this.getPopupStyle()}
-                    onShow={this.handleDropdownShow}
-                >
-                    {this.getSelectOptions()}
-                </Popup>
+                <div className={`${prefixCls}-text`}>1111{this.getSelectText()}</div>
+                {
+                    showArrow ? (
+                        <div className={classNames({
+                            [`${prefixCls}-arrow`]: true,
+                            [arrowCls]: true
+                        })}></div>
+                    ) : null
+                }
             </div>
         );
     }
