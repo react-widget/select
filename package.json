@@ -17,6 +17,7 @@
         "react-dom": "^16.5.2",
         "react-widget-listbox": "^1.0.1",
         "react-widget-popup": "^1.0.5",
+        "react-widget-portal": "^1.0.3",
         "warning": "^4.0.2"
     },
     "devDependencies": {
