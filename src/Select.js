@@ -7,8 +7,12 @@ import assign from 'object-assign';
 //import {omit, assign} from 'lodash';
 import Popup from 'react-widget-popup';
 import ListBox, { ListItem, ListItemGroup } from 'react-widget-listbox';
+import Portal from 'react-widget-portal';
 import { on, off } from 'bplokjs-dom-utils/events';
 import contains from 'bplokjs-dom-utils/contains';
+import Deferred from 'bplokjs-deferred';
+import getPlacement from 'bplokjs-placement';
+import Trigger from 'react-widget-trigger';
 
 import { isUndefined, isArray } from './util';
 
@@ -27,6 +31,7 @@ export default class Select extends React.Component {
         allowClear: PropTypes.bool,
         autoClearSearchValue: PropTypes.bool,
         placeholder: PropTypes.string,
+        defaultOpen: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -49,6 +54,7 @@ export default class Select extends React.Component {
         allowClear: false,
         autoClearSearchValue: true,
         placeholder: '',
+        defaultOpen: true,
     };
 
     constructor(props) {
@@ -57,23 +63,28 @@ export default class Select extends React.Component {
         this._refs = {};
 
         this.state = {
+            placement: Deferred(),
             value: props.value || props.defaultValue,
-            showDropdown: false,
+            showDropdown: props.defaultOpen,
             optionsMap: {},
         }
 
         this.updateOptionsMap(props);
     }
 
-    componentWillReceiveProps(props) {
-        this.updateOptionsMap(props);
-
-        if (!isUndefined(props.value)) {
-            this.setState({
-                value: props.value
-            });
-        }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {};
     }
+
+    // componentWillReceiveProps(props) {
+    //     this.updateOptionsMap(props);
+
+    //     if (!isUndefined(props.value)) {
+    //         this.setState({
+    //             value: props.value
+    //         });
+    //     }
+    // }
 
     componentDidMount2() {
 
@@ -96,6 +107,15 @@ export default class Select extends React.Component {
 
         on(document, 'mousedown', this.__mousedownHandle);
 
+    }
+
+    componentDidMount() {
+        const { placement } = this.state;
+
+        placement.resolve({
+            of: this.getSelectDOM(),
+            ...getPlacement('bottomLeft', [0, 1])
+        });
     }
 
     componentDidUpdate2() {
@@ -283,9 +303,18 @@ export default class Select extends React.Component {
         }
     }
 
-    renderSelect() {
+
+    saveSelectRef = (node) => {
+        this._select = node;
+    }
+
+    getSelectDOM() {
+        return findDOMNode(this._select)
+    }
+
+    render() {
         const props = this.props;
-        const { showDropdown } = this.state;
+        const { showDropdown, placement } = this.state;
         const {
             prefixCls,
             tabIndex,
@@ -298,6 +327,7 @@ export default class Select extends React.Component {
             dropdownCls,
             dropdownDestroyOnHide,
             showArrow,
+            defaultOpen,
             ...others
         } = props;
         const classes = classNames({
@@ -317,6 +347,7 @@ export default class Select extends React.Component {
             'optionsField',
             'labelInValue',
         ]);
+
         // <Popup
         //     ref={(el) => this._refs.popup = el}
         //     visible={showDropdown}
@@ -333,29 +364,31 @@ export default class Select extends React.Component {
         //     {this.getSelectOptions()}
         // </Popup>
         return (
-            <div
-                {...otherProps}
-                ref={(el) => this._refs.select = el}
-                className={classes}
-                tabIndex={tabIndex}
-                onClick={this.handleClick}
-                onKeyDown={this.onKeyDown}
+            <Trigger
+                defaultPopupVisible={defaultOpen}
+                popup={this.getSelectOptions()}
+                placement={placement}
             >
-                <div className={`${prefixCls}-text`}>1111{this.getSelectText()}</div>
-                {
-                    showArrow ? (
-                        <div className={classNames({
-                            [`${prefixCls}-arrow`]: true,
-                            [arrowCls]: true
-                        })}></div>
-                    ) : null
-                }
-            </div>
+                <div
+                    {...otherProps}
+                    ref={this.saveSelectRef}
+                    className={classes}
+                    tabIndex={tabIndex}
+                    onClick={this.handleClick}
+                    onKeyDown={this.onKeyDown}
+                >
+                    <div className={`${prefixCls}-text`}>1111{this.getSelectText()}</div>
+                    {
+                        showArrow ? (
+                            <div className={classNames({
+                                [`${prefixCls}-arrow`]: true,
+                                [arrowCls]: true
+                            })}></div>
+                        ) : null
+                    }
+                </div>
+            </Trigger>
         );
-    }
-
-    render() {
-        return this.renderSelect();
     }
 
 }

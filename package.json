@@ -6,8 +6,9 @@
     "dependencies": {
         "@babel/runtime": "^7.1.2",
         "@babel/runtime-corejs2": "^7.1.2",
-        "bplokjs-dom-utils": "^1.0.6",
+        "bplokjs-dom-utils": "^1.0.7",
         "bplokjs-jqlite": "^1.0.1",
+        "bplokjs-placement": "^1.0.2",
         "bplokjs-position": "^1.0.0",
         "classnames": "^2.2.6",
         "object.omit": "^3.0.0",
@@ -15,9 +16,10 @@
         "prop-types": "^15.6.2",
         "react": "^16.5.2",
         "react-dom": "^16.5.2",
-        "react-widget-listbox": "^1.0.1",
-        "react-widget-popup": "^1.0.5",
+        "react-widget-listbox": "^1.0.2",
+        "react-widget-popup": "^1.0.6",
         "react-widget-portal": "^1.0.3",
+        "react-widget-trigger": "^1.1.1",
         "warning": "^4.0.2"
     },
     "devDependencies": {

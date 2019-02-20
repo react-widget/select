@@ -422,6 +422,12 @@ __webpack_require__(/*! ./style/index.scss */ "./examples/style/index.scss");
 
 __webpack_require__(/*! ./style/animate.scss */ "./examples/style/animate.scss");
 
+__webpack_require__(/*! react-widget-listbox/lib/style/index.css */ "./node_modules/react-widget-listbox/lib/style/index.css");
+
+__webpack_require__(/*! react-widget-popup/lib/style/index.css */ "./node_modules/react-widget-popup/lib/style/index.css");
+
+__webpack_require__(/*! react-widget-trigger/lib/style/index.css */ "./node_modules/react-widget-trigger/lib/style/index.css");
+
 __webpack_require__(/*! ../src/style/index.scss */ "./src/style/index.scss");
 
 var _Demo = _interopRequireDefault(__webpack_require__(/*! ./Demo */ "./examples/Demo.js"));
@@ -535,6 +541,8 @@ var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-co
 
 var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/objectWithoutProperties.js"));
 
+var _objectSpread2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/objectSpread.js"));
+
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/classCallCheck */ "./node_modules/@babel/runtime-corejs2/helpers/classCallCheck.js"));
 
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/createClass */ "./node_modules/@babel/runtime-corejs2/helpers/createClass.js"));
@@ -565,9 +573,17 @@ var _reactWidgetPopup = _interopRequireDefault(__webpack_require__(/*! react-wid
 
 var _reactWidgetListbox = _interopRequireWildcard(__webpack_require__(/*! react-widget-listbox */ "./node_modules/react-widget-listbox/index.js"));
 
+var _reactWidgetPortal = _interopRequireDefault(__webpack_require__(/*! react-widget-portal */ "./node_modules/react-widget-portal/index.js"));
+
 var _events = __webpack_require__(/*! bplokjs-dom-utils/events */ "./node_modules/bplokjs-dom-utils/events/index.js");
 
 var _contains = _interopRequireDefault(__webpack_require__(/*! bplokjs-dom-utils/contains */ "./node_modules/bplokjs-dom-utils/contains.js"));
+
+var _bplokjsDeferred = _interopRequireDefault(__webpack_require__(/*! bplokjs-deferred */ "./node_modules/bplokjs-deferred/index.js"));
+
+var _bplokjsPlacement = _interopRequireDefault(__webpack_require__(/*! bplokjs-placement */ "./node_modules/bplokjs-placement/index.js"));
+
+var _reactWidgetTrigger = _interopRequireDefault(__webpack_require__(/*! react-widget-trigger */ "./node_modules/react-widget-trigger/index.js"));
 
 var _util = __webpack_require__(/*! ./util */ "./src/util.js");
 
@@ -633,10 +649,14 @@ function (_React$Component) {
         });
       }
     });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "saveSelectRef", function (node) {
+      _this._select = node;
+    });
     _this._refs = {};
     _this.state = {
+      placement: (0, _bplokjsDeferred.default)(),
       value: _props.value || _props.defaultValue,
-      showDropdown: false,
+      showDropdown: _props.defaultOpen,
       optionsMap: {}
     };
 
@@ -646,18 +666,15 @@ function (_React$Component) {
   }
 
   (0, _createClass2.default)(Select, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(props) {
-      this.updateOptionsMap(props);
-
-      if (!(0, _util.isUndefined)(props.value)) {
-        this.setState({
-          value: props.value
-        });
-      }
-    }
-  }, {
     key: "componentDidMount2",
+    // componentWillReceiveProps(props) {
+    //     this.updateOptionsMap(props);
+    //     if (!isUndefined(props.value)) {
+    //         this.setState({
+    //             value: props.value
+    //         });
+    //     }
+    // }
     value: function componentDidMount2() {
       var _this2 = this;
 
@@ -679,6 +696,14 @@ function (_React$Component) {
 
       (0, _events.on)(window, 'resize', this.__resizeHandle);
       (0, _events.on)(document, 'mousedown', this.__mousedownHandle);
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var placement = this.state.placement;
+      placement.resolve((0, _objectSpread2.default)({
+        of: this.getSelectDOM()
+      }, (0, _bplokjsPlacement.default)('bottomLeft', [0, 1])));
     }
   }, {
     key: "componentDidUpdate2",
@@ -836,14 +861,19 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "renderSelect",
-    value: function renderSelect() {
-      var _classNames,
-          _this4 = this,
-          _classNames2;
+    key: "getSelectDOM",
+    value: function getSelectDOM() {
+      return (0, _reactDom.findDOMNode)(this._select);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _classNames, _classNames2;
 
       var props = this.props;
-      var showDropdown = this.state.showDropdown;
+      var _this$state = this.state,
+          showDropdown = _this$state.showDropdown,
+          placement = _this$state.placement;
       var prefixCls = props.prefixCls,
           tabIndex = props.tabIndex,
           inline = props.inline,
@@ -855,7 +885,8 @@ function (_React$Component) {
           dropdownCls = props.dropdownCls,
           dropdownDestroyOnHide = props.dropdownDestroyOnHide,
           showArrow = props.showArrow,
-          others = (0, _objectWithoutProperties2.default)(props, ["prefixCls", "tabIndex", "inline", "disabled", "readOnly", "arrowCls", "children", "options", "dropdownCls", "dropdownDestroyOnHide", "showArrow"]);
+          defaultOpen = props.defaultOpen,
+          others = (0, _objectWithoutProperties2.default)(props, ["prefixCls", "tabIndex", "inline", "disabled", "readOnly", "arrowCls", "children", "options", "dropdownCls", "dropdownDestroyOnHide", "showArrow", "defaultOpen"]);
       var classes = (0, _classnames.default)((_classNames = {}, (0, _defineProperty2.default)(_classNames, prefixCls, true), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-inline"), inline), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-readonly"), readOnly), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-disabled"), disabled), _classNames));
       var otherProps = (0, _omit.default)(others, ['value', 'valueField', 'dropdownCls', 'dropdownStyle', 'dropdownDestroyOnHide', 'labelField', 'optionsField', 'labelInValue']); // <Popup
       //     ref={(el) => this._refs.popup = el}
@@ -873,10 +904,12 @@ function (_React$Component) {
       //     {this.getSelectOptions()}
       // </Popup>
 
-      return _react.default.createElement("div", (0, _extends2.default)({}, otherProps, {
-        ref: function ref(el) {
-          return _this4._refs.select = el;
-        },
+      return _react.default.createElement(_reactWidgetTrigger.default, {
+        defaultPopupVisible: defaultOpen,
+        popup: this.getSelectOptions(),
+        placement: placement
+      }, _react.default.createElement("div", (0, _extends2.default)({}, otherProps, {
+        ref: this.saveSelectRef,
         className: classes,
         tabIndex: tabIndex,
         onClick: this.handleClick,
@@ -885,12 +918,12 @@ function (_React$Component) {
         className: "".concat(prefixCls, "-text")
       }, "1111", this.getSelectText()), showArrow ? _react.default.createElement("div", {
         className: (0, _classnames.default)((_classNames2 = {}, (0, _defineProperty2.default)(_classNames2, "".concat(prefixCls, "-arrow"), true), (0, _defineProperty2.default)(_classNames2, arrowCls, true), _classNames2))
-      }) : null);
+      }) : null));
     }
-  }, {
-    key: "render",
-    value: function render() {
-      return this.renderSelect();
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      return {};
     }
   }]);
   return Select;
@@ -910,7 +943,8 @@ exports.default = Select;
   showSearch: _propTypes.default.bool,
   allowClear: _propTypes.default.bool,
   autoClearSearchValue: _propTypes.default.bool,
-  placeholder: _propTypes.default.string
+  placeholder: _propTypes.default.string,
+  defaultOpen: _propTypes.default.bool
 });
 (0, _defineProperty2.default)(Select, "defaultProps", {
   disabled: false,
@@ -931,7 +965,8 @@ exports.default = Select;
   showSearch: false,
   allowClear: false,
   autoClearSearchValue: true,
-  placeholder: ''
+  placeholder: '',
+  defaultOpen: true
 });
 
 /***/ }),
@@ -1072,4 +1107,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.77e30ed3.js.map
+//# sourceMappingURL=index.490aea51.js.map

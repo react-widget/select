@@ -1,4 +1,4 @@
 
-export default class Option{
-	static isOption = true;	
+export default class Option {
+    static isOption = true;
 }
