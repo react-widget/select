@@ -14,7 +14,7 @@ import Deferred from 'bplokjs-deferred';
 import getPlacement from 'bplokjs-placement';
 import Trigger from 'react-widget-trigger';
 
-import { isUndefined, isArray } from './util';
+import { isUndefined, isArray, isEqual } from './util';
 
 export default class Select extends React.Component {
     static propTypes = {
@@ -54,7 +54,7 @@ export default class Select extends React.Component {
         allowClear: false,
         autoClearSearchValue: true,
         placeholder: '',
-        defaultOpen: true,
+        defaultOpen: false,
     };
 
     constructor(props) {
@@ -67,6 +67,7 @@ export default class Select extends React.Component {
             value: props.value || props.defaultValue,
             showDropdown: props.defaultOpen,
             optionsMap: {},
+            popupVisible: props.defaultOpen,
         }
 
         this.updateOptionsMap(props);
@@ -85,29 +86,6 @@ export default class Select extends React.Component {
     //         });
     //     }
     // }
-
-    componentDidMount2() {
-
-        this.updatePopupPosition();
-
-        this.__resizeHandle = () => {
-            if (this.state.showDropdown) {
-                this.hideDropdown();
-            }
-        };
-
-        this.__mousedownHandle = (e) => {
-            if (this.state.showDropdown && !contains(this._refs.dropdown, e.target)) {
-                if (contains(this._refs.select, e.target)) return;
-                this.hideDropdown();
-            }
-        };
-
-        on(window, 'resize', this.__resizeHandle);
-
-        on(document, 'mousedown', this.__mousedownHandle);
-
-    }
 
     componentDidMount() {
         const { placement } = this.state;
@@ -198,27 +176,30 @@ export default class Select extends React.Component {
         const props = this.props;
         const state = this.state;
 
-        if (state.value + '' === value + '') {
-            this.hideDropdown();
-            return;
+        const newState = {
+            popupVisible: false,
+        };
+
+        if (!isEqual(state.value, value)) {
+
+            if (!('value' in props)) {
+                newState.value = value;
+                this.setState({
+                    value: value
+                });
+            }
+
+            if (props.onChange) props.onChange(this.transformChangeValue(value));
         }
 
-        if (!('value' in props)) {
-            this.setState({
-                value: value
-            });
-        }
-
-        if (props.onChange) props.onChange(this.transformChangeValue(value));
-
-        this.hideDropdown();
+        this.setState(newState);
     }
 
     handleDropdownShow = () => {
         setTimeout(() => this._refs.listbox.focus(), 0);
     }
 
-    getSelectOptions() {
+    renderDropdownList() {
         const { valueField, labelField, optionsField, options, children } = this.props;
         const value = this.state.value;
 
@@ -247,21 +228,6 @@ export default class Select extends React.Component {
             }
 
             return <ListItem {...props} />;
-        });
-    }
-
-    hideDropdown() {
-        this.setState({
-            showDropdown: false
-        });
-    }
-
-    handleClick = (e) => {
-        const popupEl = findDOMNode(this._refs.popup);
-        if (popupEl && contains(popupEl, e.target)) return;
-
-        this.setState({
-            showDropdown: !this.state.showDropdown
         });
     }
 
@@ -312,9 +278,15 @@ export default class Select extends React.Component {
         return findDOMNode(this._select)
     }
 
+    onPopupVisibleChange = (visible) => {
+        this.setState({
+            popupVisible: visible
+        });
+    }
+
     render() {
         const props = this.props;
-        const { showDropdown, placement } = this.state;
+        const { showDropdown, placement, popupVisible } = this.state;
         const {
             prefixCls,
             tabIndex,
@@ -365,16 +337,18 @@ export default class Select extends React.Component {
         // </Popup>
         return (
             <Trigger
-                defaultPopupVisible={defaultOpen}
-                popup={this.getSelectOptions()}
+                popupVisible={popupVisible}
+                popup={this.renderDropdownList()}
                 placement={placement}
+                action="click"
+                hideAction={['scroll', 'resize']}
+                onPopupVisibleChange={this.onPopupVisibleChange}
             >
                 <div
                     {...otherProps}
                     ref={this.saveSelectRef}
                     className={classes}
                     tabIndex={tabIndex}
-                    onClick={this.handleClick}
                     onKeyDown={this.onKeyDown}
                 >
                     <div className={`${prefixCls}-text`}>1111{this.getSelectText()}</div>
