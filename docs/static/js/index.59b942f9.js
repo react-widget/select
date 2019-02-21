@@ -588,6 +588,9 @@ var _reactWidgetTrigger = _interopRequireDefault(__webpack_require__(/*! react-w
 var _util = __webpack_require__(/*! ./util */ "./src/util.js");
 
 //import {omit, assign} from 'lodash';
+var KEY_DOWN_CODE = 40;
+var KEY_ESC_CODE = 27;
+
 var Select =
 /*#__PURE__*/
 function (_React$Component) {
@@ -606,58 +609,60 @@ function (_React$Component) {
       var value = _ref.value;
       var props = _this.props;
       var state = _this.state;
+      var newState = {
+        popupVisible: false
+      };
 
-      if (state.value + '' === value + '') {
-        _this.hideDropdown();
+      if (!(0, _util.isEqual)(state.value, value)) {
+        if (!('value' in props)) {
+          newState.value = value;
 
-        return;
+          _this.setState({
+            value: value
+          });
+        }
+
+        if (props.onChange) props.onChange(_this.transformChangeValue(value));
       }
 
-      if (!('value' in props)) {
-        _this.setState({
-          value: value
-        });
-      }
-
-      if (props.onChange) props.onChange(_this.transformChangeValue(value));
-
-      _this.hideDropdown();
+      _this.setState(newState);
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleDropdownShow", function () {
       setTimeout(function () {
         return _this._refs.listbox.focus();
       }, 0);
     });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleClick", function (e) {
-      var popupEl = (0, _reactDom.findDOMNode)(_this._refs.popup);
-      if (popupEl && (0, _contains.default)(popupEl, e.target)) return;
-
-      _this.setState({
-        showDropdown: !_this.state.showDropdown
-      });
-    });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onKeyDown", function (e) {
-      if (e.keyCode === 40 && !_this.state.showDropdown) {
+      var popupVisible = _this.state.popupVisible;
+      console.log(e.keyCode);
+
+      if (e.keyCode === KEY_DOWN_CODE && !popupVisible) {
         _this.setState({
-          showDropdown: !_this.state.showDropdown
+          popupVisible: true
         });
       }
 
-      if (e.keyCode === 27 && _this.state.showDropdown) {
+      if (e.keyCode === KEY_ESC_CODE && popupVisible) {
         _this.setState({
-          showDropdown: false
+          popupVisible: false
         });
       }
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "saveSelectRef", function (node) {
       _this._select = node;
     });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onPopupVisibleChange", function (visible) {
+      _this.setState({
+        popupVisible: visible
+      });
+    });
     _this._refs = {};
     _this.state = {
       placement: (0, _bplokjsDeferred.default)(),
       value: _props.value || _props.defaultValue,
       showDropdown: _props.defaultOpen,
-      optionsMap: {}
+      optionsMap: {},
+      popupVisible: _props.defaultOpen
     };
 
     _this.updateOptionsMap(_props);
@@ -666,7 +671,7 @@ function (_React$Component) {
   }
 
   (0, _createClass2.default)(Select, [{
-    key: "componentDidMount2",
+    key: "componentDidMount",
     // componentWillReceiveProps(props) {
     //     this.updateOptionsMap(props);
     //     if (!isUndefined(props.value)) {
@@ -675,30 +680,6 @@ function (_React$Component) {
     //         });
     //     }
     // }
-    value: function componentDidMount2() {
-      var _this2 = this;
-
-      this.updatePopupPosition();
-
-      this.__resizeHandle = function () {
-        if (_this2.state.showDropdown) {
-          _this2.hideDropdown();
-        }
-      };
-
-      this.__mousedownHandle = function (e) {
-        if (_this2.state.showDropdown && !(0, _contains.default)(_this2._refs.dropdown, e.target)) {
-          if ((0, _contains.default)(_this2._refs.select, e.target)) return;
-
-          _this2.hideDropdown();
-        }
-      };
-
-      (0, _events.on)(window, 'resize', this.__resizeHandle);
-      (0, _events.on)(document, 'mousedown', this.__mousedownHandle);
-    }
-  }, {
-    key: "componentDidMount",
     value: function componentDidMount() {
       var placement = this.state.placement;
       placement.resolve((0, _objectSpread2.default)({
@@ -787,8 +768,8 @@ function (_React$Component) {
       return value;
     }
   }, {
-    key: "getSelectOptions",
-    value: function getSelectOptions() {
+    key: "renderDropdownList",
+    value: function renderDropdownList() {
       var _this$props2 = this.props,
           valueField = _this$props2.valueField,
           labelField = _this$props2.labelField,
@@ -810,7 +791,7 @@ function (_React$Component) {
   }, {
     key: "renderSelectChild",
     value: function renderSelectChild(children) {
-      var _this3 = this;
+      var _this2 = this;
 
       var _this$props3 = this.props,
           labelField = _this$props3.labelField,
@@ -821,17 +802,10 @@ function (_React$Component) {
         if (child.type.isOptOption) {
           return _react.default.createElement(_reactWidgetListbox.ListItemGroup, {
             label: props[labelField]
-          }, _this3.renderSelectChild(props.children));
+          }, _this2.renderSelectChild(props.children));
         }
 
         return _react.default.createElement(_reactWidgetListbox.ListItem, props);
-      });
-    }
-  }, {
-    key: "hideDropdown",
-    value: function hideDropdown() {
-      this.setState({
-        showDropdown: false
       });
     }
   }, {
@@ -873,7 +847,8 @@ function (_React$Component) {
       var props = this.props;
       var _this$state = this.state,
           showDropdown = _this$state.showDropdown,
-          placement = _this$state.placement;
+          placement = _this$state.placement,
+          popupVisible = _this$state.popupVisible;
       var prefixCls = props.prefixCls,
           tabIndex = props.tabIndex,
           inline = props.inline,
@@ -905,14 +880,16 @@ function (_React$Component) {
       // </Popup>
 
       return _react.default.createElement(_reactWidgetTrigger.default, {
-        defaultPopupVisible: defaultOpen,
-        popup: this.getSelectOptions(),
-        placement: placement
+        popupVisible: popupVisible,
+        popup: this.renderDropdownList(),
+        placement: placement,
+        action: "click",
+        hideAction: ['scroll', 'resize'],
+        onPopupVisibleChange: this.onPopupVisibleChange
       }, _react.default.createElement("div", (0, _extends2.default)({}, otherProps, {
         ref: this.saveSelectRef,
         className: classes,
         tabIndex: tabIndex,
-        onClick: this.handleClick,
         onKeyDown: this.onKeyDown
       }), _react.default.createElement("div", {
         className: "".concat(prefixCls, "-text")
@@ -966,7 +943,7 @@ exports.default = Select;
   allowClear: false,
   autoClearSearchValue: true,
   placeholder: '',
-  defaultOpen: true
+  defaultOpen: false
 });
 
 /***/ }),
@@ -1107,4 +1084,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.490aea51.js.map
+//# sourceMappingURL=index.59b942f9.js.map

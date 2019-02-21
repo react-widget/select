@@ -16,6 +16,9 @@ import Trigger from 'react-widget-trigger';
 
 import { isUndefined, isArray, isEqual } from './util';
 
+const KEY_DOWN_CODE = 40;
+const KEY_ESC_CODE = 27;
+
 export default class Select extends React.Component {
     static propTypes = {
         className: PropTypes.string,
@@ -232,15 +235,17 @@ export default class Select extends React.Component {
     }
 
     onKeyDown = (e) => {
-        if (e.keyCode === 40 && !this.state.showDropdown) {
+        const { popupVisible } = this.state;
+        console.log(e.keyCode)
+        if (e.keyCode === KEY_DOWN_CODE && !popupVisible) {
             this.setState({
-                showDropdown: !this.state.showDropdown
+                popupVisible: true
             });
         }
 
-        if (e.keyCode === 27 && this.state.showDropdown) {
+        if (e.keyCode === KEY_ESC_CODE && popupVisible) {
             this.setState({
-                showDropdown: false
+                popupVisible: false
             });
         }
     }

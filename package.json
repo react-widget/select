@@ -19,7 +19,7 @@
         "react-widget-listbox": "^1.0.2",
         "react-widget-popup": "^1.0.6",
         "react-widget-portal": "^1.0.3",
-        "react-widget-trigger": "^1.1.1",
+        "react-widget-trigger": "^1.1.2",
         "warning": "^4.0.2"
     },
     "devDependencies": {

@@ -33035,10 +33035,12 @@ var propTypes = {
   delay: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.object]),
   getPopupContainer: _propTypes.default.func,
   getDocument: _propTypes.default.func,
+  popup: _propTypes.default.oneOfType([_propTypes.default.node, _propTypes.default.func]).isRequired,
   prefixCls: _propTypes.default.string,
   popupClassName: _propTypes.default.string,
   popupMaskClassName: _propTypes.default.string,
   defaultPopupVisible: _propTypes.default.bool,
+  popupVisible: _propTypes.default.bool,
   popupProps: _propTypes.default.object,
   mask: _propTypes.default.bool,
   maskClosable: _propTypes.default.bool,
@@ -33553,7 +33555,7 @@ function (_React$Component) {
     key: "getDerivedStateFromProps",
     value: function getDerivedStateFromProps(props, state) {
       return {
-        popupVisible: 'visible' in props ? props.visible : state.popupVisible
+        popupVisible: 'popupVisible' in props ? props.popupVisible : state.popupVisible
       };
     }
   }]);
@@ -37406,4 +37408,4 @@ if (!self.fetch) {
 /***/ })
 
 }]);
-//# sourceMappingURL=vendors.58d0ecf3.chunk.js.map
+//# sourceMappingURL=vendors.931fa470.chunk.js.map
