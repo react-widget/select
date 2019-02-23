@@ -3,13 +3,7 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'omit.js';
-import assign from 'object-assign';
-//import {omit, assign} from 'lodash';
-import Popup from 'react-widget-popup';
-import ListBox, { ListItem, ListItemGroup } from 'react-widget-listbox';
-import Portal from 'react-widget-portal';
-import { on, off } from 'bplokjs-dom-utils/events';
-import contains from 'bplokjs-dom-utils/contains';
+import ListBox from 'react-widget-listbox';
 import Deferred from 'bplokjs-deferred';
 import getPlacement from 'bplokjs-placement';
 import Trigger from 'react-widget-trigger';
@@ -19,22 +13,98 @@ import { isUndefined, isArray, isEqual } from './util';
 const KEY_DOWN_CODE = 40;
 const KEY_ESC_CODE = 27;
 
+function getOptionsListAndMap(props) {
+    const { options, children, valueField, labelField, childrenField } = props;
+    const maps = {};
+    let newOptions = options;
+
+    function parseOptions(options) {
+        options.forEach(option => {
+            if (option[childrenField]) {
+                parseOptions(option[childrenField]);
+            } else {
+                maps[option[valueField]] = option;
+            }
+        });
+
+        return options;
+    }
+
+    function parseChildren(options) {
+        return React.Children.map(options, child => {
+            if (!React.isValidElement(child)) return null;
+
+            const { children, ...option } = child.props;
+
+            if (child.type.isOptOption) {
+                option[childrenField] = parseChildren(children);
+            } else if (child.type.isOption) {
+                option[labelField] = children;
+                maps[option[valueField]] = option;
+            } else {
+                return null;
+            }
+
+            return option;
+        });
+    }
+
+    if (options && options.length) {
+        newOptions = parseOptions(options);
+    } else {
+        newOptions = parseChildren(children);
+    }
+
+    return {
+        options: newOptions,
+        optionsMap: maps,
+    };
+}
+
 export default class Select extends React.Component {
     static propTypes = {
         className: PropTypes.string,
         style: PropTypes.object,
         prefixCls: PropTypes.string,
         options: PropTypes.array,
-        dropdownCls: PropTypes.string,
-        dropdownDestroyOnHide: PropTypes.bool,
-        dropdownStyle: PropTypes.object,
+
+        valueField: PropTypes.string,
+        labelField: PropTypes.string,
+        childrenField: PropTypes.string,
         labelInValue: PropTypes.bool,
         showArrow: PropTypes.bool,
         showSearch: PropTypes.bool,
         allowClear: PropTypes.bool,
         autoClearSearchValue: PropTypes.bool,
         placeholder: PropTypes.string,
+        autoFocus: PropTypes.bool,
+        filterOption: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+        optionFilterProp: PropTypes.string,
+
+        dropdownClassName: PropTypes.string,
+        dropdownMatchSelectWidth: PropTypes.bool,
+        dropdownStyle: PropTypes.object,
+        dropdownProps: PropTypes.object,
+        placement: PropTypes.string,
+        offset: PropTypes.array,
+        popupClassName: PropTypes.string,
+        popupRootComponent: PropTypes.any,
+        getPopupContainer: PropTypes.func,
+        destroyPopupOnHide: PropTypes.bool,
         defaultOpen: PropTypes.bool,
+        open: PropTypes.bool,
+        onResizeToHideDropDown: PropTypes.bool,
+        onScrollToHideDropDown: PropTypes.bool,
+        renderValue: PropTypes.func,
+        renderMenu: PropTypes.func,
+        renderMenuItem: PropTypes.func,
+        renderMenuGroupTitle: PropTypes.func,
+        onDropDownVisibleChange: PropTypes.func,
+        onChange: PropTypes.func,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        onSelect: PropTypes.func,
+
     };
 
     static defaultProps = {
@@ -43,12 +113,20 @@ export default class Select extends React.Component {
         inline: true,
         options: [],
         tabIndex: 0,
+        autoFocus: false,
+
+        filterOption: true,
+        optionFilterProp: 'label',
+
         prefixCls: 'rw-select',
-        arrowCls: 'fa fa-caret-down',
+        popupClassName: '',
+        destroyPopupOnHide: true,
+        arrowCls: '',
         valueField: 'value',
-        labelField: 'text',
-        optionsField: 'options',
-        dropdownCls: null,
+        labelField: 'label',
+        childrenField: 'children',
+        dropdownClassName: null,
+        dropdownMatchSelectWidth: true,
         dropdownStyle: null,
         dropdownDestroyOnHide: true,
         labelInValue: false,
@@ -58,6 +136,10 @@ export default class Select extends React.Component {
         autoClearSearchValue: true,
         placeholder: '',
         defaultOpen: false,
+        onResizeToHideDropDown: true,
+        onScrollToHideDropDown: true,
+        placement: 'bottomLeft',
+        offset: [0, 0],
     };
 
     constructor(props) {
@@ -68,98 +150,65 @@ export default class Select extends React.Component {
         this.state = {
             placement: Deferred(),
             value: props.value || props.defaultValue,
-            showDropdown: props.defaultOpen,
+            showDropDown: props.defaultOpen,
             optionsMap: {},
+            options: [],
             popupVisible: props.defaultOpen,
-        }
-
-        this.updateOptionsMap(props);
+            searchText: ''
+        };
     }
+
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        return {};
+
+        return {
+            value: 'value' in nextProps ? nextProps.value : prevState.value,
+            popupVisible: 'open' in nextProps ? nextProps.open : prevState.popupVisible,
+            ...getOptionsListAndMap(nextProps),
+        };
     }
 
-    // componentWillReceiveProps(props) {
-    //     this.updateOptionsMap(props);
+    focus() {
+        const dom = this.getSelectDOM();
+        dom.focus();
+    }
 
-    //     if (!isUndefined(props.value)) {
-    //         this.setState({
-    //             value: props.value
-    //         });
-    //     }
-    // }
+    blur() {
+        const dom = this.getSelectDOM();
+        dom.blur();
+    }
 
     componentDidMount() {
+        const props = this.props;
         const { placement } = this.state;
 
-        placement.resolve({
-            of: this.getSelectDOM(),
-            ...getPlacement('bottomLeft', [0, 1])
+        this.forceUpdate(() => {
+            placement.resolve({
+                of: this.getSelectDOM(),
+                ...getPlacement(props.placement, placement.offset)
+            });
         });
-    }
 
-    componentDidUpdate2() {
-        this.updatePopupPosition();
-    }
-
-    componentWillUnmount2() {
-        if (this.__resizeHandle) {
-            off(window, 'resize', this.__resizeHandle);
-        }
-
-        if (this.__mousedownHandle) {
-            off(document, 'mousedown', this.__mousedownHandle);
+        if (props.autoFocus) {
+            this.focus();
         }
     }
 
-    updateOptionsMap(props) {
-        const { options, children, valueField, labelField, optionsField } = props;
-        const maps = {};
+    renderSelectLabel() {
+        const { labelField, renderValue, placeholder, prefixCls } = this.props;
+        const { value, optionsMap } = this.state;
 
-        function parseOptions(list) {
-            list.forEach(option => {
-                if (option[optionsField]) {
-                    parseOptions(option[optionsField]);
-                } else {
-                    maps[option[valueField]] = option;
-                }
-            });
+        if (value === undefined) {
+            return <span className={`${prefixCls}-placeholder`}>{placeholder}</span>;
         }
 
-        function parseChildren(childs) {
-            React.Children.map(childs, child => {
-                const props = child.props;
+        const option = optionsMap[value] || {};
 
-                if (child.type.isOptOption) {
-                    parseChildren(props.children);
-                } else {
-                    maps[props[valueField]] = assign(omit(props, ['children']), { [labelField]: props.children });
-                }
-            });
+        if (renderValue) {
+            return renderValue(option[labelField], option);
         }
 
-        if (options && options.length) {
-            parseOptions(options);
-        } else {
-            parseChildren(children);
-        }
-
-        this.state.optionsMap = maps;
-    }
-
-    handleDropdownCreate = (el) => {
-        this._refs.listbox = el;
-        this._refs.dropdown = el ? findDOMNode(el) : null;
-    }
-
-    getSelectText() {
-        const { options, valueField, labelField } = this.props;
-        const value = this.state.value;
-
-        const ret = this.state.optionsMap[value];
-
-        return ret ? ret[labelField] : value;
+        return option ? option[labelField] : value;
     }
 
     transformChangeValue(value) {
@@ -175,68 +224,146 @@ export default class Select extends React.Component {
         return value;
     }
 
-    handleListItemClick = ({ value }) => {
+    handleListItemClick = (option) => {
         const props = this.props;
         const state = this.state;
 
+        const value = option[props.valueField];
+
         const newState = {
             popupVisible: false,
+            searchText: '',
         };
 
         if (!isEqual(state.value, value)) {
-
             if (!('value' in props)) {
                 newState.value = value;
-                this.setState({
-                    value: value
-                });
             }
-
-            if (props.onChange) props.onChange(this.transformChangeValue(value));
+            const tValue = this.transformChangeValue(value);
+            if (props.onChange) props.onChange(tValue, option);
+            if (props.onSelect) props.onSelect(tValue, option);
         }
 
         this.setState(newState);
     }
+    onSearch = (e) => {
+        const { onSearch } = this.props;
+        const searchText = e.target.value;
 
-    handleDropdownShow = () => {
-        setTimeout(() => this._refs.listbox.focus(), 0);
+        this.setState({
+            searchText,
+        });
+
+        if (onSearch) {
+            onSearch(searchText);
+        }
     }
 
-    renderDropdownList() {
-        const { valueField, labelField, optionsField, options, children } = this.props;
-        const value = this.state.value;
+    renderHeader = () => {
+        const { dropdownProps = {} } = this.props;
+        const { searchText } = this.state;
+
+        if (dropdownProps.renderHeader) {
+            return dropdownProps.renderHeader();
+        }
 
         return (
-            <ListBox
-                ref={this.handleDropdownCreate}
-                valueField={valueField}
-                labelField={labelField}
-                itemsField={optionsField}
-                value={value}
-                items={options}
-                children={this.renderSelectChild(children)}
-                onItemClick={this.handleListItemClick}
-            />
+            <div className={`dropdown-search`}>
+                <input placeholder="搜索..." value={searchText} onChange={this.onSearch} />
+            </div>
         );
     }
 
-    renderSelectChild(children) {
-        const { labelField, valueField } = this.props;
-
-        return React.Children.map(children, child => {
-            const props = child.props;
-
-            if (child.type.isOptOption) {
-                return <ListItemGroup label={props[labelField]}>{this.renderSelectChild(props.children)}</ListItemGroup>;
-            }
-
-            return <ListItem {...props} />;
+    searchOptions(search, options, filterFn) {
+        return options.filter(option => {
+            return filterFn(search, option);
         });
+    }
+
+    getOptions() {
+        const { filterOption, optionFilterProp, childrenField } = this.props;
+        const { searchText, options } = this.state;
+
+        const filterFn = filterOption === 'function' ?
+            filterOption :
+            (searchText, option) => {
+                if (searchText) {
+                    const searchContent = option[optionFilterProp];
+                    if (searchContent == null) return false;
+                    return String(searchContent).indexOf(searchText) !== -1;
+                }
+
+                return true;
+            };
+
+        return options
+            .map(option => {
+                const children = option[childrenField];
+
+                if (children && Array.isArray(children)) {
+                    const optOption = { ...option };
+                    optOption[childrenField] = this.searchOptions(searchText, children, filterFn);
+
+                    return optOption;
+                }
+
+                const ret = filterFn(searchText, option);
+                return ret ? option : null;
+            })
+            .filter(option => {
+                if (option) {
+                    const children = option[childrenField];
+                    const isGroup = children && Array.isArray(children);
+
+                    if (isGroup && !children.length) return false;
+
+                    return true;
+                }
+
+                return false;
+            });
+    }
+
+    renderDropDownList() {
+        const {
+            prefixCls,
+            valueField,
+            labelField,
+            childrenField,
+            children,
+            renderMenu,
+            renderMenuItem,
+            renderMenuGroupTitle,
+            dropdownProps,
+            dropdownClassName,
+        } = this.props;
+        const value = this.state.value;
+
+        const DropDownList = (
+            <ListBox
+                {...dropdownProps}
+                style={this.getDropDownStyle()}
+                className={`${prefixCls}-listbox ${dropdownClassName}`}
+                valueField={valueField}
+                labelField={labelField}
+                childrenField={childrenField}
+                value={value}
+                items={this.getOptions()}
+                onItemClick={this.handleListItemClick}
+                renderHeader={this.renderHeader}
+                renderMenu={renderMenu}
+                renderMenuItem={renderMenuItem}
+                renderMenuGroupTitle={renderMenuGroupTitle}
+            >
+            </ListBox>
+        );
+
+        return DropDownList;
     }
 
     onKeyDown = (e) => {
         const { popupVisible } = this.state;
-        console.log(e.keyCode)
+
         if (e.keyCode === KEY_DOWN_CODE && !popupVisible) {
             this.setState({
                 popupVisible: true
@@ -250,28 +377,27 @@ export default class Select extends React.Component {
         }
     }
 
-    getPopupStyle() {
-        const { showDropdown } = this.state;
-        const selectEl = this._refs.select;
-        const dropdownStyle = {
-            maxWidth: 0,
-            maxHeight: 0,
+    getDropDownStyle() {
+        const { dropdownStyle, dropdownMatchSelectWidth } = this.props;
+        const { popupVisible } = this.state;
+
+        const selectDOM = this.getSelectDOM();
+        if (!selectDOM || !popupVisible) return dropdownStyle;
+
+        const rect = selectDOM.getBoundingClientRect();
+        const offsetWidth = rect.right - rect.left;
+        const style = {};
+
+        if (dropdownMatchSelectWidth) {
+            style.maxWidth = Math.max(offsetWidth, window.innerWidth - rect.left - 20);
+            style.minWidth = offsetWidth;
+            style.maxHeight = Math.max(rect.top, window.innerHeight - rect.bottom) - 20;
+        }
+
+        return {
+            ...style,
+            ...dropdownStyle
         };
-
-        if (showDropdown && selectEl) {
-            const rect = selectEl.getBoundingClientRect();
-            dropdownStyle.minWidth = selectEl.offsetWidth;
-            dropdownStyle.maxWidth = selectEl.offsetWidth + rect.right - 10;
-            dropdownStyle.maxHeight = Math.max(rect.top, window.innerHeight - rect.top - selectEl.offsetHeight) - 10;
-        }
-
-        return assign(dropdownStyle, this.props.dropdownStyle);
-    }
-
-    updatePopupPosition() {
-        if (this.state.showDropdown) {
-            this._refs.popup.updatePosition(findDOMNode(this));
-        }
     }
 
 
@@ -280,83 +406,120 @@ export default class Select extends React.Component {
     }
 
     getSelectDOM() {
-        return findDOMNode(this._select)
+        return this._select;
     }
 
     onPopupVisibleChange = (visible) => {
-        this.setState({
-            popupVisible: visible
+        const props = this.props;
+        const { searchText } = this.state;
+
+        if (props.readOnly || props.disabled) return;
+
+        if (!('open' in props)) {
+            this.setState({
+                searchText: visible ? searchText : '',
+                popupVisible: visible
+            });
+
+            if (props.onDropDownVisibleChange) {
+                props.onDropDownVisibleChange(visible);
+            }
+        } else {
+            this.setState({
+                searchText: props.open ? searchText : '',
+                popupVisible: props.open
+            });
+        }
+    }
+
+    onClearClick = (e) => {
+        this.handleListItemClick({
+            value: undefined,
         });
+
+        e.preventDefault();
+    }
+
+    renderClearIcon() {
+        const {
+            prefixCls,
+            allowClear,
+        } = this.props;
+
+        const value = this.state.value;
+
+        const showClearIcon = allowClear && value !== undefined;
+
+        return showClearIcon ? (
+            <div
+                className={`${prefixCls}-value-clear`}
+                onClick={this.onClearClick}
+            />
+        ) : null
     }
 
     render() {
         const props = this.props;
-        const { showDropdown, placement, popupVisible } = this.state;
+        const { placement, popupVisible } = this.state;
         const {
             prefixCls,
+            popupClassName,
             tabIndex,
             inline,
             disabled,
+            style,
             readOnly,
             arrowCls,
-            children,
-            options,
-            dropdownCls,
-            dropdownDestroyOnHide,
             showArrow,
-            defaultOpen,
-            ...others
+            getPopupContainer,
+            popupRootComponent,
+            onResizeToHideDropDown,
+            onScrollToHideDropDown,
+            destroyPopupOnHide,
+            onFocus,
+            onBlur,
         } = props;
         const classes = classNames({
             [prefixCls]: true,
-            [`${prefixCls}-inline`]: inline,
+            [`${prefixCls}-block`]: !inline,
             [`${prefixCls}-readonly`]: readOnly,
             [`${prefixCls}-disabled`]: disabled,
         });
 
-        const otherProps = omit(others, [
-            'value',
-            'valueField',
-            'dropdownCls',
-            'dropdownStyle',
-            'dropdownDestroyOnHide',
-            'labelField',
-            'optionsField',
-            'labelInValue',
-        ]);
+        const hideAction = [];
+        if (onResizeToHideDropDown) {
+            hideAction.push('resize');
+        }
 
-        // <Popup
-        //     ref={(el) => this._refs.popup = el}
-        //     visible={showDropdown}
-        //     className={dropdownCls}
-        //     destroyOnHide={dropdownDestroyOnHide}
-        //     fixed={false}
-        //     rootCls={`${prefixCls}-dropdown-root`}
-        //     of={null}
-        //     my="left top"
-        //     at="left bottom"
-        //     style={this.getPopupStyle()}
-        //     onShow={this.handleDropdownShow}
-        // >
-        //     {this.getSelectOptions()}
-        // </Popup>
+        if (onScrollToHideDropDown) {
+            hideAction.push('scroll');
+        }
+
         return (
             <Trigger
+                destroyPopupOnHide={destroyPopupOnHide}
+                popupRootComponent={popupRootComponent}
+                getPopupContainer={getPopupContainer}
                 popupVisible={popupVisible}
-                popup={this.renderDropdownList()}
+                popupClassName={`${prefixCls}-popup ${popupClassName}`}
+                popup={this.renderDropDownList()}
                 placement={placement}
                 action="click"
-                hideAction={['scroll', 'resize']}
+                hideAction={hideAction}
                 onPopupVisibleChange={this.onPopupVisibleChange}
+                checkDefaultPrevented
             >
                 <div
-                    {...otherProps}
+                    style={style}
                     ref={this.saveSelectRef}
                     className={classes}
                     tabIndex={tabIndex}
                     onKeyDown={this.onKeyDown}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 >
-                    <div className={`${prefixCls}-text`}>1111{this.getSelectText()}</div>
+                    <div className={`${prefixCls}-text`}>{this.renderSelectLabel()}</div>
+                    {this.renderClearIcon()}
                     {
                         showArrow ? (
                             <div className={classNames({

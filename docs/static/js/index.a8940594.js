@@ -353,7 +353,41 @@ function (_Component) {
         onChange: function onChange(v) {
           return console.log(v);
         },
-        defaultValue: this.state.value
+        defaultValue: this.state.value,
+        autoFocus: true,
+        allowClear: true,
+        onSelect: function onSelect(v, d) {
+          return console.log(v, d);
+        },
+        style: {
+          width: 200
+        },
+        defaultOpen: true
+      }, "ad", _react.default.createElement(_src.Option, {
+        value: "1"
+      }, "\u6D4B\u8BD511\u6D4B\u8BD51\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
+        value: "2",
+        disabled: true
+      }, "\u6D4B\u8BD52"), _react.default.createElement(_src.Option, {
+        value: "3"
+      }, "\u6D4B\u8BD53"), _react.default.createElement(_src.Option, {
+        value: "4"
+      }, "\u6D4B\u8BD54"), _react.default.createElement(_src.Option, {
+        value: "5"
+      }, "\u6D4B\u8BD55"), _react.default.createElement(_src.OptGroup, {
+        label: "\u5206\u7EC41"
+      }, _react.default.createElement(_src.Option, {
+        value: "6"
+      }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
+        value: "7"
+      }, "\u6D4B\u8BD57"))), _react.default.createElement(_src.default, {
+        onChange: function onChange(v) {
+          return console.log(v);
+        },
+        showArrow: false,
+        placement: "leftCenter",
+        allowClear: true,
+        placeholder: "\u8BF7\u9009\u62E9..."
       }, _react.default.createElement(_src.Option, {
         value: "1"
       }, "\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
@@ -375,7 +409,29 @@ function (_Component) {
           return console.log(v);
         },
         defaultValue: this.state.value,
-        showArrow: false
+        disabled: true
+      }, _react.default.createElement(_src.Option, {
+        value: "1"
+      }, "\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
+        value: "2"
+      }, "\u6D4B\u8BD52"), _react.default.createElement(_src.Option, {
+        value: "3"
+      }, "\u6D4B\u8BD53"), _react.default.createElement(_src.Option, {
+        value: "4"
+      }, "\u6D4B\u8BD54"), _react.default.createElement(_src.Option, {
+        value: "5"
+      }, "\u6D4B\u8BD55"), _react.default.createElement(_src.OptGroup, {
+        label: "\u5206\u7EC41"
+      }, _react.default.createElement(_src.Option, {
+        value: "6"
+      }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
+        value: "7"
+      }, "\u6D4B\u8BD57"))), _react.default.createElement(_src.default, {
+        onChange: function onChange(v) {
+          return console.log(v);
+        },
+        defaultValue: this.state.value,
+        readOnly: true
       }, _react.default.createElement(_src.Option, {
         value: "1"
       }, "\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
@@ -528,8 +584,6 @@ exports.default = Option;
 "use strict";
 
 
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js");
-
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
 
 Object.defineProperty(exports, "__esModule", {
@@ -539,7 +593,7 @@ exports.default = void 0;
 
 var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ "./node_modules/@babel/runtime-corejs2/helpers/extends.js"));
 
-var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/objectWithoutProperties.js"));
+var _isArray = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/array/is-array */ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js"));
 
 var _objectSpread2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/objectSpread.js"));
 
@@ -557,6 +611,8 @@ var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @ba
 
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/defineProperty.js"));
 
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/objectWithoutProperties.js"));
+
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -567,17 +623,7 @@ var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "
 
 var _omit = _interopRequireDefault(__webpack_require__(/*! omit.js */ "./node_modules/omit.js/es/index.js"));
 
-var _objectAssign = _interopRequireDefault(__webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js"));
-
-var _reactWidgetPopup = _interopRequireDefault(__webpack_require__(/*! react-widget-popup */ "./node_modules/react-widget-popup/index.js"));
-
-var _reactWidgetListbox = _interopRequireWildcard(__webpack_require__(/*! react-widget-listbox */ "./node_modules/react-widget-listbox/index.js"));
-
-var _reactWidgetPortal = _interopRequireDefault(__webpack_require__(/*! react-widget-portal */ "./node_modules/react-widget-portal/index.js"));
-
-var _events = __webpack_require__(/*! bplokjs-dom-utils/events */ "./node_modules/bplokjs-dom-utils/events/index.js");
-
-var _contains = _interopRequireDefault(__webpack_require__(/*! bplokjs-dom-utils/contains */ "./node_modules/bplokjs-dom-utils/contains.js"));
+var _reactWidgetListbox = _interopRequireDefault(__webpack_require__(/*! react-widget-listbox */ "./node_modules/react-widget-listbox/index.js"));
 
 var _bplokjsDeferred = _interopRequireDefault(__webpack_require__(/*! bplokjs-deferred */ "./node_modules/bplokjs-deferred/index.js"));
 
@@ -587,9 +633,60 @@ var _reactWidgetTrigger = _interopRequireDefault(__webpack_require__(/*! react-w
 
 var _util = __webpack_require__(/*! ./util */ "./src/util.js");
 
-//import {omit, assign} from 'lodash';
 var KEY_DOWN_CODE = 40;
 var KEY_ESC_CODE = 27;
+
+function getOptionsListAndMap(props) {
+  var options = props.options,
+      children = props.children,
+      valueField = props.valueField,
+      labelField = props.labelField,
+      childrenField = props.childrenField;
+  var maps = {};
+  var newOptions = options;
+
+  function parseOptions(options) {
+    options.forEach(function (option) {
+      if (option[childrenField]) {
+        parseOptions(option[childrenField]);
+      } else {
+        maps[option[valueField]] = option;
+      }
+    });
+    return options;
+  }
+
+  function parseChildren(options) {
+    return _react.default.Children.map(options, function (child) {
+      if (!_react.default.isValidElement(child)) return null;
+      var _child$props = child.props,
+          children = _child$props.children,
+          option = (0, _objectWithoutProperties2.default)(_child$props, ["children"]);
+
+      if (child.type.isOptOption) {
+        option[childrenField] = parseChildren(children);
+      } else if (child.type.isOption) {
+        option[labelField] = children;
+        maps[option[valueField]] = option;
+      } else {
+        return null;
+      }
+
+      return option;
+    });
+  }
+
+  if (options && options.length) {
+    newOptions = parseOptions(options);
+  } else {
+    newOptions = parseChildren(children);
+  }
+
+  return {
+    options: newOptions,
+    optionsMap: maps
+  };
+}
 
 var Select =
 /*#__PURE__*/
@@ -601,40 +698,59 @@ function (_React$Component) {
 
     (0, _classCallCheck2.default)(this, Select);
     _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(Select).call(this, _props));
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleDropdownCreate", function (el) {
-      _this._refs.listbox = el;
-      _this._refs.dropdown = el ? (0, _reactDom.findDOMNode)(el) : null;
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleListItemClick", function (_ref) {
-      var value = _ref.value;
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleListItemClick", function (option) {
       var props = _this.props;
       var state = _this.state;
+      var value = option[props.valueField];
       var newState = {
-        popupVisible: false
+        popupVisible: false,
+        searchText: ''
       };
 
       if (!(0, _util.isEqual)(state.value, value)) {
         if (!('value' in props)) {
           newState.value = value;
-
-          _this.setState({
-            value: value
-          });
         }
 
-        if (props.onChange) props.onChange(_this.transformChangeValue(value));
+        var tValue = _this.transformChangeValue(value);
+
+        if (props.onChange) props.onChange(tValue, option);
+        if (props.onSelect) props.onSelect(tValue, option);
       }
 
       _this.setState(newState);
     });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleDropdownShow", function () {
-      setTimeout(function () {
-        return _this._refs.listbox.focus();
-      }, 0);
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onSearch", function (e) {
+      var onSearch = _this.props.onSearch;
+      var searchText = e.target.value;
+
+      _this.setState({
+        searchText: searchText
+      });
+
+      if (onSearch) {
+        onSearch(searchText);
+      }
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "renderHeader", function () {
+      var _this$props$dropdownP = _this.props.dropdownProps,
+          dropdownProps = _this$props$dropdownP === void 0 ? {} : _this$props$dropdownP;
+      var searchText = _this.state.searchText;
+
+      if (dropdownProps.renderHeader) {
+        return dropdownProps.renderHeader();
+      }
+
+      return _react.default.createElement("div", {
+        className: "dropdown-search"
+      }, _react.default.createElement("input", {
+        placeholder: "\u641C\u7D22...",
+        value: searchText,
+        onChange: _this.onSearch
+      }));
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onKeyDown", function (e) {
       var popupVisible = _this.state.popupVisible;
-      console.log(e.keyCode);
 
       if (e.keyCode === KEY_DOWN_CODE && !popupVisible) {
         _this.setState({
@@ -652,106 +768,100 @@ function (_React$Component) {
       _this._select = node;
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onPopupVisibleChange", function (visible) {
-      _this.setState({
-        popupVisible: visible
+      var props = _this.props;
+      var searchText = _this.state.searchText;
+      if (props.readOnly || props.disabled) return;
+
+      if (!('open' in props)) {
+        _this.setState({
+          searchText: visible ? searchText : '',
+          popupVisible: visible
+        });
+
+        if (props.onDropDownVisibleChange) {
+          props.onDropDownVisibleChange(visible);
+        }
+      } else {
+        _this.setState({
+          searchText: props.open ? searchText : '',
+          popupVisible: props.open
+        });
+      }
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onClearClick", function (e) {
+      _this.handleListItemClick({
+        value: undefined
       });
+
+      e.preventDefault();
     });
     _this._refs = {};
     _this.state = {
       placement: (0, _bplokjsDeferred.default)(),
       value: _props.value || _props.defaultValue,
-      showDropdown: _props.defaultOpen,
+      showDropDown: _props.defaultOpen,
       optionsMap: {},
-      popupVisible: _props.defaultOpen
+      options: [],
+      popupVisible: _props.defaultOpen,
+      searchText: ''
     };
-
-    _this.updateOptionsMap(_props);
-
     return _this;
   }
 
   (0, _createClass2.default)(Select, [{
+    key: "focus",
+    value: function focus() {
+      var dom = this.getSelectDOM();
+      dom.focus();
+    }
+  }, {
+    key: "blur",
+    value: function blur() {
+      var dom = this.getSelectDOM();
+      dom.blur();
+    }
+  }, {
     key: "componentDidMount",
-    // componentWillReceiveProps(props) {
-    //     this.updateOptionsMap(props);
-    //     if (!isUndefined(props.value)) {
-    //         this.setState({
-    //             value: props.value
-    //         });
-    //     }
-    // }
     value: function componentDidMount() {
+      var _this2 = this;
+
+      var props = this.props;
       var placement = this.state.placement;
-      placement.resolve((0, _objectSpread2.default)({
-        of: this.getSelectDOM()
-      }, (0, _bplokjsPlacement.default)('bottomLeft', [0, 1])));
-    }
-  }, {
-    key: "componentDidUpdate2",
-    value: function componentDidUpdate2() {
-      this.updatePopupPosition();
-    }
-  }, {
-    key: "componentWillUnmount2",
-    value: function componentWillUnmount2() {
-      if (this.__resizeHandle) {
-        (0, _events.off)(window, 'resize', this.__resizeHandle);
-      }
+      this.forceUpdate(function () {
+        placement.resolve((0, _objectSpread2.default)({
+          of: _this2.getSelectDOM()
+        }, (0, _bplokjsPlacement.default)(props.placement, placement.offset)));
+      });
 
-      if (this.__mousedownHandle) {
-        (0, _events.off)(document, 'mousedown', this.__mousedownHandle);
+      if (props.autoFocus) {
+        this.focus();
       }
     }
   }, {
-    key: "updateOptionsMap",
-    value: function updateOptionsMap(props) {
-      var options = props.options,
-          children = props.children,
-          valueField = props.valueField,
-          labelField = props.labelField,
-          optionsField = props.optionsField;
-      var maps = {};
-
-      function parseOptions(list) {
-        list.forEach(function (option) {
-          if (option[optionsField]) {
-            parseOptions(option[optionsField]);
-          } else {
-            maps[option[valueField]] = option;
-          }
-        });
-      }
-
-      function parseChildren(childs) {
-        _react.default.Children.map(childs, function (child) {
-          var props = child.props;
-
-          if (child.type.isOptOption) {
-            parseChildren(props.children);
-          } else {
-            maps[props[valueField]] = (0, _objectAssign.default)((0, _omit.default)(props, ['children']), (0, _defineProperty2.default)({}, labelField, props.children));
-          }
-        });
-      }
-
-      if (options && options.length) {
-        parseOptions(options);
-      } else {
-        parseChildren(children);
-      }
-
-      this.state.optionsMap = maps;
-    }
-  }, {
-    key: "getSelectText",
-    value: function getSelectText() {
+    key: "renderSelectLabel",
+    value: function renderSelectLabel() {
       var _this$props = this.props,
-          options = _this$props.options,
-          valueField = _this$props.valueField,
-          labelField = _this$props.labelField;
-      var value = this.state.value;
-      var ret = this.state.optionsMap[value];
-      return ret ? ret[labelField] : value;
+          labelField = _this$props.labelField,
+          renderValue = _this$props.renderValue,
+          placeholder = _this$props.placeholder,
+          prefixCls = _this$props.prefixCls;
+      var _this$state = this.state,
+          value = _this$state.value,
+          optionsMap = _this$state.optionsMap;
+
+      if (value === undefined) {
+        return _react.default.createElement("span", {
+          className: "".concat(prefixCls, "-placeholder")
+        }, placeholder);
+      }
+
+      var option = optionsMap[value] || {};
+
+      if (renderValue) {
+        return renderValue(option[labelField], option);
+      }
+
+      return option ? option[labelField] : value;
     }
   }, {
     key: "transformChangeValue",
@@ -768,76 +878,126 @@ function (_React$Component) {
       return value;
     }
   }, {
-    key: "renderDropdownList",
-    value: function renderDropdownList() {
-      var _this$props2 = this.props,
-          valueField = _this$props2.valueField,
-          labelField = _this$props2.labelField,
-          optionsField = _this$props2.optionsField,
-          options = _this$props2.options,
-          children = _this$props2.children;
-      var value = this.state.value;
-      return _react.default.createElement(_reactWidgetListbox.default, {
-        ref: this.handleDropdownCreate,
-        valueField: valueField,
-        labelField: labelField,
-        itemsField: optionsField,
-        value: value,
-        items: options,
-        children: this.renderSelectChild(children),
-        onItemClick: this.handleListItemClick
+    key: "searchOptions",
+    value: function searchOptions(search, options, filterFn) {
+      return options.filter(function (option) {
+        return filterFn(search, option);
       });
     }
   }, {
-    key: "renderSelectChild",
-    value: function renderSelectChild(children) {
-      var _this2 = this;
+    key: "getOptions",
+    value: function getOptions() {
+      var _this3 = this;
 
-      var _this$props3 = this.props,
-          labelField = _this$props3.labelField,
-          valueField = _this$props3.valueField;
-      return _react.default.Children.map(children, function (child) {
-        var props = child.props;
-
-        if (child.type.isOptOption) {
-          return _react.default.createElement(_reactWidgetListbox.ListItemGroup, {
-            label: props[labelField]
-          }, _this2.renderSelectChild(props.children));
+      var _this$props2 = this.props,
+          filterOption = _this$props2.filterOption,
+          optionFilterProp = _this$props2.optionFilterProp,
+          childrenField = _this$props2.childrenField;
+      var _this$state2 = this.state,
+          searchText = _this$state2.searchText,
+          options = _this$state2.options;
+      var filterFn = filterOption === 'function' ? filterOption : function (searchText, option) {
+        if (searchText) {
+          var searchContent = option[optionFilterProp];
+          if (searchContent == null) return false;
+          return String(searchContent).indexOf(searchText) !== -1;
         }
 
-        return _react.default.createElement(_reactWidgetListbox.ListItem, props);
+        return true;
+      };
+      return options.map(function (option) {
+        var children = option[childrenField];
+
+        if (children && (0, _isArray.default)(children)) {
+          var optOption = (0, _objectSpread2.default)({}, option);
+          optOption[childrenField] = _this3.searchOptions(searchText, children, filterFn);
+          return optOption;
+        }
+
+        var ret = filterFn(searchText, option);
+        return ret ? option : null;
+      }).filter(function (option) {
+        if (option) {
+          var children = option[childrenField];
+          var isGroup = children && (0, _isArray.default)(children);
+          if (isGroup && !children.length) return false;
+          return true;
+        }
+
+        return false;
       });
     }
   }, {
-    key: "getPopupStyle",
-    value: function getPopupStyle() {
-      var showDropdown = this.state.showDropdown;
-      var selectEl = this._refs.select;
-      var dropdownStyle = {
-        maxWidth: 0,
-        maxHeight: 0
-      };
+    key: "renderDropDownList",
+    value: function renderDropDownList() {
+      var _this$props3 = this.props,
+          prefixCls = _this$props3.prefixCls,
+          valueField = _this$props3.valueField,
+          labelField = _this$props3.labelField,
+          childrenField = _this$props3.childrenField,
+          children = _this$props3.children,
+          renderMenu = _this$props3.renderMenu,
+          renderMenuItem = _this$props3.renderMenuItem,
+          renderMenuGroupTitle = _this$props3.renderMenuGroupTitle,
+          dropdownProps = _this$props3.dropdownProps,
+          dropdownClassName = _this$props3.dropdownClassName;
+      var value = this.state.value;
 
-      if (showDropdown && selectEl) {
-        var rect = selectEl.getBoundingClientRect();
-        dropdownStyle.minWidth = selectEl.offsetWidth;
-        dropdownStyle.maxWidth = selectEl.offsetWidth + rect.right - 10;
-        dropdownStyle.maxHeight = Math.max(rect.top, window.innerHeight - rect.top - selectEl.offsetHeight) - 10;
-      }
+      var DropDownList = _react.default.createElement(_reactWidgetListbox.default, (0, _extends2.default)({}, dropdownProps, {
+        style: this.getDropDownStyle(),
+        className: "".concat(prefixCls, "-listbox ").concat(dropdownClassName),
+        valueField: valueField,
+        labelField: labelField,
+        childrenField: childrenField,
+        value: value,
+        items: this.getOptions(),
+        onItemClick: this.handleListItemClick,
+        renderHeader: this.renderHeader,
+        renderMenu: renderMenu,
+        renderMenuItem: renderMenuItem,
+        renderMenuGroupTitle: renderMenuGroupTitle
+      }));
 
-      return (0, _objectAssign.default)(dropdownStyle, this.props.dropdownStyle);
+      return DropDownList;
     }
   }, {
-    key: "updatePopupPosition",
-    value: function updatePopupPosition() {
-      if (this.state.showDropdown) {
-        this._refs.popup.updatePosition((0, _reactDom.findDOMNode)(this));
+    key: "getDropDownStyle",
+    value: function getDropDownStyle() {
+      var _this$props4 = this.props,
+          dropdownStyle = _this$props4.dropdownStyle,
+          dropdownMatchSelectWidth = _this$props4.dropdownMatchSelectWidth;
+      var popupVisible = this.state.popupVisible;
+      var selectDOM = this.getSelectDOM();
+      if (!selectDOM || !popupVisible) return dropdownStyle;
+      var rect = selectDOM.getBoundingClientRect();
+      var offsetWidth = rect.right - rect.left;
+      var style = {};
+
+      if (dropdownMatchSelectWidth) {
+        style.maxWidth = Math.max(offsetWidth, window.innerWidth - rect.left - 20);
+        style.minWidth = offsetWidth;
+        style.maxHeight = Math.max(rect.top, window.innerHeight - rect.bottom) - 20;
       }
+
+      return (0, _objectSpread2.default)({}, style, dropdownStyle);
     }
   }, {
     key: "getSelectDOM",
     value: function getSelectDOM() {
-      return (0, _reactDom.findDOMNode)(this._select);
+      return this._select;
+    }
+  }, {
+    key: "renderClearIcon",
+    value: function renderClearIcon() {
+      var _this$props5 = this.props,
+          prefixCls = _this$props5.prefixCls,
+          allowClear = _this$props5.allowClear;
+      var value = this.state.value;
+      var showClearIcon = allowClear && value !== undefined;
+      return showClearIcon ? _react.default.createElement("div", {
+        className: "".concat(prefixCls, "-value-clear"),
+        onClick: this.onClearClick
+      }) : null;
     }
   }, {
     key: "render",
@@ -845,62 +1005,69 @@ function (_React$Component) {
       var _classNames, _classNames2;
 
       var props = this.props;
-      var _this$state = this.state,
-          showDropdown = _this$state.showDropdown,
-          placement = _this$state.placement,
-          popupVisible = _this$state.popupVisible;
+      var _this$state3 = this.state,
+          placement = _this$state3.placement,
+          popupVisible = _this$state3.popupVisible;
       var prefixCls = props.prefixCls,
+          popupClassName = props.popupClassName,
           tabIndex = props.tabIndex,
           inline = props.inline,
           disabled = props.disabled,
+          style = props.style,
           readOnly = props.readOnly,
           arrowCls = props.arrowCls,
-          children = props.children,
-          options = props.options,
-          dropdownCls = props.dropdownCls,
-          dropdownDestroyOnHide = props.dropdownDestroyOnHide,
           showArrow = props.showArrow,
-          defaultOpen = props.defaultOpen,
-          others = (0, _objectWithoutProperties2.default)(props, ["prefixCls", "tabIndex", "inline", "disabled", "readOnly", "arrowCls", "children", "options", "dropdownCls", "dropdownDestroyOnHide", "showArrow", "defaultOpen"]);
-      var classes = (0, _classnames.default)((_classNames = {}, (0, _defineProperty2.default)(_classNames, prefixCls, true), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-inline"), inline), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-readonly"), readOnly), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-disabled"), disabled), _classNames));
-      var otherProps = (0, _omit.default)(others, ['value', 'valueField', 'dropdownCls', 'dropdownStyle', 'dropdownDestroyOnHide', 'labelField', 'optionsField', 'labelInValue']); // <Popup
-      //     ref={(el) => this._refs.popup = el}
-      //     visible={showDropdown}
-      //     className={dropdownCls}
-      //     destroyOnHide={dropdownDestroyOnHide}
-      //     fixed={false}
-      //     rootCls={`${prefixCls}-dropdown-root`}
-      //     of={null}
-      //     my="left top"
-      //     at="left bottom"
-      //     style={this.getPopupStyle()}
-      //     onShow={this.handleDropdownShow}
-      // >
-      //     {this.getSelectOptions()}
-      // </Popup>
+          getPopupContainer = props.getPopupContainer,
+          popupRootComponent = props.popupRootComponent,
+          onResizeToHideDropDown = props.onResizeToHideDropDown,
+          onScrollToHideDropDown = props.onScrollToHideDropDown,
+          destroyPopupOnHide = props.destroyPopupOnHide,
+          onFocus = props.onFocus,
+          onBlur = props.onBlur;
+      var classes = (0, _classnames.default)((_classNames = {}, (0, _defineProperty2.default)(_classNames, prefixCls, true), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-block"), !inline), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-readonly"), readOnly), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-disabled"), disabled), _classNames));
+      var hideAction = [];
+
+      if (onResizeToHideDropDown) {
+        hideAction.push('resize');
+      }
+
+      if (onScrollToHideDropDown) {
+        hideAction.push('scroll');
+      }
 
       return _react.default.createElement(_reactWidgetTrigger.default, {
+        destroyPopupOnHide: destroyPopupOnHide,
+        popupRootComponent: popupRootComponent,
+        getPopupContainer: getPopupContainer,
         popupVisible: popupVisible,
-        popup: this.renderDropdownList(),
+        popupClassName: "".concat(prefixCls, "-popup ").concat(popupClassName),
+        popup: this.renderDropDownList(),
         placement: placement,
         action: "click",
-        hideAction: ['scroll', 'resize'],
-        onPopupVisibleChange: this.onPopupVisibleChange
-      }, _react.default.createElement("div", (0, _extends2.default)({}, otherProps, {
+        hideAction: hideAction,
+        onPopupVisibleChange: this.onPopupVisibleChange,
+        checkDefaultPrevented: true
+      }, _react.default.createElement("div", {
+        style: style,
         ref: this.saveSelectRef,
         className: classes,
         tabIndex: tabIndex,
-        onKeyDown: this.onKeyDown
-      }), _react.default.createElement("div", {
+        onKeyDown: this.onKeyDown,
+        onFocus: onFocus,
+        onBlur: onBlur
+      }, _react.default.createElement("div", {
         className: "".concat(prefixCls, "-text")
-      }, "1111", this.getSelectText()), showArrow ? _react.default.createElement("div", {
+      }, this.renderSelectLabel()), this.renderClearIcon(), showArrow ? _react.default.createElement("div", {
         className: (0, _classnames.default)((_classNames2 = {}, (0, _defineProperty2.default)(_classNames2, "".concat(prefixCls, "-arrow"), true), (0, _defineProperty2.default)(_classNames2, arrowCls, true), _classNames2))
       }) : null));
     }
   }], [{
     key: "getDerivedStateFromProps",
     value: function getDerivedStateFromProps(nextProps, prevState) {
-      return {};
+      return (0, _objectSpread2.default)({
+        value: 'value' in nextProps ? nextProps.value : prevState.value,
+        popupVisible: 'open' in nextProps ? nextProps.open : prevState.popupVisible
+      }, getOptionsListAndMap(nextProps));
     }
   }]);
   return Select;
@@ -912,16 +1079,41 @@ exports.default = Select;
   style: _propTypes.default.object,
   prefixCls: _propTypes.default.string,
   options: _propTypes.default.array,
-  dropdownCls: _propTypes.default.string,
-  dropdownDestroyOnHide: _propTypes.default.bool,
-  dropdownStyle: _propTypes.default.object,
+  valueField: _propTypes.default.string,
+  labelField: _propTypes.default.string,
+  childrenField: _propTypes.default.string,
   labelInValue: _propTypes.default.bool,
   showArrow: _propTypes.default.bool,
   showSearch: _propTypes.default.bool,
   allowClear: _propTypes.default.bool,
   autoClearSearchValue: _propTypes.default.bool,
   placeholder: _propTypes.default.string,
-  defaultOpen: _propTypes.default.bool
+  autoFocus: _propTypes.default.bool,
+  filterOption: _propTypes.default.oneOfType([_propTypes.default.bool, _propTypes.default.func]),
+  optionFilterProp: _propTypes.default.string,
+  dropdownClassName: _propTypes.default.string,
+  dropdownMatchSelectWidth: _propTypes.default.bool,
+  dropdownStyle: _propTypes.default.object,
+  dropdownProps: _propTypes.default.object,
+  placement: _propTypes.default.string,
+  offset: _propTypes.default.array,
+  popupClassName: _propTypes.default.string,
+  popupRootComponent: _propTypes.default.any,
+  getPopupContainer: _propTypes.default.func,
+  destroyPopupOnHide: _propTypes.default.bool,
+  defaultOpen: _propTypes.default.bool,
+  open: _propTypes.default.bool,
+  onResizeToHideDropDown: _propTypes.default.bool,
+  onScrollToHideDropDown: _propTypes.default.bool,
+  renderValue: _propTypes.default.func,
+  renderMenu: _propTypes.default.func,
+  renderMenuItem: _propTypes.default.func,
+  renderMenuGroupTitle: _propTypes.default.func,
+  onDropDownVisibleChange: _propTypes.default.func,
+  onChange: _propTypes.default.func,
+  onFocus: _propTypes.default.func,
+  onBlur: _propTypes.default.func,
+  onSelect: _propTypes.default.func
 });
 (0, _defineProperty2.default)(Select, "defaultProps", {
   disabled: false,
@@ -929,12 +1121,18 @@ exports.default = Select;
   inline: true,
   options: [],
   tabIndex: 0,
+  autoFocus: false,
+  filterOption: true,
+  optionFilterProp: 'label',
   prefixCls: 'rw-select',
-  arrowCls: 'fa fa-caret-down',
+  popupClassName: '',
+  destroyPopupOnHide: true,
+  arrowCls: '',
   valueField: 'value',
-  labelField: 'text',
-  optionsField: 'options',
-  dropdownCls: null,
+  labelField: 'label',
+  childrenField: 'children',
+  dropdownClassName: null,
+  dropdownMatchSelectWidth: true,
   dropdownStyle: null,
   dropdownDestroyOnHide: true,
   labelInValue: false,
@@ -943,7 +1141,11 @@ exports.default = Select;
   allowClear: false,
   autoClearSearchValue: true,
   placeholder: '',
-  defaultOpen: false
+  defaultOpen: false,
+  onResizeToHideDropDown: true,
+  onScrollToHideDropDown: true,
+  placement: 'bottomLeft',
+  offset: [0, 0]
 });
 
 /***/ }),
@@ -1084,4 +1286,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.59b942f9.js.map
+//# sourceMappingURL=index.a8940594.js.map

@@ -1304,7 +1304,7 @@ module.exports = function offset(elem, options) {
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = setOffset;
 
@@ -1317,49 +1317,50 @@ var _getOffset = _interopRequireDefault(__webpack_require__(/*! ./getOffset */ "
 var _position = _interopRequireDefault(__webpack_require__(/*! ../position */ "./node_modules/bplokjs-dom-utils/position.js"));
 
 function setOffset(elem, options) {
-  var curPosition,
-      curLeft,
-      curCSSTop,
-      curTop,
-      curOffset,
-      curCSSLeft,
-      calculatePosition,
-      positionState = (0, _css.default)(elem, "position"),
-      curElem = elem,
-      props = {}; // Set position first, in-case top/left are set even on static elem
+    var curPosition,
+        curLeft,
+        curCSSTop,
+        curTop,
+        curOffset,
+        curCSSLeft,
+        calculatePosition,
+        positionState = (0, _css.default)(elem, "position"),
+        curElem = elem,
+        props = {}; // Set position first, in-case top/left are set even on static elem
 
-  if (positionState === "static") {
-    elem.style.position = "relative";
-  }
+    if (positionState === "static") {
+        elem.style.position = "relative";
+    }
 
-  curOffset = (0, _getOffset.default)(curElem);
-  curCSSTop = (0, _css.default)(elem, "top");
-  curCSSLeft = (0, _css.default)(elem, "left");
-  calculatePosition = (positionState === "absolute" || positionState === "fixed") && (curCSSTop + curCSSLeft).indexOf("auto") > -1; // Need to be able to calculate position if either
-  // top or left is auto and position is either absolute or fixed
+    curOffset = (0, _getOffset.default)(curElem);
+    curCSSTop = (0, _css.default)(elem, "top");
+    curCSSLeft = (0, _css.default)(elem, "left");
+    calculatePosition = (positionState === "absolute" || positionState === "fixed") && (curCSSTop + curCSSLeft).indexOf("auto") > -1; // Need to be able to calculate position if either
+    // top or left is auto and position is either absolute or fixed
 
-  if (calculatePosition) {
-    curPosition = (0, _position.default)(curElem);
-    curTop = curPosition.top;
-    curLeft = curPosition.left;
-  } else {
-    curTop = (0, _parseFloat2.default)(curCSSTop) || 0;
-    curLeft = (0, _parseFloat2.default)(curCSSLeft) || 0;
-  }
+    if (calculatePosition) {
+        curPosition = (0, _position.default)(curElem);
+        curTop = curPosition.top;
+        curLeft = curPosition.left;
+    } else {
+        curTop = (0, _parseFloat2.default)(curCSSTop) || 0;
+        curLeft = (0, _parseFloat2.default)(curCSSLeft) || 0;
+    }
+    console.log(options.top, curOffset.top, curTop, '123xxxxA')
+    console.log(options.left, curOffset.top, curLeft, '123xxxxB')
+    if (options.top != null) {
+        props.top = options.top - curOffset.top + curTop;
+    }
 
-  if (options.top != null) {
-    props.top = options.top - curOffset.top + curTop;
-  }
+    if (options.left != null) {
+        props.left = options.left - curOffset.left + curLeft;
+    }
 
-  if (options.left != null) {
-    props.left = options.left - curOffset.left + curLeft;
-  }
-
-  if ("using" in options) {
-    options.using.call(elem, props);
-  } else {
-    (0, _css.default)(curElem, props);
-  }
+    if ("using" in options) {
+        options.using.call(elem, props);
+    } else {
+        (0, _css.default)(curElem, props);
+    }
 }
 
 /***/ }),
@@ -3050,6 +3051,8 @@ var positionCalc = {
             } else {
                 position.left = max(position.left - collisionPosLeft, position.left);
             }
+
+            console.log(position, 'gggg')
         },
         top: function (position, data) {
             var within = data.within,
@@ -3132,6 +3135,8 @@ var positionCalc = {
                     position.left += myOffset + atOffset + offset;
                 }
             }
+
+            console.log(position, '111gggg')
         },
         top: function (position, data) {
             var within = data.within,
@@ -3203,6 +3208,7 @@ function setPosition($el, options) {
         // Force left top to allow flipping
         options.at = "left top";
     }
+    console.log(dimensions, 'target')
     targetWidth = dimensions.width;
     targetHeight = dimensions.height;
     targetOffset = dimensions.offset;
@@ -3275,8 +3281,8 @@ function setPosition($el, options) {
             collisionHeight = elemHeight + marginTop + parseCss(this, "marginBottom") +
                 scrollInfo.height,
             position = $.extend({}, basePosition),
-            myOffset = getOffsets(offsets.my, elem.outerWidth(), elem.outerHeight());
-
+            myOffset = getOffsets(offsets.my, elemWidth, elemHeight);
+        console.log(elem, elemWidth, elemHeight, marginLeft, marginTop, 'ttt')
         if (options.my[0] === "right") {
             position.left -= elemWidth;
         } else if (options.my[0] === "center") {
@@ -3320,6 +3326,7 @@ function setPosition($el, options) {
 
             // Adds feedback as second argument to using callback, if present
             using = function (props) {
+                console.log(props, 'xxx')
                 var left = targetOffset.left - position.left,
                     right = left + targetWidth - elemWidth,
                     top = targetOffset.top - position.top,
@@ -3356,7 +3363,7 @@ function setPosition($el, options) {
                 options.using.call(this, props, feedback);
             };
         }
-
+        console.log(position, 'ooffsetxxx')
         elem.offset($.extend(position, { using: using }));
     });
 };
@@ -30963,10 +30970,18 @@ function (_React$Component) {
 
       if (e) {
         (0, _scrollIntoView.default)(e.target, _this.getListViewBody());
-      } //this.getListView().scrollIntoView(e.target);
-
+      }
 
       if (onItemClick) onItemClick(item);
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onItemGroupClick", function (item, e) {
+      var onItemGroupClick = _this.props.onItemGroupClick;
+
+      if (e) {
+        (0, _scrollIntoView.default)(e.target, _this.getListViewBody());
+      }
+
+      if (onItemGroupClick) onItemGroupClick(item);
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onItemSelect", function (item, el) {
       var valueField = 'value';
@@ -31122,19 +31137,11 @@ function (_React$Component) {
 
   (0, _createClass2.default)(ListBox, [{
     key: "componentDidMount",
-    // componentWillReceiveProps({ value }) {
-    //     if (!isUndefined(value)) {
-    //         this.setState({
-    //             selectedValue: isArray(value) ? copy(value) : [value]
-    //         });
-    //     }
-    // }
     value: function componentDidMount() {
       var _this$props2 = this.props,
           prefixCls = _this$props2.prefixCls,
           autoFocus = _this$props2.autoFocus;
-      var el = (0, _reactDom.findDOMNode)(this); //const scrollview = this.getListView();//this.refs.listbox;
-
+      var el = (0, _reactDom.findDOMNode)(this);
       var selector = ".".concat(prefixCls, "-item-selected");
 
       if (autoFocus) {
@@ -31212,9 +31219,11 @@ function (_React$Component) {
       var _this$props4 = this.props,
           labelField = _this$props4.labelField,
           valueField = _this$props4.valueField,
-          itemsField = _this$props4.itemsField,
+          childrenField = _this$props4.childrenField,
           prefixCls = _this$props4.prefixCls,
-          disabled = _this$props4.disabled;
+          disabled = _this$props4.disabled,
+          renderMenuItem = _this$props4.renderMenuItem,
+          renderMenuGroupTitle = _this$props4.renderMenuGroupTitle;
       var itemsMap = this.state.itemsMap;
       return items.map(function (item) {
         if (typeof item === 'string' || typeof item === 'number') {
@@ -31223,7 +31232,7 @@ function (_React$Component) {
           item = (_item = {}, (0, _defineProperty2.default)(_item, labelField, item), (0, _defineProperty2.default)(_item, valueField, item), _item);
         }
 
-        var isGroup = item[itemsField];
+        var isGroup = item[childrenField];
         var itemPrefixCls = "".concat(prefixCls, "-item");
         var activeCls = "".concat(prefixCls, "-item-active");
         var onMouseEnter = noop;
@@ -31256,12 +31265,16 @@ function (_React$Component) {
           onSelect: _this2.onItemSelect,
           onDeselect: _this2.onItemDeselect,
           onMouseEnter: onMouseEnter,
-          onMouseLeave: onMouseLeave
-        }, item[labelField]) : _react.default.createElement(_ListItemGroup.default, {
+          onMouseLeave: onMouseLeave,
+          item: item
+        }, renderMenuItem ? renderMenuItem(item[labelField], item) : item[labelField]) : _react.default.createElement(_ListItemGroup.default, {
           prefixCls: "".concat(itemPrefixCls, "-group"),
           key: item[labelField],
-          label: item[labelField]
-        }, _this2.renderListItems(item[itemsField] || [], selectedMap));
+          value: item[valueField],
+          onClick: _this2.onItemGroupClick,
+          item: item,
+          label: renderMenuGroupTitle ? renderMenuGroupTitle(item[labelField], item) : item[labelField]
+        }, _this2.renderListItems(item[childrenField] || [], selectedMap));
       });
     }
   }, {
@@ -31272,7 +31285,6 @@ function (_React$Component) {
       var _this$props5 = this.props,
           labelField = _this$props5.labelField,
           valueField = _this$props5.valueField,
-          itemsField = _this$props5.itemsField,
           prefixCls = _this$props5.prefixCls,
           disabled = _this$props5.disabled;
       var itemsMap = this.state.itemsMap;
@@ -31343,6 +31355,11 @@ function (_React$Component) {
       this._itemIndex = 0;
       this._indexValueMap = {};
       this._activeIndex = null;
+
+      if (!items.length && !_react.default.Children.count(children)) {
+        return emptyLabel;
+      }
+
       var childs = items.length ? this.renderListItems(items, selectedMap) : this.renderListChild(children, selectedMap);
       return _react.default.Children.count(childs) ? childs : emptyLabel;
     }
@@ -31367,37 +31384,50 @@ function (_React$Component) {
       return (0, _reactDom.findDOMNode)(this._listview_footer);
     }
   }, {
+    key: "renderMenu",
+    value: function renderMenu() {
+      var _this$props7 = this.props,
+          BodyWrapperComponent = _this$props7.bodyWrapperComponent,
+          prefixCls = _this$props7.prefixCls,
+          _this$props7$bodyStyl = _this$props7.bodyStyle,
+          bodyStyle = _this$props7$bodyStyl === void 0 ? {} : _this$props7$bodyStyl,
+          renderMenu = _this$props7.renderMenu;
+      var Menus = this.renderList();
+      return _react.default.createElement(BodyWrapperComponent, {
+        ref: this.saveListViewBody,
+        className: "".concat(prefixCls, "-body"),
+        style: bodyStyle
+      }, renderMenu ? renderMenu(Menus) : Menus);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _classNames;
 
-      var _this$props7 = this.props,
-          className = _this$props7.className,
-          value = _this$props7.value,
-          prefixCls = _this$props7.prefixCls,
-          items = _this$props7.items,
-          width = _this$props7.width,
-          height = _this$props7.height,
-          tabIndex = _this$props7.tabIndex,
-          disabled = _this$props7.disabled,
-          enableDownUpSelect = _this$props7.enableDownUpSelect,
-          onKeyDown = _this$props7.onKeyDown,
-          onFocus = _this$props7.onFocus,
-          onBlur = _this$props7.onBlur,
-          _this$props7$style = _this$props7.style,
-          style = _this$props7$style === void 0 ? {} : _this$props7$style,
-          _this$props7$bodyStyl = _this$props7.bodyStyle,
-          bodyStyle = _this$props7$bodyStyl === void 0 ? {} : _this$props7$bodyStyl,
-          WrapperComponent = _this$props7.wrapperComponent,
-          HeaderWrapperComponent = _this$props7.headerWrapperComponent,
-          BodyWrapperComponent = _this$props7.bodyWrapperComponent,
-          FooterWrapperComponent = _this$props7.footerWrapperComponent,
-          renderHeader = _this$props7.renderHeader,
-          renderFooter = _this$props7.renderFooter,
-          _this$props7$headerSt = _this$props7.headerStyle,
-          headerStyle = _this$props7$headerSt === void 0 ? {} : _this$props7$headerSt,
-          _this$props7$footerSt = _this$props7.footerStyle,
-          footerStyle = _this$props7$footerSt === void 0 ? {} : _this$props7$footerSt;
+      var _this$props8 = this.props,
+          className = _this$props8.className,
+          value = _this$props8.value,
+          prefixCls = _this$props8.prefixCls,
+          items = _this$props8.items,
+          width = _this$props8.width,
+          height = _this$props8.height,
+          tabIndex = _this$props8.tabIndex,
+          disabled = _this$props8.disabled,
+          enableDownUpSelect = _this$props8.enableDownUpSelect,
+          onKeyDown = _this$props8.onKeyDown,
+          onFocus = _this$props8.onFocus,
+          onBlur = _this$props8.onBlur,
+          _this$props8$style = _this$props8.style,
+          style = _this$props8$style === void 0 ? {} : _this$props8$style,
+          WrapperComponent = _this$props8.wrapperComponent,
+          HeaderWrapperComponent = _this$props8.headerWrapperComponent,
+          FooterWrapperComponent = _this$props8.footerWrapperComponent,
+          renderHeader = _this$props8.renderHeader,
+          renderFooter = _this$props8.renderFooter,
+          _this$props8$headerSt = _this$props8.headerStyle,
+          headerStyle = _this$props8$headerSt === void 0 ? {} : _this$props8$headerSt,
+          _this$props8$footerSt = _this$props8.footerStyle,
+          footerStyle = _this$props8$footerSt === void 0 ? {} : _this$props8$footerSt;
 
       if (width) {
         style.width = width;
@@ -31422,11 +31452,7 @@ function (_React$Component) {
         ref: this.saveListViewHeader,
         className: "".concat(prefixCls, "-header"),
         style: headerStyle
-      }, renderHeader()) : null, _react.default.createElement(BodyWrapperComponent, {
-        ref: this.saveListViewBody,
-        className: "".concat(prefixCls, "-body"),
-        style: bodyStyle
-      }, this.renderList()), renderFooter ? _react.default.createElement(FooterWrapperComponent, {
+      }, renderHeader()) : null, this.renderMenu(), renderFooter ? _react.default.createElement(FooterWrapperComponent, {
         ref: this.saveListViewFooter,
         className: "".concat(prefixCls, "-footer"),
         style: footerStyle
@@ -31459,7 +31485,7 @@ exports.default = ListBox;
   prefixCls: _propTypes.default.string,
   valueField: _propTypes.default.string,
   labelField: _propTypes.default.string,
-  itemsField: _propTypes.default.string,
+  childrenField: _propTypes.default.string,
   items: _propTypes.default.array,
   emptyLabel: _propTypes.default.any,
   multiple: _propTypes.default.bool,
@@ -31471,10 +31497,14 @@ exports.default = ListBox;
   tabIndex: _propTypes.default.number,
   enableDownUpSelect: _propTypes.default.bool,
   onItemClick: _propTypes.default.func,
+  onItemGroupClick: _propTypes.default.func,
   onChange: _propTypes.default.func,
   onFocus: _propTypes.default.func,
   onBlur: _propTypes.default.func,
   onKeyDown: _propTypes.default.func,
+  renderMenu: _propTypes.default.func,
+  renderMenuGroupTitle: _propTypes.default.func,
+  renderMenuItem: _propTypes.default.func,
   renderHeader: _propTypes.default.func,
   renderFooter: _propTypes.default.func,
   wrapperComponent: _propTypes.default.node,
@@ -31486,11 +31516,11 @@ exports.default = ListBox;
   prefixCls: 'rw-listbox',
   valueField: 'value',
   labelField: 'label',
-  itemsField: 'items',
+  childrenField: 'children',
   labelInValue: false,
   tabIndex: 0,
   items: [],
-  emptyLabel: null,
+  emptyLabel: 'Not Found',
   enableDownUpSelect: true,
   onFocus: noop,
   onBlur: noop,
@@ -31574,21 +31604,22 @@ function (_React$Component) {
           selected = _this$props.selected,
           disabled = _this$props.disabled,
           value = _this$props.value,
-          children = _this$props.children;
+          children = _this$props.children,
+          item = _this$props.item;
       if (disabled) return;
-      var item = {
+      var newItem = item || {
         value: value,
         label: children
       };
 
       if (onClick) {
-        onClick(item, e);
+        onClick(newItem, e);
       }
 
       if (!selected) {
-        onSelect && onSelect(item, _this.refs.item);
+        onSelect && onSelect(newItem, _this.refs.item);
       } else {
-        onDeselect && onDeselect(item, _this.refs.item);
+        onDeselect && onDeselect(newItem, _this.refs.item);
       }
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "saveItem", function (item) {
@@ -31633,7 +31664,8 @@ exports.default = ListItem;
   onDeselect: _propTypes.default.func,
   onClick: _propTypes.default.func,
   selected: _propTypes.default.bool,
-  disabled: _propTypes.default.bool
+  disabled: _propTypes.default.bool,
+  item: _propTypes.default.object
 });
 (0, _defineProperty2.default)(ListItem, "defaultProps", {
   prefixCls: 'rw-listbox-item',
@@ -31663,43 +31695,78 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ "./node_modules/@babel/runtime-corejs2/helpers/extends.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/objectWithoutProperties.js"));
+
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/classCallCheck */ "./node_modules/@babel/runtime-corejs2/helpers/classCallCheck.js"));
 
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/createClass */ "./node_modules/@babel/runtime-corejs2/helpers/createClass.js"));
 
 var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime-corejs2/helpers/possibleConstructorReturn.js"));
 
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/getPrototypeOf */ "./node_modules/@babel/runtime-corejs2/helpers/getPrototypeOf.js"));
+var _getPrototypeOf3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/getPrototypeOf */ "./node_modules/@babel/runtime-corejs2/helpers/getPrototypeOf.js"));
 
 var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/inherits */ "./node_modules/@babel/runtime-corejs2/helpers/inherits.js"));
+
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/assertThisInitialized */ "./node_modules/@babel/runtime-corejs2/helpers/assertThisInitialized.js"));
 
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/defineProperty.js"));
 
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
-//import PropTypes from 'prop-types';
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
 var ItemGroup =
 /*#__PURE__*/
 function (_React$Component) {
   (0, _inherits2.default)(ItemGroup, _React$Component);
 
   function ItemGroup() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     (0, _classCallCheck2.default)(this, ItemGroup);
-    return (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(ItemGroup).apply(this, arguments));
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(ItemGroup)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleClick", function (e) {
+      var _this$props = _this.props,
+          value = _this$props.value,
+          label = _this$props.label,
+          children = _this$props.children,
+          onClick = _this$props.onClick,
+          item = _this$props.item;
+
+      if (onClick) {
+        onClick(item || {
+          value: value,
+          label: label,
+          children: children
+        }, e);
+      }
+    });
+    return _this;
   }
 
   (0, _createClass2.default)(ItemGroup, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          prefixCls = _this$props.prefixCls,
-          label = _this$props.label,
-          children = _this$props.children;
+      var _this$props2 = this.props,
+          prefixCls = _this$props2.prefixCls,
+          label = _this$props2.label,
+          children = _this$props2.children,
+          others = (0, _objectWithoutProperties2.default)(_this$props2, ["prefixCls", "label", "children"]);
       return _react.default.createElement("div", {
         className: prefixCls
-      }, _react.default.createElement("div", {
-        className: "".concat(prefixCls, "-title")
-      }, label), _react.default.createElement("div", {
+      }, _react.default.createElement("div", (0, _extends2.default)({}, others, {
+        className: "".concat(prefixCls, "-title"),
+        onClick: this.handleClick
+      }), label), _react.default.createElement("div", {
         className: "".concat(prefixCls, "-list")
       }, children));
     }
@@ -31708,6 +31775,14 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = ItemGroup;
+(0, _defineProperty2.default)(ItemGroup, "propTypes", {
+  label: _propTypes.default.node,
+  value: _propTypes.default.any,
+  children: _propTypes.default.node,
+  prefixCls: _propTypes.default.string,
+  onClick: _propTypes.default.func,
+  item: _propTypes.default.object
+});
 (0, _defineProperty2.default)(ItemGroup, "defaultProps", {
   prefixCls: 'rw-listbox-item-group',
   label: ''
@@ -32244,23 +32319,23 @@ function (_React$Component) {
         if (direction) {
           (0, _addClass.default)(popup, "".concat(this.props.prefixCls, "-direction-").concat(direction));
         }
-      } //.toFixed()
+      } //~~ .toFixed()
 
 
       if ('left' in pos) {
-        popup.style.left = ~~pos.left + 'px';
+        popup.style.left = pos.left.toFixed() + 'px';
       }
 
       if ('top' in pos) {
-        popup.style.top = ~~pos.top + 'px';
+        popup.style.top = pos.top.toFixed() + 'px';
       }
 
       if ('right' in pos) {
-        popup.style.right = ~~pos.right + 'px';
+        popup.style.right = pos.right.toFixed() + 'px';
       }
 
       if ('bottom' in pos) {
-        popup.style.bottom = ~~pos.bottom + 'px';
+        popup.style.bottom = pos.bottom.toFixed() + 'px';
       }
     }
     /**
@@ -33048,7 +33123,8 @@ var propTypes = {
   destroyPopupOnHide: _propTypes.default.bool,
   popupStyle: _propTypes.default.object,
   popupMaskStyle: _propTypes.default.object,
-  zIndex: _propTypes.default.number
+  zIndex: _propTypes.default.number,
+  checkDefaultPrevented: _propTypes.default.bool
 };
 
 function noop() {}
@@ -33462,7 +33538,9 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      var getPopupContainer = this.props.getPopupContainer;
+      var _this$props10 = this.props,
+          getPopupContainer = _this$props10.getPopupContainer,
+          checkDefaultPrevented = _this$props10.checkDefaultPrevented;
       var popupVisible = this.state.popupVisible;
 
       var child = _react.default.Children.only(this.props.children);
@@ -33474,6 +33552,8 @@ function (_React$Component) {
           if (child.props.onContextMenu) {
             child.props.onContextMenu(e);
           }
+
+          if (checkDefaultPrevented && e.defaultPrevented) return;
 
           _this3.clearDelayTimer();
 
@@ -33487,6 +33567,8 @@ function (_React$Component) {
             child.props.onClick(e);
           }
 
+          if (checkDefaultPrevented && e.defaultPrevented) return;
+
           _this3.clearDelayTimer();
 
           _this3.onClick(e);
@@ -33498,6 +33580,8 @@ function (_React$Component) {
           if (child.props.onMouseEnter) {
             child.props.onMouseEnter(e);
           }
+
+          if (checkDefaultPrevented && e.defaultPrevented) return;
 
           _this3.clearDelayTimer();
 
@@ -33511,6 +33595,8 @@ function (_React$Component) {
             child.props.onMouseLeave(e);
           }
 
+          if (checkDefaultPrevented && e.defaultPrevented) return;
+
           _this3.clearDelayTimer();
 
           _this3.onMouseLeave(e);
@@ -33523,6 +33609,8 @@ function (_React$Component) {
             child.props.onFocus(e);
           }
 
+          if (checkDefaultPrevented && e.defaultPrevented) return;
+
           _this3.clearDelayTimer();
 
           _this3.onFocus(e);
@@ -33532,6 +33620,8 @@ function (_React$Component) {
           if (child.props.onBlur) {
             child.props.onBlur(e);
           }
+
+          if (checkDefaultPrevented && e.defaultPrevented) return;
 
           _this3.clearDelayTimer();
 
@@ -33584,7 +33674,8 @@ exports.default = Trigger;
   popupRootComponent: _PopupRootComponent.default,
   popupStyle: {},
   popupMaskStyle: {},
-  zIndex: null
+  zIndex: null,
+  checkDefaultPrevented: false
 });
 
 /***/ }),
@@ -37408,4 +37499,4 @@ if (!self.fetch) {
 /***/ })
 
 }]);
-//# sourceMappingURL=vendors.931fa470.chunk.js.map
+//# sourceMappingURL=vendors.329b2ba2.chunk.js.map
