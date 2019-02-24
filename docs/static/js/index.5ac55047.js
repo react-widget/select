@@ -267,14 +267,166 @@ exports.default = void 0;
 
 var _demo = _interopRequireDefault(__webpack_require__(/*! ./demos/demo1 */ "./examples/demos/demo1.js"));
 
-// import Demo2 from './demos/Demo2';
+var _Demo = _interopRequireDefault(__webpack_require__(/*! ./demos/Demo2 */ "./examples/demos/Demo2.js"));
+
 // import Demo3 from './demos/Demo3';
 // import Demo4 from './demos/Demo4';
 var _default = [{
   label: '基本功能',
   component: _demo.default
+}, {
+  label: 'renderMenu',
+  component: _Demo.default
 }];
 exports.default = _default;
+
+/***/ }),
+
+/***/ "./examples/demos/Demo2.js":
+/*!*********************************!*\
+  !*** ./examples/demos/Demo2.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js");
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/classCallCheck */ "./node_modules/@babel/runtime-corejs2/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/createClass */ "./node_modules/@babel/runtime-corejs2/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime-corejs2/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/getPrototypeOf */ "./node_modules/@babel/runtime-corejs2/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/inherits */ "./node_modules/@babel/runtime-corejs2/helpers/inherits.js"));
+
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/assertThisInitialized */ "./node_modules/@babel/runtime-corejs2/helpers/assertThisInitialized.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/defineProperty.js"));
+
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _src = _interopRequireDefault(__webpack_require__(/*! ../../src */ "./src/index.js"));
+
+var DEMO =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(DEMO, _Component);
+
+  function DEMO() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, DEMO);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(DEMO)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "state", {
+      value: '1',
+      sLimit: 100,
+      isVisible: null
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "renderMenu", function (menu) {
+      var limit = _this.state.sLimit;
+      var current = 0;
+      var menus = [];
+
+      _react.Children.forEach(menu, function (m, i) {
+        current = i;
+        if (i >= limit) return;
+        menus.push(m);
+      });
+
+      if (current >= limit) menus.push(_react.default.createElement("div", {
+        style: {
+          textAlign: "center",
+          padding: 5,
+          cursor: "pointer"
+        },
+        onClick: function onClick() {
+          _this.setState({
+            sLimit: limit + 100
+          });
+        }
+      }, "\u52A0\u8F7D\u66F4\u591A..."));
+      return menus;
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onDropDownVisibleChange", function (visible) {
+      _this.setState({
+        isVisible: visible,
+        sLimit: 100
+      });
+    });
+    return _this;
+  }
+
+  (0, _createClass2.default)(DEMO, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "getOptions",
+    value: function getOptions() {
+      var MAX_NUM = 10000;
+      var options = [];
+
+      for (var i = 0; i < MAX_NUM; i++) {
+        options.push({
+          label: 'data ' + i,
+          value: i
+        });
+      }
+
+      return options;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$state = this.state,
+          isVisible = _this$state.isVisible,
+          value = _this$state.value;
+      return _react.default.createElement("div", null, _react.default.createElement("div", null, isVisible ? 'dropdown show' : 'dropdown hide'), _react.default.createElement("div", null, "onSelect:", value), _react.default.createElement("div", null, "onChange:", value), _react.default.createElement(_src.default, {
+        options: this.getOptions(),
+        placeholder: "input...",
+        onChange: function onChange(v) {
+          return console.log(v);
+        },
+        autoFocus: true,
+        allowClear: true,
+        value: value,
+        onSelect: function onSelect(v, d) {
+          _this2.setState({
+            value: v
+          });
+        },
+        renderMenu: this.renderMenu,
+        onDropDownVisibleChange: this.onDropDownVisibleChange,
+        style: {
+          width: 200
+        }
+      }));
+    }
+  }]);
+  return DEMO;
+}(_react.Component);
+
+exports.default = DEMO;
 
 /***/ }),
 
@@ -349,6 +501,40 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var options = [{
+        label: '测试1',
+        value: "1"
+      }, {
+        label: '测试2',
+        value: "2"
+      }, {
+        label: '测试3',
+        value: "3"
+      }, {
+        label: '测试4',
+        value: "4"
+      }, {
+        label: '测试5',
+        value: "5"
+      }, {
+        label: '分组1',
+        children: [{
+          label: '测试7',
+          value: "6"
+        }, {
+          label: '测试8',
+          value: "7"
+        }]
+      }]; // <Option value="1">测试11测试1测试1</Option>
+      //     <Option value="2" disabled>测试2</Option>
+      //     <Option value="3">测试3</Option>
+      //     <Option value="4">测试4</Option>
+      //     <Option value="5">测试5</Option>
+      //     <OptGroup label="分组1">
+      //         <Option value="6">测试测试测试6</Option>
+      //         <Option value="7">测试7</Option>
+      //     </OptGroup>
+
       return _react.default.createElement("div", null, _react.default.createElement(_src.default, {
         onChange: function onChange(v) {
           return console.log(v);
@@ -363,7 +549,7 @@ function (_Component) {
           width: 200
         },
         defaultOpen: true
-      }, "ad", _react.default.createElement(_src.Option, {
+      }, _react.default.createElement(_src.Option, {
         value: "1"
       }, "\u6D4B\u8BD511\u6D4B\u8BD51\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
         value: "2",
@@ -381,6 +567,21 @@ function (_Component) {
       }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
         value: "7"
       }, "\u6D4B\u8BD57"))), _react.default.createElement(_src.default, {
+        options: options,
+        onChange: function onChange(v) {
+          return console.log(v);
+        },
+        defaultValue: this.state.value,
+        autoFocus: true,
+        allowClear: true,
+        onSelect: function onSelect(v, d) {
+          return console.log(v, d);
+        },
+        style: {
+          width: 200
+        },
+        defaultOpen: true
+      }), _react.default.createElement(_src.default, {
         onChange: function onChange(v) {
           return console.log(v);
         },
@@ -702,8 +903,9 @@ function (_React$Component) {
       var props = _this.props;
       var state = _this.state;
       var value = option[props.valueField];
+      var prevPopupVisible = state.popupVisible;
       var newState = {
-        popupVisible: false,
+        popupVisible: 'open' in props ? props.open : false,
         searchText: ''
       };
 
@@ -719,6 +921,10 @@ function (_React$Component) {
       }
 
       _this.setState(newState);
+
+      if (prevPopupVisible !== newState.popupVisible && props.onDropDownVisibleChange) {
+        props.onDropDownVisibleChange(newState.popupVisible);
+      }
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onSearch", function (e) {
       var onSearch = _this.props.onSearch;
@@ -799,7 +1005,6 @@ function (_React$Component) {
     _this.state = {
       placement: (0, _bplokjsDeferred.default)(),
       value: _props.value || _props.defaultValue,
-      showDropDown: _props.defaultOpen,
       optionsMap: {},
       options: [],
       popupVisible: _props.defaultOpen,
@@ -829,7 +1034,8 @@ function (_React$Component) {
       var placement = this.state.placement;
       this.forceUpdate(function () {
         placement.resolve((0, _objectSpread2.default)({
-          of: _this2.getSelectDOM()
+          of: _this2.getSelectDOM(),
+          collision: "flipfit"
         }, (0, _bplokjsPlacement.default)(props.placement, placement.offset)));
       });
 
@@ -891,14 +1097,14 @@ function (_React$Component) {
 
       var _this$props2 = this.props,
           filterOption = _this$props2.filterOption,
-          optionFilterProp = _this$props2.optionFilterProp,
+          optionFilterField = _this$props2.optionFilterField,
           childrenField = _this$props2.childrenField;
       var _this$state2 = this.state,
           searchText = _this$state2.searchText,
           options = _this$state2.options;
       var filterFn = filterOption === 'function' ? filterOption : function (searchText, option) {
         if (searchText) {
-          var searchContent = option[optionFilterProp];
+          var searchContent = option[optionFilterField];
           if (searchContent == null) return false;
           return String(searchContent).indexOf(searchText) !== -1;
         }
@@ -940,7 +1146,8 @@ function (_React$Component) {
           renderMenuItem = _this$props3.renderMenuItem,
           renderMenuGroupTitle = _this$props3.renderMenuGroupTitle,
           dropdownProps = _this$props3.dropdownProps,
-          dropdownClassName = _this$props3.dropdownClassName;
+          dropdownClassName = _this$props3.dropdownClassName,
+          emptyLabel = _this$props3.emptyLabel;
       var value = this.state.value;
 
       var DropDownList = _react.default.createElement(_reactWidgetListbox.default, (0, _extends2.default)({}, dropdownProps, {
@@ -955,7 +1162,8 @@ function (_React$Component) {
         renderHeader: this.renderHeader,
         renderMenu: renderMenu,
         renderMenuItem: renderMenuItem,
-        renderMenuGroupTitle: renderMenuGroupTitle
+        renderMenuGroupTitle: renderMenuGroupTitle,
+        emptyLabel: emptyLabel
       }));
 
       return DropDownList;
@@ -1023,7 +1231,9 @@ function (_React$Component) {
           onScrollToHideDropDown = props.onScrollToHideDropDown,
           destroyPopupOnHide = props.destroyPopupOnHide,
           onFocus = props.onFocus,
-          onBlur = props.onBlur;
+          onBlur = props.onBlur,
+          onMouseEnter = props.onMouseEnter,
+          onMouseLeave = props.onMouseLeave;
       var classes = (0, _classnames.default)((_classNames = {}, (0, _defineProperty2.default)(_classNames, prefixCls, true), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-block"), !inline), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-readonly"), readOnly), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-disabled"), disabled), _classNames));
       var hideAction = [];
 
@@ -1054,7 +1264,9 @@ function (_React$Component) {
         tabIndex: tabIndex,
         onKeyDown: this.onKeyDown,
         onFocus: onFocus,
-        onBlur: onBlur
+        onBlur: onBlur,
+        onMouseEnter: onMouseEnter,
+        onMouseLeave: onMouseLeave
       }, _react.default.createElement("div", {
         className: "".concat(prefixCls, "-text")
       }, this.renderSelectLabel()), this.renderClearIcon(), showArrow ? _react.default.createElement("div", {
@@ -1079,6 +1291,8 @@ exports.default = Select;
   style: _propTypes.default.object,
   prefixCls: _propTypes.default.string,
   options: _propTypes.default.array,
+  tabIndex: _propTypes.default.number,
+  inline: _propTypes.default.bool,
   valueField: _propTypes.default.string,
   labelField: _propTypes.default.string,
   childrenField: _propTypes.default.string,
@@ -1086,11 +1300,12 @@ exports.default = Select;
   showArrow: _propTypes.default.bool,
   showSearch: _propTypes.default.bool,
   allowClear: _propTypes.default.bool,
-  autoClearSearchValue: _propTypes.default.bool,
+  //autoClearSearchValue: PropTypes.bool,
   placeholder: _propTypes.default.string,
   autoFocus: _propTypes.default.bool,
   filterOption: _propTypes.default.oneOfType([_propTypes.default.bool, _propTypes.default.func]),
-  optionFilterProp: _propTypes.default.string,
+  optionFilterField: _propTypes.default.string,
+  emptyLabel: _propTypes.default.node,
   dropdownClassName: _propTypes.default.string,
   dropdownMatchSelectWidth: _propTypes.default.bool,
   dropdownStyle: _propTypes.default.object,
@@ -1113,7 +1328,9 @@ exports.default = Select;
   onChange: _propTypes.default.func,
   onFocus: _propTypes.default.func,
   onBlur: _propTypes.default.func,
-  onSelect: _propTypes.default.func
+  onSelect: _propTypes.default.func,
+  onMouseEnter: _propTypes.default.func,
+  onMouseLeave: _propTypes.default.func
 });
 (0, _defineProperty2.default)(Select, "defaultProps", {
   disabled: false,
@@ -1122,8 +1339,9 @@ exports.default = Select;
   options: [],
   tabIndex: 0,
   autoFocus: false,
+  emptyLabel: 'no data.',
   filterOption: true,
-  optionFilterProp: 'label',
+  optionFilterField: 'label',
   prefixCls: 'rw-select',
   popupClassName: '',
   destroyPopupOnHide: true,
@@ -1139,11 +1357,11 @@ exports.default = Select;
   showArrow: true,
   showSearch: false,
   allowClear: false,
-  autoClearSearchValue: true,
+  //autoClearSearchValue: true,
   placeholder: '',
   defaultOpen: false,
   onResizeToHideDropDown: true,
-  onScrollToHideDropDown: true,
+  onScrollToHideDropDown: false,
   placement: 'bottomLeft',
   offset: [0, 0]
 });
@@ -1286,4 +1504,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.a8940594.js.map
+//# sourceMappingURL=index.5ac55047.js.map

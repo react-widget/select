@@ -67,6 +67,8 @@ export default class Select extends React.Component {
         style: PropTypes.object,
         prefixCls: PropTypes.string,
         options: PropTypes.array,
+        tabIndex: PropTypes.number,
+        inline: PropTypes.bool,
 
         valueField: PropTypes.string,
         labelField: PropTypes.string,
@@ -75,11 +77,12 @@ export default class Select extends React.Component {
         showArrow: PropTypes.bool,
         showSearch: PropTypes.bool,
         allowClear: PropTypes.bool,
-        autoClearSearchValue: PropTypes.bool,
+        //autoClearSearchValue: PropTypes.bool,
         placeholder: PropTypes.string,
         autoFocus: PropTypes.bool,
         filterOption: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-        optionFilterProp: PropTypes.string,
+        optionFilterField: PropTypes.string,
+        emptyLabel: PropTypes.node,
 
         dropdownClassName: PropTypes.string,
         dropdownMatchSelectWidth: PropTypes.bool,
@@ -104,7 +107,8 @@ export default class Select extends React.Component {
         onFocus: PropTypes.func,
         onBlur: PropTypes.func,
         onSelect: PropTypes.func,
-
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
     };
 
     static defaultProps = {
@@ -114,9 +118,9 @@ export default class Select extends React.Component {
         options: [],
         tabIndex: 0,
         autoFocus: false,
-
+        emptyLabel: 'no data.',
         filterOption: true,
-        optionFilterProp: 'label',
+        optionFilterField: 'label',
 
         prefixCls: 'rw-select',
         popupClassName: '',
@@ -133,11 +137,11 @@ export default class Select extends React.Component {
         showArrow: true,
         showSearch: false,
         allowClear: false,
-        autoClearSearchValue: true,
+        //autoClearSearchValue: true,
         placeholder: '',
         defaultOpen: false,
         onResizeToHideDropDown: true,
-        onScrollToHideDropDown: true,
+        onScrollToHideDropDown: false,
         placement: 'bottomLeft',
         offset: [0, 0],
     };
@@ -150,7 +154,6 @@ export default class Select extends React.Component {
         this.state = {
             placement: Deferred(),
             value: props.value || props.defaultValue,
-            showDropDown: props.defaultOpen,
             optionsMap: {},
             options: [],
             popupVisible: props.defaultOpen,
@@ -185,6 +188,7 @@ export default class Select extends React.Component {
         this.forceUpdate(() => {
             placement.resolve({
                 of: this.getSelectDOM(),
+                collision: "flipfit",
                 ...getPlacement(props.placement, placement.offset)
             });
         });
@@ -229,9 +233,10 @@ export default class Select extends React.Component {
         const state = this.state;
 
         const value = option[props.valueField];
+        const prevPopupVisible = state.popupVisible;
 
         const newState = {
-            popupVisible: false,
+            popupVisible: 'open' in props ? props.open : false,
             searchText: '',
         };
 
@@ -245,6 +250,10 @@ export default class Select extends React.Component {
         }
 
         this.setState(newState);
+
+        if (prevPopupVisible !== newState.popupVisible && props.onDropDownVisibleChange) {
+            props.onDropDownVisibleChange(newState.popupVisible);
+        }
     }
     onSearch = (e) => {
         const { onSearch } = this.props;
@@ -281,14 +290,14 @@ export default class Select extends React.Component {
     }
 
     getOptions() {
-        const { filterOption, optionFilterProp, childrenField } = this.props;
+        const { filterOption, optionFilterField, childrenField } = this.props;
         const { searchText, options } = this.state;
 
         const filterFn = filterOption === 'function' ?
             filterOption :
             (searchText, option) => {
                 if (searchText) {
-                    const searchContent = option[optionFilterProp];
+                    const searchContent = option[optionFilterField];
                     if (searchContent == null) return false;
                     return String(searchContent).indexOf(searchText) !== -1;
                 }
@@ -336,6 +345,7 @@ export default class Select extends React.Component {
             renderMenuGroupTitle,
             dropdownProps,
             dropdownClassName,
+            emptyLabel,
         } = this.props;
         const value = this.state.value;
 
@@ -354,6 +364,7 @@ export default class Select extends React.Component {
                 renderMenu={renderMenu}
                 renderMenuItem={renderMenuItem}
                 renderMenuGroupTitle={renderMenuGroupTitle}
+                emptyLabel={emptyLabel}
             >
             </ListBox>
         );
@@ -478,6 +489,8 @@ export default class Select extends React.Component {
             destroyPopupOnHide,
             onFocus,
             onBlur,
+            onMouseEnter,
+            onMouseLeave,
         } = props;
         const classes = classNames({
             [prefixCls]: true,
@@ -517,6 +530,8 @@ export default class Select extends React.Component {
                     onKeyDown={this.onKeyDown}
                     onFocus={onFocus}
                     onBlur={onBlur}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
                 >
                     <div className={`${prefixCls}-text`}>{this.renderSelectLabel()}</div>
                     {this.renderClearIcon()}
