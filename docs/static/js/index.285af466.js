@@ -677,7 +677,8 @@ function (_Component) {
         value: "1"
       }, {
         label: '测试2',
-        value: "2"
+        value: "2",
+        disabled: true
       }, {
         label: '测试3',
         value: "3"
@@ -707,37 +708,6 @@ function (_Component) {
       //     </OptGroup>
 
       return _react.default.createElement("div", null, _react.default.createElement(_src.default, {
-        onChange: function onChange(v) {
-          return console.log(v);
-        },
-        defaultValue: this.state.value,
-        autoFocus: true,
-        allowClear: true,
-        onSelect: function onSelect(v, d) {
-          return console.log(v, d);
-        },
-        style: {
-          width: 200
-        },
-        defaultOpen: true
-      }, _react.default.createElement(_src.Option, {
-        value: "1"
-      }, "\u6D4B\u8BD511\u6D4B\u8BD51\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
-        value: "2",
-        disabled: true
-      }, "\u6D4B\u8BD52"), _react.default.createElement(_src.Option, {
-        value: "3"
-      }, "\u6D4B\u8BD53"), _react.default.createElement(_src.Option, {
-        value: "4"
-      }, "\u6D4B\u8BD54"), _react.default.createElement(_src.Option, {
-        value: "5"
-      }, "\u6D4B\u8BD55"), _react.default.createElement(_src.OptGroup, {
-        label: "\u5206\u7EC41"
-      }, _react.default.createElement(_src.Option, {
-        value: "6"
-      }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
-        value: "7"
-      }, "\u6D4B\u8BD57"))), _react.default.createElement(_src.default, {
         options: options,
         onChange: function onChange(v) {
           return console.log(v);
@@ -753,6 +723,22 @@ function (_Component) {
         },
         defaultOpen: true
       }), _react.default.createElement(_src.default, {
+        options: options,
+        onChange: function onChange(v) {
+          return console.log(v);
+        },
+        defaultValue: this.state.value,
+        autoFocus: true,
+        allowClear: true,
+        onSelect: function onSelect(v, d) {
+          return console.log(v, d);
+        },
+        style: {
+          width: 200
+        },
+        defaultOpen: true
+      }), _react.default.createElement(_src.default, {
+        options: options,
         onChange: function onChange(v) {
           return console.log(v);
         },
@@ -760,67 +746,21 @@ function (_Component) {
         placement: "leftCenter",
         allowClear: true,
         placeholder: "\u8BF7\u9009\u62E9..."
-      }, _react.default.createElement(_src.Option, {
-        value: "1"
-      }, "\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
-        value: "2"
-      }, "\u6D4B\u8BD52"), _react.default.createElement(_src.Option, {
-        value: "3"
-      }, "\u6D4B\u8BD53"), _react.default.createElement(_src.Option, {
-        value: "4"
-      }, "\u6D4B\u8BD54"), _react.default.createElement(_src.Option, {
-        value: "5"
-      }, "\u6D4B\u8BD55"), _react.default.createElement(_src.OptGroup, {
-        label: "\u5206\u7EC41"
-      }, _react.default.createElement(_src.Option, {
-        value: "6"
-      }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
-        value: "7"
-      }, "\u6D4B\u8BD57"))), _react.default.createElement(_src.default, {
+      }), _react.default.createElement(_src.default, {
+        options: options,
         onChange: function onChange(v) {
           return console.log(v);
         },
         defaultValue: this.state.value,
         disabled: true
-      }, _react.default.createElement(_src.Option, {
-        value: "1"
-      }, "\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
-        value: "2"
-      }, "\u6D4B\u8BD52"), _react.default.createElement(_src.Option, {
-        value: "3"
-      }, "\u6D4B\u8BD53"), _react.default.createElement(_src.Option, {
-        value: "4"
-      }, "\u6D4B\u8BD54"), _react.default.createElement(_src.Option, {
-        value: "5"
-      }, "\u6D4B\u8BD55"), _react.default.createElement(_src.OptGroup, {
-        label: "\u5206\u7EC41"
-      }, _react.default.createElement(_src.Option, {
-        value: "6"
-      }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
-        value: "7"
-      }, "\u6D4B\u8BD57"))), _react.default.createElement(_src.default, {
+      }), _react.default.createElement(_src.default, {
+        options: options,
         onChange: function onChange(v) {
           return console.log(v);
         },
         defaultValue: this.state.value,
         readOnly: true
-      }, _react.default.createElement(_src.Option, {
-        value: "1"
-      }, "\u6D4B\u8BD51"), _react.default.createElement(_src.Option, {
-        value: "2"
-      }, "\u6D4B\u8BD52"), _react.default.createElement(_src.Option, {
-        value: "3"
-      }, "\u6D4B\u8BD53"), _react.default.createElement(_src.Option, {
-        value: "4"
-      }, "\u6D4B\u8BD54"), _react.default.createElement(_src.Option, {
-        value: "5"
-      }, "\u6D4B\u8BD55"), _react.default.createElement(_src.OptGroup, {
-        label: "\u5206\u7EC41"
-      }, _react.default.createElement(_src.Option, {
-        value: "6"
-      }, "\u6D4B\u8BD5\u6D4B\u8BD5\u6D4B\u8BD56"), _react.default.createElement(_src.Option, {
-        value: "7"
-      }, "\u6D4B\u8BD57"))), _react.default.createElement("span", null, "test..."));
+      }), _react.default.createElement("span", null, "test..."));
     }
   }]);
   return DEMO;
@@ -983,8 +923,6 @@ var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/run
 
 var _isArray = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/array/is-array */ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js"));
 
-var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/objectWithoutProperties.js"));
-
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -1026,33 +964,29 @@ function getOptionsListAndMap(props) {
       }
     });
     return options;
-  }
+  } // function parseChildren(options) {
+  //     return React.Children.map(options, child => {
+  //         if (!React.isValidElement(child)) return null;
+  //         const { children, ...option } = child.props;
+  //         if (child.type.isOptOption) {
+  //             option[childrenField] = parseChildren(children);
+  //         } else if (child.type.isOption) {
+  //             option[labelField] = children;
+  //             maps[option[valueField]] = option;
+  //         } else {
+  //             return null;
+  //         }
+  //         return option;
+  //     });
+  // }
 
-  function parseChildren(options) {
-    return _react.default.Children.map(options, function (child) {
-      if (!_react.default.isValidElement(child)) return null;
-      var _child$props = child.props,
-          children = _child$props.children,
-          option = (0, _objectWithoutProperties2.default)(_child$props, ["children"]);
-
-      if (child.type.isOptOption) {
-        option[childrenField] = parseChildren(children);
-      } else if (child.type.isOption) {
-        option[labelField] = children;
-        maps[option[valueField]] = option;
-      } else {
-        return null;
-      }
-
-      return option;
-    });
-  }
 
   if (options && (0, _isArray.default)(options)) {
     newOptions = parseOptions(options);
-  } else {
-    newOptions = parseChildren(children);
-  }
+  } // else {
+  //     newOptions = parseChildren(children);
+  // }
+
 
   return {
     options: newOptions,
@@ -1481,7 +1415,7 @@ exports.default = Select;
   filterOption: _propTypes.default.oneOfType([_propTypes.default.bool, _propTypes.default.func]),
   optionFilterField: _propTypes.default.string,
   emptyLabel: _propTypes.default.node,
-  searchComponent: _propTypes.default.node,
+  searchComponent: _propTypes.default.any,
   dropdownClassName: _propTypes.default.string,
   dropdownMatchSelectWidth: _propTypes.default.bool,
   dropdownStyle: _propTypes.default.object,
@@ -1512,6 +1446,7 @@ exports.default = Select;
   disabled: false,
   readOnly: false,
   inline: true,
+  options: [],
   tabIndex: 0,
   autoFocus: false,
   emptyLabel: 'no data.',
@@ -1680,4 +1615,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.a90ade75.js.map
+//# sourceMappingURL=index.285af466.js.map

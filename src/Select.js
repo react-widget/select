@@ -30,30 +30,31 @@ function getOptionsListAndMap(props) {
         return options;
     }
 
-    function parseChildren(options) {
-        return React.Children.map(options, child => {
-            if (!React.isValidElement(child)) return null;
+    // function parseChildren(options) {
+    //     return React.Children.map(options, child => {
+    //         if (!React.isValidElement(child)) return null;
 
-            const { children, ...option } = child.props;
+    //         const { children, ...option } = child.props;
 
-            if (child.type.isOptOption) {
-                option[childrenField] = parseChildren(children);
-            } else if (child.type.isOption) {
-                option[labelField] = children;
-                maps[option[valueField]] = option;
-            } else {
-                return null;
-            }
+    //         if (child.type.isOptOption) {
+    //             option[childrenField] = parseChildren(children);
+    //         } else if (child.type.isOption) {
+    //             option[labelField] = children;
+    //             maps[option[valueField]] = option;
+    //         } else {
+    //             return null;
+    //         }
 
-            return option;
-        });
-    }
+    //         return option;
+    //     });
+    // }
 
     if (options && Array.isArray(options)) {
         newOptions = parseOptions(options);
-    } else {
-        newOptions = parseChildren(children);
     }
+    // else {
+    //     newOptions = parseChildren(children);
+    // }
 
     return {
         options: newOptions,
@@ -83,7 +84,7 @@ export default class Select extends React.Component {
         filterOption: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
         optionFilterField: PropTypes.string,
         emptyLabel: PropTypes.node,
-        searchComponent: PropTypes.node,
+        searchComponent: PropTypes.any,
 
         dropdownClassName: PropTypes.string,
         dropdownMatchSelectWidth: PropTypes.bool,
@@ -116,6 +117,7 @@ export default class Select extends React.Component {
         disabled: false,
         readOnly: false,
         inline: true,
+        options: [],
         tabIndex: 0,
         autoFocus: false,
         emptyLabel: 'no data.',
