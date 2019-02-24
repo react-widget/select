@@ -49,7 +49,7 @@ function getOptionsListAndMap(props) {
         });
     }
 
-    if (options && options.length) {
+    if (options && Array.isArray(options)) {
         newOptions = parseOptions(options);
     } else {
         newOptions = parseChildren(children);
@@ -83,6 +83,7 @@ export default class Select extends React.Component {
         filterOption: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
         optionFilterField: PropTypes.string,
         emptyLabel: PropTypes.node,
+        searchComponent: PropTypes.node,
 
         dropdownClassName: PropTypes.string,
         dropdownMatchSelectWidth: PropTypes.bool,
@@ -115,12 +116,12 @@ export default class Select extends React.Component {
         disabled: false,
         readOnly: false,
         inline: true,
-        options: [],
         tabIndex: 0,
         autoFocus: false,
         emptyLabel: 'no data.',
         filterOption: true,
         optionFilterField: 'label',
+        searchComponent: 'input',
 
         prefixCls: 'rw-select',
         popupClassName: '',
@@ -269,7 +270,7 @@ export default class Select extends React.Component {
     }
 
     renderHeader = () => {
-        const { dropdownProps = {} } = this.props;
+        const { prefixCls, dropdownProps = {}, searchComponent: SearchComponent } = this.props;
         const { searchText } = this.state;
 
         if (dropdownProps.renderHeader) {
@@ -277,8 +278,8 @@ export default class Select extends React.Component {
         }
 
         return (
-            <div className={`dropdown-search`}>
-                <input placeholder="搜索..." value={searchText} onChange={this.onSearch} />
+            <div className={`${prefixCls}-dropdown-search`}>
+                <SearchComponent placeholder="搜索..." value={searchText} onChange={this.onSearch} />
             </div>
         );
     }
@@ -292,6 +293,8 @@ export default class Select extends React.Component {
     getOptions() {
         const { filterOption, optionFilterField, childrenField } = this.props;
         const { searchText, options } = this.state;
+
+        if (!searchText) return options;
 
         const filterFn = filterOption === 'function' ?
             filterOption :

@@ -27,6 +27,7 @@
 | options | 组件数据 | Array\<Option> | false |
 | inline | 内联组件 | boolean | true |
 | emptyLabel | 下拉框无内容时显示 | ReactNode | no data. |
+| searchComponent | 自定义搜索输入框组件 | ReactNode | input |
 | valueField | 设置取值字段 | string | value |
 | labelField | 设置显示字段 | string | label |
 | childrenField | 设置子节点字段 | string | children |

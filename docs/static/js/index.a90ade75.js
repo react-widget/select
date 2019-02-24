@@ -269,7 +269,8 @@ var _demo = _interopRequireDefault(__webpack_require__(/*! ./demos/demo1 */ "./e
 
 var _Demo = _interopRequireDefault(__webpack_require__(/*! ./demos/Demo2 */ "./examples/demos/Demo2.js"));
 
-// import Demo3 from './demos/Demo3';
+var _Demo2 = _interopRequireDefault(__webpack_require__(/*! ./demos/Demo3 */ "./examples/demos/Demo3.js"));
+
 // import Demo4 from './demos/Demo4';
 var _default = [{
   label: '基本功能',
@@ -277,6 +278,9 @@ var _default = [{
 }, {
   label: 'renderMenu',
   component: _Demo.default
+}, {
+  label: '远程搜索',
+  component: _Demo2.default
 }];
 exports.default = _default;
 
@@ -415,6 +419,173 @@ function (_Component) {
             value: v
           });
         },
+        renderMenu: this.renderMenu,
+        onDropDownVisibleChange: this.onDropDownVisibleChange,
+        style: {
+          width: 200
+        }
+      }));
+    }
+  }]);
+  return DEMO;
+}(_react.Component);
+
+exports.default = DEMO;
+
+/***/ }),
+
+/***/ "./examples/demos/Demo3.js":
+/*!*********************************!*\
+  !*** ./examples/demos/Demo3.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireWildcard.js");
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/classCallCheck */ "./node_modules/@babel/runtime-corejs2/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/createClass */ "./node_modules/@babel/runtime-corejs2/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime-corejs2/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/getPrototypeOf */ "./node_modules/@babel/runtime-corejs2/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/inherits */ "./node_modules/@babel/runtime-corejs2/helpers/inherits.js"));
+
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/assertThisInitialized */ "./node_modules/@babel/runtime-corejs2/helpers/assertThisInitialized.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/defineProperty.js"));
+
+var _promise = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/promise */ "./node_modules/@babel/runtime-corejs2/core-js/promise.js"));
+
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _src = _interopRequireDefault(__webpack_require__(/*! ../../src */ "./src/index.js"));
+
+function fetchOptions(search) {
+  var MAX_NUM = 1000;
+  var options = [];
+
+  for (var i = 0; i < MAX_NUM; i++) {
+    var label = 'data ' + i;
+    if (label.indexOf(search) === -1) continue;
+    options.push({
+      label: label,
+      value: i
+    });
+  }
+
+  return new _promise.default(function (resolve) {
+    setTimeout(function () {
+      resolve(options);
+    }, 1000);
+  });
+}
+
+var DEMO =
+/*#__PURE__*/
+function (_Component) {
+  (0, _inherits2.default)(DEMO, _Component);
+
+  function DEMO() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, DEMO);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(DEMO)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "state", {
+      options: [],
+      value: '1',
+      sLimit: 100,
+      isVisible: null,
+      loading: false,
+      s: ''
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "renderMenu", function (menu) {
+      var _this$state = _this.state,
+          limit = _this$state.sLimit,
+          loading = _this$state.loading;
+
+      if (loading) {
+        return 'loading...';
+      }
+
+      return menu;
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onDropDownVisibleChange", function (visible) {
+      _this.setState({
+        isVisible: visible,
+        sLimit: 100
+      });
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "search", function (e) {
+      var search = e.target.value;
+
+      _this.setState({
+        s: search,
+        loading: true
+      });
+
+      fetchOptions(search).then(function (options) {
+        _this.setState({
+          options: options,
+          loading: false
+        });
+      });
+    });
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "searchInput", function (props) {
+      return _react.default.createElement("input", {
+        placeholder: "search...",
+        onChange: _this.search,
+        value: _this.state.s
+      });
+    });
+    return _this;
+  }
+
+  (0, _createClass2.default)(DEMO, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$state2 = this.state,
+          isVisible = _this$state2.isVisible,
+          value = _this$state2.value,
+          options = _this$state2.options;
+      return _react.default.createElement("div", null, _react.default.createElement("div", null, isVisible ? 'dropdown show' : 'dropdown hide'), _react.default.createElement("div", null, "onSelect:", value), _react.default.createElement("div", null, "onChange:", value), _react.default.createElement(_src.default, {
+        options: options,
+        placeholder: "input...",
+        onChange: function onChange(v) {
+          return console.log(v);
+        },
+        autoFocus: true,
+        allowClear: true,
+        onSelect: function onSelect(v, d) {
+          _this2.setState({
+            value: v
+          });
+        },
+        searchComponent: this.searchInput,
         renderMenu: this.renderMenu,
         onDropDownVisibleChange: this.onDropDownVisibleChange,
         style: {
@@ -794,8 +965,6 @@ exports.default = void 0;
 
 var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/extends */ "./node_modules/@babel/runtime-corejs2/helpers/extends.js"));
 
-var _isArray = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/array/is-array */ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js"));
-
 var _objectSpread2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectSpread */ "./node_modules/@babel/runtime-corejs2/helpers/objectSpread.js"));
 
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/classCallCheck */ "./node_modules/@babel/runtime-corejs2/helpers/classCallCheck.js"));
@@ -811,6 +980,8 @@ var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-c
 var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/assertThisInitialized */ "./node_modules/@babel/runtime-corejs2/helpers/assertThisInitialized.js"));
 
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/defineProperty.js"));
+
+var _isArray = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/core-js/array/is-array */ "./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js"));
 
 var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime-corejs2/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/objectWithoutProperties.js"));
 
@@ -877,7 +1048,7 @@ function getOptionsListAndMap(props) {
     });
   }
 
-  if (options && options.length) {
+  if (options && (0, _isArray.default)(options)) {
     newOptions = parseOptions(options);
   } else {
     newOptions = parseChildren(children);
@@ -939,8 +1110,11 @@ function (_React$Component) {
       }
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "renderHeader", function () {
-      var _this$props$dropdownP = _this.props.dropdownProps,
-          dropdownProps = _this$props$dropdownP === void 0 ? {} : _this$props$dropdownP;
+      var _this$props = _this.props,
+          prefixCls = _this$props.prefixCls,
+          _this$props$dropdownP = _this$props.dropdownProps,
+          dropdownProps = _this$props$dropdownP === void 0 ? {} : _this$props$dropdownP,
+          SearchComponent = _this$props.searchComponent;
       var searchText = _this.state.searchText;
 
       if (dropdownProps.renderHeader) {
@@ -948,8 +1122,8 @@ function (_React$Component) {
       }
 
       return _react.default.createElement("div", {
-        className: "dropdown-search"
-      }, _react.default.createElement("input", {
+        className: "".concat(prefixCls, "-dropdown-search")
+      }, _react.default.createElement(SearchComponent, {
         placeholder: "\u641C\u7D22...",
         value: searchText,
         onChange: _this.onSearch
@@ -1046,11 +1220,11 @@ function (_React$Component) {
   }, {
     key: "renderSelectLabel",
     value: function renderSelectLabel() {
-      var _this$props = this.props,
-          labelField = _this$props.labelField,
-          renderValue = _this$props.renderValue,
-          placeholder = _this$props.placeholder,
-          prefixCls = _this$props.prefixCls;
+      var _this$props2 = this.props,
+          labelField = _this$props2.labelField,
+          renderValue = _this$props2.renderValue,
+          placeholder = _this$props2.placeholder,
+          prefixCls = _this$props2.prefixCls;
       var _this$state = this.state,
           value = _this$state.value,
           optionsMap = _this$state.optionsMap;
@@ -1095,13 +1269,14 @@ function (_React$Component) {
     value: function getOptions() {
       var _this3 = this;
 
-      var _this$props2 = this.props,
-          filterOption = _this$props2.filterOption,
-          optionFilterField = _this$props2.optionFilterField,
-          childrenField = _this$props2.childrenField;
+      var _this$props3 = this.props,
+          filterOption = _this$props3.filterOption,
+          optionFilterField = _this$props3.optionFilterField,
+          childrenField = _this$props3.childrenField;
       var _this$state2 = this.state,
           searchText = _this$state2.searchText,
           options = _this$state2.options;
+      if (!searchText) return options;
       var filterFn = filterOption === 'function' ? filterOption : function (searchText, option) {
         if (searchText) {
           var searchContent = option[optionFilterField];
@@ -1136,18 +1311,18 @@ function (_React$Component) {
   }, {
     key: "renderDropDownList",
     value: function renderDropDownList() {
-      var _this$props3 = this.props,
-          prefixCls = _this$props3.prefixCls,
-          valueField = _this$props3.valueField,
-          labelField = _this$props3.labelField,
-          childrenField = _this$props3.childrenField,
-          children = _this$props3.children,
-          renderMenu = _this$props3.renderMenu,
-          renderMenuItem = _this$props3.renderMenuItem,
-          renderMenuGroupTitle = _this$props3.renderMenuGroupTitle,
-          dropdownProps = _this$props3.dropdownProps,
-          dropdownClassName = _this$props3.dropdownClassName,
-          emptyLabel = _this$props3.emptyLabel;
+      var _this$props4 = this.props,
+          prefixCls = _this$props4.prefixCls,
+          valueField = _this$props4.valueField,
+          labelField = _this$props4.labelField,
+          childrenField = _this$props4.childrenField,
+          children = _this$props4.children,
+          renderMenu = _this$props4.renderMenu,
+          renderMenuItem = _this$props4.renderMenuItem,
+          renderMenuGroupTitle = _this$props4.renderMenuGroupTitle,
+          dropdownProps = _this$props4.dropdownProps,
+          dropdownClassName = _this$props4.dropdownClassName,
+          emptyLabel = _this$props4.emptyLabel;
       var value = this.state.value;
 
       var DropDownList = _react.default.createElement(_reactWidgetListbox.default, (0, _extends2.default)({}, dropdownProps, {
@@ -1171,9 +1346,9 @@ function (_React$Component) {
   }, {
     key: "getDropDownStyle",
     value: function getDropDownStyle() {
-      var _this$props4 = this.props,
-          dropdownStyle = _this$props4.dropdownStyle,
-          dropdownMatchSelectWidth = _this$props4.dropdownMatchSelectWidth;
+      var _this$props5 = this.props,
+          dropdownStyle = _this$props5.dropdownStyle,
+          dropdownMatchSelectWidth = _this$props5.dropdownMatchSelectWidth;
       var popupVisible = this.state.popupVisible;
       var selectDOM = this.getSelectDOM();
       if (!selectDOM || !popupVisible) return dropdownStyle;
@@ -1197,9 +1372,9 @@ function (_React$Component) {
   }, {
     key: "renderClearIcon",
     value: function renderClearIcon() {
-      var _this$props5 = this.props,
-          prefixCls = _this$props5.prefixCls,
-          allowClear = _this$props5.allowClear;
+      var _this$props6 = this.props,
+          prefixCls = _this$props6.prefixCls,
+          allowClear = _this$props6.allowClear;
       var value = this.state.value;
       var showClearIcon = allowClear && value !== undefined;
       return showClearIcon ? _react.default.createElement("div", {
@@ -1306,6 +1481,7 @@ exports.default = Select;
   filterOption: _propTypes.default.oneOfType([_propTypes.default.bool, _propTypes.default.func]),
   optionFilterField: _propTypes.default.string,
   emptyLabel: _propTypes.default.node,
+  searchComponent: _propTypes.default.node,
   dropdownClassName: _propTypes.default.string,
   dropdownMatchSelectWidth: _propTypes.default.bool,
   dropdownStyle: _propTypes.default.object,
@@ -1336,12 +1512,12 @@ exports.default = Select;
   disabled: false,
   readOnly: false,
   inline: true,
-  options: [],
   tabIndex: 0,
   autoFocus: false,
   emptyLabel: 'no data.',
   filterOption: true,
   optionFilterField: 'label',
+  searchComponent: 'input',
   prefixCls: 'rw-select',
   popupClassName: '',
   destroyPopupOnHide: true,
@@ -1504,4 +1680,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.5ac55047.js.map
+//# sourceMappingURL=index.a90ade75.js.map
