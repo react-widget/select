@@ -261,7 +261,7 @@ export default class Select extends React.Component {
             }
         }
 
-        if (isEdge) {
+        if (isEdge()) {
             //解决Edge下，隐藏下拉框后引起文本自动选择问题
             setTimeout(action, 0);
         } else {
