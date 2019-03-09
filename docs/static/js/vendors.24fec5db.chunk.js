@@ -3383,6 +3383,22 @@ module.exports = function (dom, options) {
 
 /***/ }),
 
+/***/ "./node_modules/bplokjs-utils/isEdge.js":
+/*!**********************************************!*\
+  !*** ./node_modules/bplokjs-utils/isEdge.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var userAgent = navigator.userAgent;
+var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1;
+var isEdge = userAgent.indexOf("Edge") > -1 && !isIE;
+module.exports = function () {
+    return isEdge;
+}
+
+/***/ }),
+
 /***/ "./node_modules/classnames/index.js":
 /*!******************************************!*\
   !*** ./node_modules/classnames/index.js ***!
@@ -31547,7 +31563,7 @@ exports.default = ListBox;
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = void 0;
 
@@ -31580,98 +31596,103 @@ var _shallowequal = _interopRequireDefault(__webpack_require__(/*! shallowequal 
 var _object = _interopRequireDefault(__webpack_require__(/*! object.omit */ "./node_modules/object.omit/index.js"));
 
 var ListItem =
-/*#__PURE__*/
-function (_React$Component) {
-  (0, _inherits2.default)(ListItem, _React$Component);
+    /*#__PURE__*/
+    function (_React$Component) {
+        (0, _inherits2.default)(ListItem, _React$Component);
 
-  function ListItem() {
-    var _getPrototypeOf2;
+        function ListItem() {
+            var _getPrototypeOf2;
 
-    var _this;
+            var _this;
 
-    (0, _classCallCheck2.default)(this, ListItem);
+            (0, _classCallCheck2.default)(this, ListItem);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
 
-    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(ListItem)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleItemClick", function (e) {
-      var _this$props = _this.props,
-          onSelect = _this$props.onSelect,
-          onDeselect = _this$props.onDeselect,
-          onClick = _this$props.onClick,
-          selected = _this$props.selected,
-          disabled = _this$props.disabled,
-          value = _this$props.value,
-          children = _this$props.children,
-          item = _this$props.item;
-      if (disabled) return;
-      var newItem = item || {
-        value: value,
-        label: children
-      };
+            _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(ListItem)).call.apply(_getPrototypeOf2, [this].concat(args)));
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "handleItemClick", function (e) {
+                var _this$props = _this.props,
+                    onSelect = _this$props.onSelect,
+                    onDeselect = _this$props.onDeselect,
+                    onClick = _this$props.onClick,
+                    selected = _this$props.selected,
+                    disabled = _this$props.disabled,
+                    value = _this$props.value,
+                    children = _this$props.children,
+                    item = _this$props.item;
+                if (disabled) return;
+                var newItem = item || {
+                    value: value,
+                    label: children
+                };
 
-      if (onClick) {
-        onClick(newItem, e);
-      }
+                console.log('handleItemClick')
 
-      if (!selected) {
-        onSelect && onSelect(newItem, _this.refs.item);
-      } else {
-        onDeselect && onDeselect(newItem, _this.refs.item);
-      }
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "saveItem", function (item) {
-      _this.node = item;
-    });
-    return _this;
-  }
+                if (onClick) {
+                    onClick(newItem, e);
+                }
 
-  (0, _createClass2.default)(ListItem, [{
-    key: "shouldComponentUpdate",
-    value: function shouldComponentUpdate(nextProps, nextState, nextContext) {
-      return !(0, _shallowequal.default)(this.props, nextProps) || !(0, _shallowequal.default)(this.state, nextState);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _classNames;
+                if (!selected) {
+                    onSelect && onSelect(newItem, _this.refs.item);
+                } else {
+                    onDeselect && onDeselect(newItem, _this.refs.item);
+                }
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "saveItem", function (item) {
+                _this.node = item;
+            });
+            return _this;
+        }
 
-      var _this$props2 = this.props,
-          prefixCls = _this$props2.prefixCls,
-          disabled = _this$props2.disabled,
-          selected = _this$props2.selected,
-          active = _this$props2.active,
-          children = _this$props2.children;
-      var classes = (0, _classnames.default)((_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(prefixCls), true), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-selected"), selected), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-disabled"), disabled), _classNames));
-      var others = (0, _object.default)(this.props, (0, _keys.default)(ListItem.propTypes));
-      return _react.default.createElement("div", (0, _extends2.default)({}, others, {
-        ref: this.saveItem,
-        className: classes,
-        onClick: this.handleItemClick
-      }), children);
-    }
-  }]);
-  return ListItem;
-}(_react.default.Component);
+        (0, _createClass2.default)(ListItem, [{
+            key: "shouldComponentUpdate",
+            value: function shouldComponentUpdate(nextProps, nextState, nextContext) {
+                return !(0, _shallowequal.default)(this.props, nextProps) || !(0, _shallowequal.default)(this.state, nextState);
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _classNames;
+
+                var _this$props2 = this.props,
+                    prefixCls = _this$props2.prefixCls,
+                    disabled = _this$props2.disabled,
+                    selected = _this$props2.selected,
+                    active = _this$props2.active,
+                    children = _this$props2.children;
+                var classes = (0, _classnames.default)((_classNames = {}, (0, _defineProperty2.default)(_classNames, "".concat(prefixCls), true), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-selected"), selected), (0, _defineProperty2.default)(_classNames, "".concat(prefixCls, "-disabled"), disabled), _classNames));
+                var others = (0, _object.default)(this.props, (0, _keys.default)(ListItem.propTypes));
+                return _react.default.createElement("div", (0, _extends2.default)({}, others, {
+                    ref: this.saveItem,
+                    className: classes,
+                    onMouseUp: function () {
+                        console.log('onMouseUp')
+                    },
+                    onClick: this.handleItemClick
+                }), children);
+            }
+        }]);
+        return ListItem;
+    }(_react.default.Component);
 
 exports.default = ListItem;
 (0, _defineProperty2.default)(ListItem, "propTypes", {
-  prefixCls: _propTypes.default.string,
-  value: _propTypes.default.any,
-  onSelect: _propTypes.default.func,
-  onDeselect: _propTypes.default.func,
-  onClick: _propTypes.default.func,
-  selected: _propTypes.default.bool,
-  disabled: _propTypes.default.bool,
-  item: _propTypes.default.object
+    prefixCls: _propTypes.default.string,
+    value: _propTypes.default.any,
+    onSelect: _propTypes.default.func,
+    onDeselect: _propTypes.default.func,
+    onClick: _propTypes.default.func,
+    selected: _propTypes.default.bool,
+    disabled: _propTypes.default.bool,
+    item: _propTypes.default.object
 });
 (0, _defineProperty2.default)(ListItem, "defaultProps", {
-  prefixCls: 'rw-listbox-item',
-  value: '',
-  selected: false,
-  disabled: false
+    prefixCls: 'rw-listbox-item',
+    value: '',
+    selected: false,
+    disabled: false
 });
 (0, _defineProperty2.default)(ListItem, "isListItem", true);
 
@@ -33049,7 +33070,7 @@ var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime-corejs2/hel
 var _interopRequireDefault = __webpack_require__(/*! @babel/runtime-corejs2/helpers/interopRequireDefault */ "./node_modules/@babel/runtime-corejs2/helpers/interopRequireDefault.js");
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = void 0;
 
@@ -33100,582 +33121,582 @@ var isMobile = typeof navigator !== 'undefined' && !!navigator.userAgent.match(/
 // hideAction: click | mouseLeave | blur | resize | scroll
 
 var propTypes = {
-  children: _propTypes.default.any,
-  placement: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object, _propTypes.default.func]),
-  offset: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.array]),
-  action: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.arrayOf(_propTypes.default.string)]),
-  showAction: _propTypes.default.any,
-  hideAction: _propTypes.default.any,
-  onPopupVisibleChange: _propTypes.default.func,
-  delay: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.object]),
-  getPopupContainer: _propTypes.default.func,
-  getDocument: _propTypes.default.func,
-  popup: _propTypes.default.oneOfType([_propTypes.default.node, _propTypes.default.func]).isRequired,
-  prefixCls: _propTypes.default.string,
-  popupClassName: _propTypes.default.string,
-  popupMaskClassName: _propTypes.default.string,
-  defaultPopupVisible: _propTypes.default.bool,
-  popupVisible: _propTypes.default.bool,
-  popupProps: _propTypes.default.object,
-  mask: _propTypes.default.bool,
-  maskClosable: _propTypes.default.bool,
-  popupRootComponent: _propTypes.default.any,
-  destroyPopupOnHide: _propTypes.default.bool,
-  popupStyle: _propTypes.default.object,
-  popupMaskStyle: _propTypes.default.object,
-  zIndex: _propTypes.default.number,
-  checkDefaultPrevented: _propTypes.default.bool
+    children: _propTypes.default.any,
+    placement: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.object, _propTypes.default.func]),
+    offset: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.array]),
+    action: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.arrayOf(_propTypes.default.string)]),
+    showAction: _propTypes.default.any,
+    hideAction: _propTypes.default.any,
+    onPopupVisibleChange: _propTypes.default.func,
+    delay: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.object]),
+    getPopupContainer: _propTypes.default.func,
+    getDocument: _propTypes.default.func,
+    popup: _propTypes.default.oneOfType([_propTypes.default.node, _propTypes.default.func]).isRequired,
+    prefixCls: _propTypes.default.string,
+    popupClassName: _propTypes.default.string,
+    popupMaskClassName: _propTypes.default.string,
+    defaultPopupVisible: _propTypes.default.bool,
+    popupVisible: _propTypes.default.bool,
+    popupProps: _propTypes.default.object,
+    mask: _propTypes.default.bool,
+    maskClosable: _propTypes.default.bool,
+    popupRootComponent: _propTypes.default.any,
+    destroyPopupOnHide: _propTypes.default.bool,
+    popupStyle: _propTypes.default.object,
+    popupMaskStyle: _propTypes.default.object,
+    zIndex: _propTypes.default.number,
+    checkDefaultPrevented: _propTypes.default.bool
 };
 
-function noop() {}
+function noop() { }
 
 var Trigger =
-/*#__PURE__*/
-function (_React$Component) {
-  (0, _inherits2.default)(Trigger, _React$Component);
+    /*#__PURE__*/
+    function (_React$Component) {
+        (0, _inherits2.default)(Trigger, _React$Component);
 
-  function Trigger() {
-    var _getPrototypeOf2;
+        function Trigger() {
+            var _getPrototypeOf2;
 
-    var _this;
+            var _this;
 
-    (0, _classCallCheck2.default)(this, Trigger);
+            (0, _classCallCheck2.default)(this, Trigger);
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+            for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
 
-    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(Trigger)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "state", {
-      popupVisible: _this.props.defaultPopupVisible
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "_popup", null);
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "delayTimer", null);
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "promise", null);
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onDocumentClick", function (event) {
-      if (_this.props.mask && !_this.props.maskClosable) {
-        return;
-      }
+            _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(Trigger)).call.apply(_getPrototypeOf2, [this].concat(args)));
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "state", {
+                popupVisible: _this.props.defaultPopupVisible
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "_popup", null);
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "delayTimer", null);
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "promise", null);
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onDocumentClick", function (event) {
+                if (_this.props.mask && !_this.props.maskClosable) {
+                    return;
+                }
 
-      var target = event.target;
-      var root = (0, _reactDom.findDOMNode)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)));
+                var target = event.target;
+                var root = (0, _reactDom.findDOMNode)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)));
 
-      var popupNode = _this.getPopupDomNode();
+                var popupNode = _this.getPopupDomNode();
 
-      if (!contains(root, target) && !contains(popupNode, target)) {
-        _this.close();
-      }
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isFocusToShow", function () {
-      var _this$props = _this.props,
-          action = _this$props.action,
-          showAction = _this$props.showAction;
-      return action.indexOf('focus') !== -1 || showAction.indexOf('focus') !== -1;
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isBlurToHide", function () {
-      var _this$props2 = _this.props,
-          action = _this$props2.action,
-          hideAction = _this$props2.hideAction;
-      return action.indexOf('focus') !== -1 || hideAction.indexOf('blur') !== -1;
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isWindowResizeToHide", function () {
-      var hideAction = _this.props.hideAction;
-      return hideAction.indexOf('resize') !== -1;
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isWindowScrollToHide", function () {
-      var hideAction = _this.props.hideAction;
-      return hideAction.indexOf('scroll') !== -1;
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onMouseEnter", function (e) {
-      _this.delaySetPopupVisible(true);
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onMouseLeave", function (e) {
-      _this.delaySetPopupVisible(false);
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onFocus", function (e) {
-      if (_this.isFocusToShow()) {
-        _this.delaySetPopupVisible(true);
-      }
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onBlur", function (e) {
-      if (_this.isBlurToHide()) {
-        _this.delaySetPopupVisible(false);
-      }
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onContextMenuClose", function () {
-      if (_this.isContextMenuToShow()) {
-        _this.close();
-      }
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "savePopup", function (popup) {
-      _this._popup = popup;
-    });
-    return _this;
-  }
-
-  (0, _createClass2.default)(Trigger, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      if (this.state.popupVisible) {
-        this.resolvePopupDOM();
-      }
-
-      this.togglePopupCloseEvents();
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      if (this.state.popupVisible) {
-        this.resolvePopupDOM();
-      }
-
-      this.togglePopupCloseEvents();
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.clearDelayTimer();
-      this.clearOutsideHandler();
-    }
-  }, {
-    key: "togglePopupCloseEvents",
-    value: function togglePopupCloseEvents() {
-      var getDocument = this.props.getDocument;
-      var popupVisible = this.state.popupVisible;
-
-      if (popupVisible) {
-        var currentDocument = getDocument();
-
-        if (!this.clickOutsideHandler && (this.isClickToHide() || this.isContextMenuToShow())) {
-          this.clickOutsideHandler = (0, _events.listen)(currentDocument, 'mousedown', this.onDocumentClick);
+                if (!contains(root, target) && !contains(popupNode, target)) {
+                    _this.close();
+                }
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isFocusToShow", function () {
+                var _this$props = _this.props,
+                    action = _this$props.action,
+                    showAction = _this$props.showAction;
+                return action.indexOf('focus') !== -1 || showAction.indexOf('focus') !== -1;
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isBlurToHide", function () {
+                var _this$props2 = _this.props,
+                    action = _this$props2.action,
+                    hideAction = _this$props2.hideAction;
+                return action.indexOf('focus') !== -1 || hideAction.indexOf('blur') !== -1;
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isWindowResizeToHide", function () {
+                var hideAction = _this.props.hideAction;
+                return hideAction.indexOf('resize') !== -1;
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "isWindowScrollToHide", function () {
+                var hideAction = _this.props.hideAction;
+                return hideAction.indexOf('scroll') !== -1;
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onMouseEnter", function (e) {
+                _this.delaySetPopupVisible(true);
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onMouseLeave", function (e) {
+                _this.delaySetPopupVisible(false);
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onFocus", function (e) {
+                if (_this.isFocusToShow()) {
+                    _this.delaySetPopupVisible(true);
+                }
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onBlur", function (e) {
+                if (_this.isBlurToHide()) {
+                    _this.delaySetPopupVisible(false);
+                }
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onContextMenuClose", function () {
+                if (_this.isContextMenuToShow()) {
+                    _this.close();
+                }
+            });
+            (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "savePopup", function (popup) {
+                _this._popup = popup;
+            });
+            return _this;
         }
 
-        if (!this.touchOutsideHandler && isMobile) {
-          this.touchOutsideHandler = (0, _events.listen)(currentDocument, 'click', this.onDocumentClick);
-        } // close popup when trigger type contains 'onContextMenu' and document is scrolling.
+        (0, _createClass2.default)(Trigger, [{
+            key: "componentDidMount",
+            value: function componentDidMount() {
+                if (this.state.popupVisible) {
+                    this.resolvePopupDOM();
+                }
+
+                this.togglePopupCloseEvents();
+            }
+        }, {
+            key: "componentDidUpdate",
+            value: function componentDidUpdate() {
+                if (this.state.popupVisible) {
+                    this.resolvePopupDOM();
+                }
+
+                this.togglePopupCloseEvents();
+            }
+        }, {
+            key: "componentWillUnmount",
+            value: function componentWillUnmount() {
+                this.clearDelayTimer();
+                this.clearOutsideHandler();
+            }
+        }, {
+            key: "togglePopupCloseEvents",
+            value: function togglePopupCloseEvents() {
+                var getDocument = this.props.getDocument;
+                var popupVisible = this.state.popupVisible;
+
+                if (popupVisible) {
+                    var currentDocument = getDocument();
+
+                    if (!this.clickOutsideHandler && (this.isClickToHide() || this.isContextMenuToShow())) {
+                        this.clickOutsideHandler = (0, _events.listen)(currentDocument, 'mousedown', this.onDocumentClick);
+                    }
+
+                    if (!this.touchOutsideHandler && isMobile) {
+                        this.touchOutsideHandler = (0, _events.listen)(currentDocument, 'click', this.onDocumentClick);
+                    } // close popup when trigger type contains 'onContextMenu' and document is scrolling.
 
 
-        if (!this.contextMenuOutsideHandler1 && this.isContextMenuToShow()) {
-          this.contextMenuOutsideHandler1 = (0, _events.listen)(currentDocument, 'scroll', this.onContextMenuClose);
-        } // close popup when trigger type contains 'onContextMenu' and window is blur.
+                    if (!this.contextMenuOutsideHandler1 && this.isContextMenuToShow()) {
+                        this.contextMenuOutsideHandler1 = (0, _events.listen)(currentDocument, 'scroll', this.onContextMenuClose);
+                    } // close popup when trigger type contains 'onContextMenu' and window is blur.
 
 
-        if (!this.contextMenuOutsideHandler2 && this.isContextMenuToShow()) {
-          this.contextMenuOutsideHandler2 = (0, _events.listen)(window, 'blur', this.onContextMenuClose);
-        }
+                    if (!this.contextMenuOutsideHandler2 && this.isContextMenuToShow()) {
+                        this.contextMenuOutsideHandler2 = (0, _events.listen)(window, 'blur', this.onContextMenuClose);
+                    }
 
-        if (!this.windowScrollHandler && this.isWindowScrollToHide()) {
-          this.windowScrollHandler = (0, _events.listen)(currentDocument, 'scroll', this.onDocumentClick);
-        }
+                    if (!this.windowScrollHandler && this.isWindowScrollToHide()) {
+                        this.windowScrollHandler = (0, _events.listen)(currentDocument, 'scroll', this.onDocumentClick);
+                    }
 
-        if (!this.windowResizeHandler && this.isWindowResizeToHide()) {
-          this.windowResizeHandler = (0, _events.listen)(window, 'resize', this.close.bind(this));
-        }
-      } else {
-        this.clearOutsideHandler();
-      }
-    }
-  }, {
-    key: "clearOutsideHandler",
-    value: function clearOutsideHandler() {
-      if (this.clickOutsideHandler) {
-        this.clickOutsideHandler();
-        this.clickOutsideHandler = null;
-      }
+                    if (!this.windowResizeHandler && this.isWindowResizeToHide()) {
+                        this.windowResizeHandler = (0, _events.listen)(window, 'resize', this.close.bind(this));
+                    }
+                } else {
+                    this.clearOutsideHandler();
+                }
+            }
+        }, {
+            key: "clearOutsideHandler",
+            value: function clearOutsideHandler() {
+                if (this.clickOutsideHandler) {
+                    this.clickOutsideHandler();
+                    this.clickOutsideHandler = null;
+                }
 
-      if (this.contextMenuOutsideHandler1) {
-        this.contextMenuOutsideHandler1();
-        this.contextMenuOutsideHandler1 = null;
-      }
+                if (this.contextMenuOutsideHandler1) {
+                    this.contextMenuOutsideHandler1();
+                    this.contextMenuOutsideHandler1 = null;
+                }
 
-      if (this.contextMenuOutsideHandler2) {
-        this.contextMenuOutsideHandler2();
-        this.contextMenuOutsideHandler2 = null;
-      }
+                if (this.contextMenuOutsideHandler2) {
+                    this.contextMenuOutsideHandler2();
+                    this.contextMenuOutsideHandler2 = null;
+                }
 
-      if (this.touchOutsideHandler) {
-        this.touchOutsideHandler();
-        this.touchOutsideHandler = null;
-      }
+                if (this.touchOutsideHandler) {
+                    this.touchOutsideHandler();
+                    this.touchOutsideHandler = null;
+                }
 
-      if (this.windowScrollHandler) {
-        this.windowScrollHandler();
-        this.windowScrollHandler = null;
-      }
+                if (this.windowScrollHandler) {
+                    this.windowScrollHandler();
+                    this.windowScrollHandler = null;
+                }
 
-      if (this.windowResizeHandler) {
-        this.windowResizeHandler();
-        this.windowResizeHandler = null;
-      }
-    }
-  }, {
-    key: "resolvePopupDOM",
-    value: function resolvePopupDOM() {
-      var _this$props3 = this.props,
-          placement = _this$props3.placement,
-          offset = _this$props3.offset;
+                if (this.windowResizeHandler) {
+                    this.windowResizeHandler();
+                    this.windowResizeHandler = null;
+                }
+            }
+        }, {
+            key: "resolvePopupDOM",
+            value: function resolvePopupDOM() {
+                var _this$props3 = this.props,
+                    placement = _this$props3.placement,
+                    offset = _this$props3.offset;
 
-      if (!this.promise) {
-        return;
-      }
+                if (!this.promise) {
+                    return;
+                }
 
-      var pOffset = [0, 0];
+                var pOffset = [0, 0];
 
-      if (!(0, _isArray.default)(offset)) {
-        if (/^left/i.test(placement)) {
-          pOffset[0] = offset * -1;
-        }
+                if (!(0, _isArray.default)(offset)) {
+                    if (/^left/i.test(placement)) {
+                        pOffset[0] = offset * -1;
+                    }
 
-        if (/^right/i.test(placement)) {
-          pOffset[0] = offset;
-        }
+                    if (/^right/i.test(placement)) {
+                        pOffset[0] = offset;
+                    }
 
-        if (/^top/i.test(placement)) {
-          pOffset[1] = offset * -1;
-        }
+                    if (/^top/i.test(placement)) {
+                        pOffset[1] = offset * -1;
+                    }
 
-        if (/^bottom/i.test(placement)) {
-          pOffset[1] = offset;
-        }
-      } else {
-        pOffset[0] = offset[0];
-        pOffset[1] = offset[1];
-      }
+                    if (/^bottom/i.test(placement)) {
+                        pOffset[1] = offset;
+                    }
+                } else {
+                    pOffset[0] = offset[0];
+                    pOffset[1] = offset[1];
+                }
 
-      this.promise.resolve((0, _objectSpread2.default)({
-        of: (0, _reactDom.findDOMNode)(this)
-      }, (0, _bplokjsPlacement.default)(placement, pOffset)));
-    }
-  }, {
-    key: "_setPopupVisible",
-    value: function _setPopupVisible(popupVisible) {
-      if (!('popupVisible' in this.props)) {
-        this.setState({
-          popupVisible: popupVisible
-        });
-      }
+                this.promise.resolve((0, _objectSpread2.default)({
+                    of: (0, _reactDom.findDOMNode)(this)
+                }, (0, _bplokjsPlacement.default)(placement, pOffset)));
+            }
+        }, {
+            key: "_setPopupVisible",
+            value: function _setPopupVisible(popupVisible) {
+                if (!('popupVisible' in this.props)) {
+                    this.setState({
+                        popupVisible: popupVisible
+                    });
+                }
 
-      this.props.onPopupVisibleChange(popupVisible);
-    }
-  }, {
-    key: "close",
-    value: function close() {
-      this.delaySetPopupVisible(false);
-    }
-  }, {
-    key: "clearDelayTimer",
-    value: function clearDelayTimer() {
-      if (this.delayTimer) {
-        clearTimeout(this.delayTimer);
-        this.delayTimer = null;
-      }
-    }
-  }, {
-    key: "getDelayTime",
-    value: function getDelayTime() {
-      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'show';
-      var delay = this.props.delay;
+                this.props.onPopupVisibleChange(popupVisible);
+            }
+        }, {
+            key: "close",
+            value: function close() {
+                this.delaySetPopupVisible(false);
+            }
+        }, {
+            key: "clearDelayTimer",
+            value: function clearDelayTimer() {
+                if (this.delayTimer) {
+                    clearTimeout(this.delayTimer);
+                    this.delayTimer = null;
+                }
+            }
+        }, {
+            key: "getDelayTime",
+            value: function getDelayTime() {
+                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'show';
+                var delay = this.props.delay;
 
-      if (typeof delay !== 'number') {
-        return Math.abs(delay[action]);
-      }
+                if (typeof delay !== 'number') {
+                    return Math.abs(delay[action]);
+                }
 
-      return Math.abs(delay);
-    }
-  }, {
-    key: "delaySetPopupVisible",
-    value: function delaySetPopupVisible(visible) {
-      var _this2 = this;
+                return Math.abs(delay);
+            }
+        }, {
+            key: "delaySetPopupVisible",
+            value: function delaySetPopupVisible(visible) {
+                var _this2 = this;
 
-      if (this.state.popupVisible === visible) {
-        return;
-      }
+                if (this.state.popupVisible === visible) {
+                    return;
+                }
 
-      this.clearDelayTimer();
-      var delay = this.getDelayTime(visible ? 'show' : 'hide');
+                this.clearDelayTimer();
+                var delay = this.getDelayTime(visible ? 'show' : 'hide');
 
-      if (delay) {
-        this.delayTimer = setTimeout(function () {
-          _this2._setPopupVisible(visible);
+                if (delay) {
+                    this.delayTimer = setTimeout(function () {
+                        _this2._setPopupVisible(visible);
 
-          _this2.delayTimer = null;
-        }, delay);
-      } else {
-        this._setPopupVisible(visible);
-      }
-    }
-  }, {
-    key: "isContextMenuToShow",
-    value: function isContextMenuToShow() {
-      var _this$props4 = this.props,
-          action = _this$props4.action,
-          showAction = _this$props4.showAction;
-      return action.indexOf('contextMenu') !== -1 || showAction.indexOf('contextMenu') !== -1;
-    }
-  }, {
-    key: "isClickToShow",
-    value: function isClickToShow() {
-      var _this$props5 = this.props,
-          action = _this$props5.action,
-          showAction = _this$props5.showAction;
-      return action.indexOf('click') !== -1 || showAction.indexOf('click') !== -1;
-    }
-  }, {
-    key: "isClickToHide",
-    value: function isClickToHide() {
-      var _this$props6 = this.props,
-          action = _this$props6.action,
-          hideAction = _this$props6.hideAction;
-      return action.indexOf('click') !== -1 || hideAction.indexOf('click') !== -1;
-    }
-  }, {
-    key: "isMouseEnterToShow",
-    value: function isMouseEnterToShow() {
-      var _this$props7 = this.props,
-          action = _this$props7.action,
-          showAction = _this$props7.showAction;
-      return action.indexOf('hover') !== -1 || showAction.indexOf('mouseEnter') !== -1;
-    }
-  }, {
-    key: "isMouseLeaveToHide",
-    value: function isMouseLeaveToHide() {
-      var _this$props8 = this.props,
-          action = _this$props8.action,
-          hideAction = _this$props8.hideAction;
-      return action.indexOf('hover') !== -1 || hideAction.indexOf('mouseLeave') !== -1;
-    }
-  }, {
-    key: "onContextMenu",
-    value: function onContextMenu(e) {
-      e.preventDefault();
-      this.delaySetPopupVisible(true);
-    }
-  }, {
-    key: "onClick",
-    value: function onClick(e) {
-      var nextVisible = !this.state.popupVisible;
+                        _this2.delayTimer = null;
+                    }, delay);
+                } else {
+                    this._setPopupVisible(visible);
+                }
+            }
+        }, {
+            key: "isContextMenuToShow",
+            value: function isContextMenuToShow() {
+                var _this$props4 = this.props,
+                    action = _this$props4.action,
+                    showAction = _this$props4.showAction;
+                return action.indexOf('contextMenu') !== -1 || showAction.indexOf('contextMenu') !== -1;
+            }
+        }, {
+            key: "isClickToShow",
+            value: function isClickToShow() {
+                var _this$props5 = this.props,
+                    action = _this$props5.action,
+                    showAction = _this$props5.showAction;
+                return action.indexOf('click') !== -1 || showAction.indexOf('click') !== -1;
+            }
+        }, {
+            key: "isClickToHide",
+            value: function isClickToHide() {
+                var _this$props6 = this.props,
+                    action = _this$props6.action,
+                    hideAction = _this$props6.hideAction;
+                return action.indexOf('click') !== -1 || hideAction.indexOf('click') !== -1;
+            }
+        }, {
+            key: "isMouseEnterToShow",
+            value: function isMouseEnterToShow() {
+                var _this$props7 = this.props,
+                    action = _this$props7.action,
+                    showAction = _this$props7.showAction;
+                return action.indexOf('hover') !== -1 || showAction.indexOf('mouseEnter') !== -1;
+            }
+        }, {
+            key: "isMouseLeaveToHide",
+            value: function isMouseLeaveToHide() {
+                var _this$props8 = this.props,
+                    action = _this$props8.action,
+                    hideAction = _this$props8.hideAction;
+                return action.indexOf('hover') !== -1 || hideAction.indexOf('mouseLeave') !== -1;
+            }
+        }, {
+            key: "onContextMenu",
+            value: function onContextMenu(e) {
+                e.preventDefault();
+                this.delaySetPopupVisible(true);
+            }
+        }, {
+            key: "onClick",
+            value: function onClick(e) {
+                var nextVisible = !this.state.popupVisible;
 
-      if (this.isClickToHide() && !nextVisible || nextVisible && this.isClickToShow()) {
-        this.delaySetPopupVisible(!this.state.popupVisible);
-      }
-    }
-  }, {
-    key: "getPopup",
-    value: function getPopup() {
-      return this._popup;
-    }
-  }, {
-    key: "getPopupDomNode",
-    value: function getPopupDomNode() {
-      if (this._popup) {
-        return this._popup ? this._popup.getPopupDOM() : null;
-      }
+                if (this.isClickToHide() && !nextVisible || nextVisible && this.isClickToShow()) {
+                    this.delaySetPopupVisible(!this.state.popupVisible);
+                }
+            }
+        }, {
+            key: "getPopup",
+            value: function getPopup() {
+                return this._popup;
+            }
+        }, {
+            key: "getPopupDomNode",
+            value: function getPopupDomNode() {
+                if (this._popup) {
+                    return this._popup ? this._popup.getPopupDOM() : null;
+                }
 
-      return null;
-    }
-  }, {
-    key: "getPopupMaskDomNode",
-    value: function getPopupMaskDomNode() {
-      if (this._popup) {
-        return this._popup ? this._popup.getPopupMaskDOM() : null;
-      }
+                return null;
+            }
+        }, {
+            key: "getPopupMaskDomNode",
+            value: function getPopupMaskDomNode() {
+                if (this._popup) {
+                    return this._popup ? this._popup.getPopupMaskDOM() : null;
+                }
 
-      return null;
-    }
-  }, {
-    key: "getPopupComponent",
-    value: function getPopupComponent() {
-      var _this$props9 = this.props,
-          placement = _this$props9.placement,
-          popup = _this$props9.popup,
-          prefixCls = _this$props9.prefixCls,
-          popupClassName = _this$props9.popupClassName,
-          popupMaskClassName = _this$props9.popupMaskClassName,
-          popupProps = _this$props9.popupProps,
-          mask = _this$props9.mask,
-          popupStyle = _this$props9.popupStyle,
-          popupMaskStyle = _this$props9.popupMaskStyle,
-          PopupRootComponent = _this$props9.popupRootComponent,
-          destroyPopupOnHide = _this$props9.destroyPopupOnHide,
-          zIndex = _this$props9.zIndex;
-      var popupVisible = this.state.popupVisible;
-      var promise;
+                return null;
+            }
+        }, {
+            key: "getPopupComponent",
+            value: function getPopupComponent() {
+                var _this$props9 = this.props,
+                    placement = _this$props9.placement,
+                    popup = _this$props9.popup,
+                    prefixCls = _this$props9.prefixCls,
+                    popupClassName = _this$props9.popupClassName,
+                    popupMaskClassName = _this$props9.popupMaskClassName,
+                    popupProps = _this$props9.popupProps,
+                    mask = _this$props9.mask,
+                    popupStyle = _this$props9.popupStyle,
+                    popupMaskStyle = _this$props9.popupMaskStyle,
+                    PopupRootComponent = _this$props9.popupRootComponent,
+                    destroyPopupOnHide = _this$props9.destroyPopupOnHide,
+                    zIndex = _this$props9.zIndex;
+                var popupVisible = this.state.popupVisible;
+                var promise;
 
-      if (typeof placement === 'string') {
-        this.promise = promise = (0, _bplokjsDeferred.default)();
-      } else {
-        promise = placement;
-      }
+                if (typeof placement === 'string') {
+                    this.promise = promise = (0, _bplokjsDeferred.default)();
+                } else {
+                    promise = placement;
+                }
 
-      var maskProps = popupProps.maskProps || {};
-      var newPopupStyle = (0, _objectSpread2.default)({}, popupStyle);
-      var newPopupMaskStyle = (0, _objectSpread2.default)({}, popupMaskStyle);
+                var maskProps = popupProps.maskProps || {};
+                var newPopupStyle = (0, _objectSpread2.default)({}, popupStyle);
+                var newPopupMaskStyle = (0, _objectSpread2.default)({}, popupMaskStyle);
 
-      if (zIndex != null) {
-        newPopupStyle.zIndex = zIndex;
-        newPopupMaskStyle.zIndex = zIndex;
-      }
+                if (zIndex != null) {
+                    newPopupStyle.zIndex = zIndex;
+                    newPopupMaskStyle.zIndex = zIndex;
+                }
 
-      return _react.default.createElement(_reactWidgetPopup.default, (0, _extends2.default)({
-        prefixCls: prefixCls,
-        placement: promise,
-        unmountOnExit: destroyPopupOnHide,
-        style: newPopupStyle,
-        className: popupClassName
-      }, popupProps, {
-        rootComponent: PopupRootComponent,
-        mask: mask,
-        visible: popupVisible,
-        ref: this.savePopup,
-        maskProps: (0, _objectSpread2.default)({
-          style: newPopupMaskStyle,
-          className: popupMaskClassName
-        }, maskProps)
-      }), typeof popup === 'function' ? popup() : popup);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
+                return _react.default.createElement(_reactWidgetPopup.default, (0, _extends2.default)({
+                    prefixCls: prefixCls,
+                    placement: promise,
+                    unmountOnExit: destroyPopupOnHide,
+                    style: newPopupStyle,
+                    className: popupClassName
+                }, popupProps, {
+                        rootComponent: PopupRootComponent,
+                        mask: mask,
+                        visible: popupVisible,
+                        ref: this.savePopup,
+                        maskProps: (0, _objectSpread2.default)({
+                            style: newPopupMaskStyle,
+                            className: popupMaskClassName
+                        }, maskProps)
+                    }), typeof popup === 'function' ? popup() : popup);
+            }
+        }, {
+            key: "render",
+            value: function render() {
+                var _this3 = this;
 
-      var _this$props10 = this.props,
-          getPopupContainer = _this$props10.getPopupContainer,
-          checkDefaultPrevented = _this$props10.checkDefaultPrevented;
-      var popupVisible = this.state.popupVisible;
+                var _this$props10 = this.props,
+                    getPopupContainer = _this$props10.getPopupContainer,
+                    checkDefaultPrevented = _this$props10.checkDefaultPrevented;
+                var popupVisible = this.state.popupVisible;
 
-      var child = _react.default.Children.only(this.props.children);
+                var child = _react.default.Children.only(this.props.children);
 
-      var newChildProps = {};
+                var newChildProps = {};
 
-      if (this.isContextMenuToShow()) {
-        newChildProps.onContextMenu = function (e) {
-          if (child.props.onContextMenu) {
-            child.props.onContextMenu(e);
-          }
+                if (this.isContextMenuToShow()) {
+                    newChildProps.onContextMenu = function (e) {
+                        if (child.props.onContextMenu) {
+                            child.props.onContextMenu(e);
+                        }
 
-          if (checkDefaultPrevented && e.defaultPrevented) return;
+                        if (checkDefaultPrevented && e.defaultPrevented) return;
 
-          _this3.clearDelayTimer();
+                        _this3.clearDelayTimer();
 
-          _this3.onContextMenu(e);
-        };
-      }
+                        _this3.onContextMenu(e);
+                    };
+                }
 
-      if (this.isClickToHide() || this.isClickToShow()) {
-        newChildProps.onClick = function (e) {
-          if (child.props.onClick) {
-            child.props.onClick(e);
-          }
+                if (this.isClickToHide() || this.isClickToShow()) {
+                    newChildProps.onClick = function (e) {
+                        if (child.props.onClick) {
+                            child.props.onClick(e);
+                        }
 
-          if (checkDefaultPrevented && e.defaultPrevented) return;
+                        if (checkDefaultPrevented && e.defaultPrevented) return;
 
-          _this3.clearDelayTimer();
+                        _this3.clearDelayTimer();
 
-          _this3.onClick(e);
-        };
-      }
+                        _this3.onClick(e);
+                    };
+                }
 
-      if (this.isMouseEnterToShow()) {
-        newChildProps.onMouseEnter = function (e) {
-          if (child.props.onMouseEnter) {
-            child.props.onMouseEnter(e);
-          }
+                if (this.isMouseEnterToShow()) {
+                    newChildProps.onMouseEnter = function (e) {
+                        if (child.props.onMouseEnter) {
+                            child.props.onMouseEnter(e);
+                        }
 
-          if (checkDefaultPrevented && e.defaultPrevented) return;
+                        if (checkDefaultPrevented && e.defaultPrevented) return;
 
-          _this3.clearDelayTimer();
+                        _this3.clearDelayTimer();
 
-          _this3.onMouseEnter(e);
-        };
-      }
+                        _this3.onMouseEnter(e);
+                    };
+                }
 
-      if (this.isMouseLeaveToHide()) {
-        newChildProps.onMouseLeave = function (e) {
-          if (child.props.onMouseLeave) {
-            child.props.onMouseLeave(e);
-          }
+                if (this.isMouseLeaveToHide()) {
+                    newChildProps.onMouseLeave = function (e) {
+                        if (child.props.onMouseLeave) {
+                            child.props.onMouseLeave(e);
+                        }
 
-          if (checkDefaultPrevented && e.defaultPrevented) return;
+                        if (checkDefaultPrevented && e.defaultPrevented) return;
 
-          _this3.clearDelayTimer();
+                        _this3.clearDelayTimer();
 
-          _this3.onMouseLeave(e);
-        };
-      }
+                        _this3.onMouseLeave(e);
+                    };
+                }
 
-      if (this.isFocusToShow() || this.isBlurToHide()) {
-        newChildProps.onFocus = function (e) {
-          if (child.props.onFocus) {
-            child.props.onFocus(e);
-          }
+                if (this.isFocusToShow() || this.isBlurToHide()) {
+                    newChildProps.onFocus = function (e) {
+                        if (child.props.onFocus) {
+                            child.props.onFocus(e);
+                        }
 
-          if (checkDefaultPrevented && e.defaultPrevented) return;
+                        if (checkDefaultPrevented && e.defaultPrevented) return;
 
-          _this3.clearDelayTimer();
+                        _this3.clearDelayTimer();
 
-          _this3.onFocus(e);
-        };
+                        _this3.onFocus(e);
+                    };
 
-        newChildProps.onBlur = function (e) {
-          if (child.props.onBlur) {
-            child.props.onBlur(e);
-          }
+                    newChildProps.onBlur = function (e) {
+                        if (child.props.onBlur) {
+                            child.props.onBlur(e);
+                        }
 
-          if (checkDefaultPrevented && e.defaultPrevented) return;
+                        if (checkDefaultPrevented && e.defaultPrevented) return;
 
-          _this3.clearDelayTimer();
+                        _this3.clearDelayTimer();
 
-          _this3.onBlur(e);
-        };
-      }
+                        _this3.onBlur(e);
+                    };
+                }
 
-      var trigger = _react.default.cloneElement(child, newChildProps);
+                var trigger = _react.default.cloneElement(child, newChildProps);
 
-      var portal;
+                var portal;
 
-      if (popupVisible || this._popup) {
-        portal = _react.default.createElement(_reactWidgetPortal.default, {
-          getContainer: getPopupContainer
-        }, this.getPopupComponent());
-      }
+                if (popupVisible || this._popup) {
+                    portal = _react.default.createElement(_reactWidgetPortal.default, {
+                        getContainer: getPopupContainer
+                    }, this.getPopupComponent());
+                }
 
-      return _react.default.createElement(_react.default.Fragment, null, trigger, portal);
-    }
-  }], [{
-    key: "getDerivedStateFromProps",
-    value: function getDerivedStateFromProps(props, state) {
-      return {
-        popupVisible: 'popupVisible' in props ? props.popupVisible : state.popupVisible
-      };
-    }
-  }]);
-  return Trigger;
-}(_react.default.Component);
+                return _react.default.createElement(_react.default.Fragment, null, trigger, portal);
+            }
+        }], [{
+            key: "getDerivedStateFromProps",
+            value: function getDerivedStateFromProps(props, state) {
+                return {
+                    popupVisible: 'popupVisible' in props ? props.popupVisible : state.popupVisible
+                };
+            }
+        }]);
+        return Trigger;
+    }(_react.default.Component);
 
 exports.default = Trigger;
 (0, _defineProperty2.default)(Trigger, "propTypes", propTypes);
 (0, _defineProperty2.default)(Trigger, "defaultProps", {
-  placement: "bottomLeft",
-  offset: 0,
-  defaultPopupVisible: false,
-  action: [],
-  showAction: [],
-  hideAction: [],
-  delay: 0,
-  onPopupVisibleChange: noop,
-  getDocument: function getDocument() {
-    return window.document;
-  },
-  prefixCls: "rw-trigger",
-  mask: false,
-  maskClosable: true,
-  destroyPopupOnHide: true,
-  popupProps: {},
-  popupRootComponent: _PopupRootComponent.default,
-  popupStyle: {},
-  popupMaskStyle: {},
-  zIndex: null,
-  checkDefaultPrevented: false
+    placement: "bottomLeft",
+    offset: 0,
+    defaultPopupVisible: false,
+    action: [],
+    showAction: [],
+    hideAction: [],
+    delay: 0,
+    onPopupVisibleChange: noop,
+    getDocument: function getDocument() {
+        return window.document;
+    },
+    prefixCls: "rw-trigger",
+    mask: false,
+    maskClosable: true,
+    destroyPopupOnHide: true,
+    popupProps: {},
+    popupRootComponent: _PopupRootComponent.default,
+    popupStyle: {},
+    popupMaskStyle: {},
+    zIndex: null,
+    checkDefaultPrevented: false
 });
 
 /***/ }),
@@ -37499,4 +37520,4 @@ if (!self.fetch) {
 /***/ })
 
 }]);
-//# sourceMappingURL=vendors.329b2ba2.chunk.js.map
+//# sourceMappingURL=vendors.24fec5db.chunk.js.map

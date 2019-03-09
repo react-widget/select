@@ -941,6 +941,8 @@ var _bplokjsPlacement = _interopRequireDefault(__webpack_require__(/*! bplokjs-p
 
 var _reactWidgetTrigger = _interopRequireDefault(__webpack_require__(/*! react-widget-trigger */ "./node_modules/react-widget-trigger/index.js"));
 
+var _isEdge = _interopRequireDefault(__webpack_require__(/*! bplokjs-utils/isEdge */ "./node_modules/bplokjs-utils/isEdge.js"));
+
 var _util = __webpack_require__(/*! ./util */ "./src/util.js");
 
 var KEY_DOWN_CODE = 40;
@@ -1025,10 +1027,19 @@ function (_React$Component) {
         if (props.onSelect) props.onSelect(tValue, option);
       }
 
-      _this.setState(newState);
+      var action = function action() {
+        _this.setState(newState);
 
-      if (prevPopupVisible !== newState.popupVisible && props.onDropDownVisibleChange) {
-        props.onDropDownVisibleChange(newState.popupVisible);
+        if (prevPopupVisible !== newState.popupVisible && props.onDropDownVisibleChange) {
+          props.onDropDownVisibleChange(newState.popupVisible);
+        }
+      };
+
+      if (_isEdge.default) {
+        //解决Edge下，隐藏下拉框后引起文本自动选择问题
+        setTimeout(action, 0);
+      } else {
+        action();
       }
     });
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)((0, _assertThisInitialized2.default)(_this)), "onSearch", function (e) {
@@ -1615,4 +1626,4 @@ module.exports = __webpack_require__(/*! D:\wamp\www\github-projects\react-widge
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.285af466.js.map
+//# sourceMappingURL=index.a17a0ec8.js.map

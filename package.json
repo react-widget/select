@@ -1,6 +1,6 @@
 {
     "name": "react-widget-select",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "description": "",
     "main": "index.js",
     "dependencies": {
@@ -10,6 +10,7 @@
         "bplokjs-jqlite": "^1.0.1",
         "bplokjs-placement": "^1.0.2",
         "bplokjs-position": "^1.0.0",
+        "bplokjs-utils": "0.0.1",
         "classnames": "^2.2.6",
         "object.omit": "^3.0.0",
         "omit.js": "^1.0.0",

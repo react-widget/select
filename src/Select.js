@@ -7,6 +7,7 @@ import ListBox from 'react-widget-listbox';
 import Deferred from 'bplokjs-deferred';
 import getPlacement from 'bplokjs-placement';
 import Trigger from 'react-widget-trigger';
+import isEdge from 'bplokjs-utils/isEdge';
 
 import { isUndefined, isArray, isEqual } from './util';
 
@@ -252,11 +253,21 @@ export default class Select extends React.Component {
             if (props.onSelect) props.onSelect(tValue, option);
         }
 
-        this.setState(newState);
+        const action = () => {
+            this.setState(newState);
 
-        if (prevPopupVisible !== newState.popupVisible && props.onDropDownVisibleChange) {
-            props.onDropDownVisibleChange(newState.popupVisible);
+            if (prevPopupVisible !== newState.popupVisible && props.onDropDownVisibleChange) {
+                props.onDropDownVisibleChange(newState.popupVisible);
+            }
         }
+
+        if (isEdge) {
+            //解决Edge下，隐藏下拉框后引起文本自动选择问题
+            setTimeout(action, 0);
+        } else {
+            action();
+        }
+
     }
     onSearch = (e) => {
         const { onSearch } = this.props;
