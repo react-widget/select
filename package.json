@@ -1,6 +1,6 @@
 {
     "name": "react-widget-select",
-    "version": "0.5.2",
+    "version": "0.5.4",
     "description": "",
     "main": "index.js",
     "dependencies": {
@@ -17,7 +17,7 @@
         "prop-types": "^15.6.2",
         "react": "^16.5.2",
         "react-dom": "^16.5.2",
-        "react-widget-listbox": "^1.0.4",
+        "react-widget-listbox": "^1.1.0",
         "react-widget-popup": "^1.0.7",
         "react-widget-portal": "^1.0.3",
         "react-widget-trigger": "^1.1.3",

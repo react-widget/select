@@ -14,15 +14,14 @@ import { isUndefined, isArray, isEqual } from './util';
 const KEY_DOWN_CODE = 40;
 const KEY_ESC_CODE = 27;
 
-function getOptionsListAndMap(props) {
-    const { options, children, valueField, labelField, childrenField } = props;
+function getOptionsMap(props) {
+    const { options, valueField, childrenField } = props;
     const maps = {};
-    let newOptions = options;
 
-    function parseOptions(options) {
+    function toMaps(options) {
         options.forEach(option => {
-            if (option[childrenField]) {
-                parseOptions(option[childrenField]);
+            if (option[childrenField] && Array.isArray(option[childrenField])) {
+                toMaps(option[childrenField]);
             } else {
                 maps[option[valueField]] = option;
             }
@@ -31,36 +30,9 @@ function getOptionsListAndMap(props) {
         return options;
     }
 
-    // function parseChildren(options) {
-    //     return React.Children.map(options, child => {
-    //         if (!React.isValidElement(child)) return null;
+    toMaps(options);
 
-    //         const { children, ...option } = child.props;
-
-    //         if (child.type.isOptOption) {
-    //             option[childrenField] = parseChildren(children);
-    //         } else if (child.type.isOption) {
-    //             option[labelField] = children;
-    //             maps[option[valueField]] = option;
-    //         } else {
-    //             return null;
-    //         }
-
-    //         return option;
-    //     });
-    // }
-
-    if (options && Array.isArray(options)) {
-        newOptions = parseOptions(options);
-    }
-    // else {
-    //     newOptions = parseChildren(children);
-    // }
-
-    return {
-        options: newOptions,
-        optionsMap: maps,
-    };
+    return maps;
 }
 
 export default class Select extends React.Component {
@@ -171,7 +143,8 @@ export default class Select extends React.Component {
         return {
             value: 'value' in nextProps ? nextProps.value : prevState.value,
             popupVisible: 'open' in nextProps ? nextProps.open : prevState.popupVisible,
-            ...getOptionsListAndMap(nextProps),
+            options: nextProps.options,
+            optionsMap: getOptionsMap(nextProps),
         };
     }
 
@@ -363,7 +336,7 @@ export default class Select extends React.Component {
             dropdownClassName,
             emptyLabel,
         } = this.props;
-        const value = this.state.value;
+        const { value, optionsMap } = this.state;
 
         const DropDownList = (
             <ListBox
@@ -375,6 +348,7 @@ export default class Select extends React.Component {
                 childrenField={childrenField}
                 value={value}
                 items={this.getOptions()}
+                itemsMap={optionsMap}
                 onItemClick={this.handleListItemClick}
                 renderHeader={this.renderHeader}
                 renderMenu={renderMenu}
