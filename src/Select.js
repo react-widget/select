@@ -1,15 +1,14 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
+//import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import omit from 'omit.js';
 import ListBox from 'react-widget-listbox';
 import Deferred from 'bplokjs-deferred';
 import getPlacement from 'bplokjs-placement';
 import Trigger from 'react-widget-trigger';
 import isEdge from 'bplokjs-utils/isEdge';
 
-import { isUndefined, isArray, isEqual } from './util';
+import { isArray, isEqual } from './util';
 
 const KEY_DOWN_CODE = 40;
 const KEY_ESC_CODE = 27;
@@ -97,7 +96,6 @@ export default class Select extends React.Component {
         filterOption: true,
         optionFilterField: 'label',
         searchComponent: 'input',
-
         prefixCls: 'rw-select',
         popupClassName: '',
         destroyPopupOnHide: true,
@@ -124,8 +122,6 @@ export default class Select extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this._refs = {};
 
         this.state = {
             placement: Deferred(),
@@ -328,7 +324,6 @@ export default class Select extends React.Component {
             valueField,
             labelField,
             childrenField,
-            children,
             renderMenu,
             renderMenuItem,
             renderMenuGroupTitle,

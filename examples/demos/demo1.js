@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select, { Option, OptGroup } from '../../src';
+import Select from '../../src';
 
 function Test() {
     console.log(1);
