@@ -1,98 +1,45 @@
-import React, { Component } from 'react';
-import Select from '../../src';
-
-function Test() {
-    console.log(1);
-    return null;
-}
+import React, { Component } from "react";
+import Select from "../../src";
 
 export default class DEMO extends Component {
+	state = {
+		value: "1",
+	};
 
-    state = {
-        value: '1'
-    }
+	componentDidMount() {}
 
-    componentDidMount() {
-    }
+	render() {
+		const options = [
+			{ label: "测试1", value: "1" },
+			{ label: "测试2", value: "2", disabled: true },
+			{ label: "测试3", value: "3" },
+			{ label: "测试4", value: "4" },
+			{ label: "测试5", value: "5" },
+			{
+				label: "分组1",
+				children: [
+					{ label: "测试7", value: "6" },
+					{ label: "测试8", value: "7" },
+				],
+			},
+		];
 
-    render() {
-        const options = [
-            { label: '测试1', value: "1" },
-            { label: '测试2', value: "2", disabled: true },
-            { label: '测试3', value: "3" },
-            { label: '测试4', value: "4" },
-            { label: '测试5', value: "5" },
-            {
-                label: '分组1', children: [
-                    { label: '测试7', value: "6" },
-                    { label: '测试8', value: "7" },
-                ]
-            },
-        ];
-
-        // <Option value="1">测试11测试1测试1</Option>
-        //     <Option value="2" disabled>测试2</Option>
-        //     <Option value="3">测试3</Option>
-        //     <Option value="4">测试4</Option>
-        //     <Option value="5">测试5</Option>
-        //     <OptGroup label="分组1">
-        //         <Option value="6">测试测试测试6</Option>
-        //         <Option value="7">测试7</Option>
-        //     </OptGroup>
-        return (
-            <div>
-                <Select
-                    options={options}
-                    onChange={v => console.log(v)}
-                    defaultValue={this.state.value}
-                    autoFocus
-                    allowClear
-                    onSelect={(v, d) => console.log(v, d)}
-                    style={{
-                        width: 200
-                    }}
-                    defaultOpen
-                >
-                </Select>
-                <Select
-                    options={options}
-                    onChange={v => console.log(v)}
-                    defaultValue={this.state.value}
-                    autoFocus
-                    allowClear
-                    onSelect={(v, d) => console.log(v, d)}
-                    style={{
-                        width: 200
-                    }}
-                    defaultOpen
-                >
-                </Select>
-                <Select
-                    options={options}
-                    onChange={v => console.log(v)}
-                    showArrow={false}
-                    placement="leftCenter"
-                    allowClear
-                    placeholder="请选择..."
-                >
-                </Select>
-                <Select
-                    options={options}
-                    onChange={v => console.log(v)}
-                    defaultValue={this.state.value}
-                    disabled
-                >
-                </Select>
-                <Select
-                    options={options}
-                    onChange={v => console.log(v)}
-                    defaultValue={this.state.value}
-                    readOnly
-                >
-                </Select>
-                <span>test...</span>
-            </div>
-        );
-    }
-
+		return (
+			<div>
+				<Select
+					options={options}
+					placeholder="请选择..."
+					onChange={(v) => console.log(v)}
+					defaultValue={this.state.value}
+					autoFocus
+					allowClear
+					onSelect={(v, d) => console.log(v, d)}
+					style={{
+						width: 200,
+					}}
+					defaultOpen
+				></Select>
+			</div>
+		);
+	}
 }

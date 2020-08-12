@@ -1,0 +1,59 @@
+.rw-select-listbox {
+    /* border-radius: 3px; */
+    position: relative;
+    /* background: #fff; */
+    display: flex;
+    flex-direction: column;
+    outline: 0;
+}
+
+.rw-select-listbox-body {
+    flex: 1;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.rw-select-listbox-item-group .rw-select-listbox-item {
+    padding-left: 23px;
+}
+
+.rw-select-listbox-group-title {
+    display: flex;
+    padding: 5px 7px;
+    line-height: 20px;
+    user-select: none;
+    color: #515a6e;
+}
+
+.rw-select-listbox-item {
+    display: flex;
+    border-radius: 2px;
+    padding: 5px 7px;
+    line-height: 20px;
+    cursor: pointer;
+    user-select: none;
+    color: #515a6e;
+}
+
+.rw-select-listbox-item-active,
+.rw-select-listbox-item:hover {
+    background-color: #f3f3f3;
+}
+
+.rw-select-listbox-item.rw-select-listbox-item-selected {
+    color: #2d8cf0;
+    background-color: #f3f3f3;
+}
+.rw-select-listbox-disabled .rw-select-listbox-item,
+.rw-select-listbox-item.rw-select-listbox-item-disabled {
+    background-color: inherit;
+    color: rgba(167, 182, 194, 0.6);
+    cursor: default;
+}
+
+.rw-select-listbox-group-title {
+    font-weight: 400;
+}
+.rw-select-listbox-group-list .rw-select-listbox-item {
+    padding-left: 24px;
+}

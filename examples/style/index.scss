@@ -1,6 +1,8 @@
-
-html, body {
+html,
+body {
     font-size: 12px;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, \\5fae\8f6f\96c5\9ed1, Arial,
+        sans-serif;
 }
 
 .container {
@@ -9,7 +11,7 @@ html, body {
 }
 
 .slider {
-    width:200px;
+    width: 200px;
     border-right: 1px solid #f2f2fe;
     > div {
         padding: 10px;
@@ -19,26 +21,26 @@ html, body {
 
     .active {
         background: #3399ff;
-        color: #FFF;
+        color: #fff;
     }
 }
 
 .content {
     overflow: auto;
     padding: 10px;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     flex: 1;
 }
 
 .table-tree {
-	border-collapse:collapse;
-	
-	tbody tr:hover {
-		background-color: #efefef;		
-	}
-	td {
-		border-bottom:1px solid #F2F2F2;	
-	}
+    border-collapse: collapse;
+
+    tbody tr:hover {
+        background-color: #efefef;
+    }
+    td {
+        border-bottom: 1px solid #f2f2f2;
+    }
 }
 
 .dialog {

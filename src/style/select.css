@@ -1,0 +1,51 @@
+.rw-select {
+    display: inline-flex;
+    height: 32px;
+    box-sizing: border-box;
+    outline: 0;
+    user-select: none;
+    background-color: #fff;
+    border-radius: 2px;
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    cursor: pointer;
+    align-items: center;
+    padding: 5px 10px;
+    color: #515a6e;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.rw-select-placeholder {
+    opacity: 0.4;
+}
+
+.rw-select-open,
+.rw-select:focus,
+.rw-select:hover {
+    border-color: #40a9ff;
+}
+
+.rw-select-open,
+.rw-select:focus {
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.rw-select-selected-text {
+    flex: 1;
+}
+
+.rw-select-arrow {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+.rw-select-open .rw-select-arrow {
+    transform: rotate(180deg);
+}
+
+.rw-select-arrow svg {
+    color: #808695;
+    fill: currentColor;
+}
